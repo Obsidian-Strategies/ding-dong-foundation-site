@@ -1,5 +1,7 @@
 .git
 .github
+node_modules
+_site
 tests
 README.md
 Dockerfile

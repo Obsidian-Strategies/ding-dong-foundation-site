@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · {% endif %}The Ding Dong Foundation</title>
+  <meta name="description" content="{{ description or 'Grants for church bells, pipe organs, rose windows and the sacred arts. A Florida 501(c)(3), founded February 2026.' }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ '/css/styles.css' | url }}">
+  <link rel="stylesheet" href="{{ '/css/site.css' | url }}">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+</head>
+<body>
+  {%- set navItems = [
+    { url: "/", label: "Home" },
+    { url: "/story/", label: "Our story" },
+    { url: "/mission/", label: "Mission" },
+    { url: "/guidelines/", label: "Guidelines" },
+    { url: "/grants/", label: "Grants" },
+    { url: "/donate/", label: "Donate" }
+  ] -%}
+  {%- set footerItems = [
+    { url: "/", label: "Home" },
+    { url: "/story/", label: "Our story" },
+    { url: "/mission/", label: "Mission" },
+    { url: "/guidelines/", label: "Guidelines" },
+    { url: "/apply/", label: "Apply" },
+    { url: "/grants/", label: "Grants" },
+    { url: "/donate/", label: "Donate" }
+  ] -%}
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="wordmark" href="{{ '/' | url }}" aria-label="The Ding Dong Foundation — home">
+        <em class="wordmark__ding">Ding Dong</em>
+        <span class="wordmark__foundation">Foundation</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        {%- for item in navItems %}
+        <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}<span aria-hidden="true"></span></a>
+        {%- endfor %}
+      </nav>
+      <div class="site-header__action">
+        <a class="btn btn--sm btn--warm" href="{{ '/apply/' | url }}">Apply for a grant</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="stack stack--xs stack--start">
+        <span class="wordmark">
+          <em class="wordmark__ding">Ding Dong</em>
+          <span class="wordmark__foundation">Foundation</span>
+        </span>
+        <p class="site-footer__blurb">Grants for church bells, pipe organs, rose windows and the sacred arts.</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Footer">
+        {%- for item in footerItems %}
+        <a href="{{ item.url | url }}">{{ item.label }}</a>
+        {%- endfor %}
+      </nav>
+      <div class="site-footer__contact">
+        <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>
+        <span>The Ding Dong Foundation, Inc.</span>
+        <span>1111 Ritz Carlton Drive, Suite 1008</span>
+        <span>Sarasota, FL 34236</span>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>The Ding Dong Foundation, Inc. is a 501(c)(3) nonprofit organization incorporated in Florida.</span>
+      <em>Ave Maria</em>
+    </div>
+  </footer>
+
+  <script src="{{ '/js/site.js' | url }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+/* Base — element defaults so a bare HTML page already looks like the brand. */
+*, *::before, *::after { box-sizing: border-box }
+html { -webkit-text-size-adjust: 100% }
+body { margin: 0; background: var(--surface-page); color: var(--text-body); font-family: var(--font-text); font-size: var(--font-size-body); line-height: var(--leading-body); font-optical-sizing: auto; -webkit-font-smoothing: antialiased; text-wrap: pretty }
+h1, h2, h3, h4 { font-family: var(--font-display); color: var(--text-heading); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); line-height: var(--leading-snug); margin: 0 0 var(--space-4); text-wrap: balance }
+h1 { font-size: var(--font-size-display-sm); line-height: var(--leading-tight) }
+h2 { font-size: var(--font-size-title-lg) }
+h3 { font-size: var(--font-size-title) }
+h4 { font-size: var(--font-size-title-sm) }
+p { margin: 0 0 var(--space-4); max-width: var(--measure-prose) }
+a { color: var(--text-link); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--brass-400); transition: color var(--dur-quick) var(--ease-standard), text-decoration-color var(--dur-quick) var(--ease-standard) }
+a:hover { color: var(--text-link-hover); text-decoration-color: currentColor }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: var(--border-thick) solid var(--ink-800); outline-offset: 2px; border-radius: var(--radius-sm) }
+small { font-size: var(--font-size-fine) }
+strong { font-weight: var(--weight-bold) }
+blockquote { margin: 0 }
+figure { margin: 0 }
+img { max-width: 100%; display: block }
+hr { border: 0; border-top: var(--border-width) solid var(--border-hairline); margin: var(--space-7) 0 }
+::selection { background: var(--brass-300); color: var(--ink-900) }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important } }

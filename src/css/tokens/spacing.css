@@ -1,0 +1,20 @@
+/* Spacing — 4px base, widening at the top end so pages can breathe.
+   Sections are separated by --space-9/--space-10, never by decorative dividers. */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+
+  --gutter: var(--space-5);
+  --page-max: 1200px;
+  --content-max: 760px;
+  --section-y: var(--space-9);
+}

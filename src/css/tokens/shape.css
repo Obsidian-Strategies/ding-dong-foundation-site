@@ -1,0 +1,13 @@
+/* Shape — the round arch is the brand. A doorway with light behind it.
+   Everything else stays quiet: small radii, hairline borders. */
+:root {
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+  --radius-arch: 999px 999px var(--radius-md) var(--radius-md);
+
+  --border-width: 1px;
+  --border-thick: 2px;
+  --rule-accent-width: 3px;
+}

@@ -1,0 +1,72 @@
+---
+layout: base.njk
+title: Give
+permalink: /donate/
+description: Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Nothing here is a subscription.
+---
+<section class="section section--hero">
+  <div class="content stack">
+    <span class="eyebrow">Give</span>
+    <h1 class="display">Give, <em>quietly</em> if you like.</h1>
+    <p class="lede">Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Nothing here is a subscription.</p>
+  </div>
+</section>
+
+<section class="section section--page">
+  <div class="content">
+    <div class="card card--lg card--accent" data-donate>
+      <div class="stack" style="gap: var(--space-6);">
+        <h2 class="title">Choose an amount</h2>
+        <div class="amounts" role="group" aria-label="Amount">
+          <button class="amount" type="button" data-amount="50" aria-pressed="false">$50</button>
+          <button class="amount" type="button" data-amount="100" aria-pressed="true">$100</button>
+          <button class="amount" type="button" data-amount="250" aria-pressed="false">$250</button>
+          <button class="amount" type="button" data-amount="1000" aria-pressed="false">$1000</button>
+          <button class="amount" type="button" data-amount="other" aria-pressed="false">Another amount</button>
+        </div>
+        <div class="field" data-custom hidden>
+          <label for="custom">How much would you like to give?</label>
+          <div><input class="field__control" id="custom" name="custom" type="number" min="1" inputmode="numeric"></div>
+        </div>
+        <div class="checkbox">
+          <input id="anon" name="anon" type="checkbox">
+          <label for="anon">
+            <span class="checkbox__label">Keep my gift anonymous.</span>
+            <span class="checkbox__hint">We will not print your name anywhere, and we will not pass it on.</span>
+          </label>
+        </div>
+        <div class="actions">
+          <button class="btn btn--lg btn--warm" type="button" data-give>Give $100</button>
+          <span class="fine faint">One gift. No account, no recurring charge.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card--lg card--accent card--accent-rose" data-donate-success hidden>
+      <div class="stack stack--sm stack--start">
+        <h2 class="title">Thank you.</h2>
+        <p class="muted m0 prose" data-thanks></p>
+        <button class="btn btn--secondary" type="button" data-donate-reset>Give again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--band">
+  <div class="wrap grid grid--2">
+    <div class="card card--lg">
+      <h3 class="card__title card__title--top">Prefer to mail a check?</h3>
+      <p class="muted m0">Make it out to The Ding Dong Foundation, Inc. and send it to the address in the footer. We will write back either way.</p>
+    </div>
+    <div class="card card--lg">
+      <h3 class="card__title card__title--top">Matching and recurring gifts</h3>
+      <p class="muted m0">Handled one at a time, by email. There is no portal to log into and no staff to get past.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight section--sunk">
+  <div class="content">
+    <p class="muted m0">Gifts are tax-deductible to the extent allowed by law. A receipt follows by email.</p>
+  </div>
+</section>

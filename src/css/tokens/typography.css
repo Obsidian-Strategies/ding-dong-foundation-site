@@ -1,0 +1,41 @@
+/* Type — Vollkorn (display/headings, warm old-style serif) + Nunito Sans (text/UI).
+   Hard client requirement, revised upward: nothing below 16pt. CSS defines 1pt = 1/72in and
+   1px = 1/96in, so 16pt = 21.333px exactly — that is --font-size-fine, the floor of the scale,
+   and there is no smaller token.
+   The audience is older readers; the whole scale is set for them, not scaled down for density.
+   Size tokens are --font-size-*; --text-* names belong to colors.css (semantic ink colors). */
+:root {
+  --font-display: "Vollkorn", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-text: "Nunito Sans", ui-sans-serif, system-ui, "Segoe UI", Helvetica, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Scale — 21.33px (16pt) floor */
+  --font-size-fine: 1.3333rem;     /* 21.33px — exactly 16pt, smallest permitted anywhere */
+  --font-size-body: 1.4375rem;     /* 23px — default body */
+  --font-size-body-lg: 1.625rem;   /* 26px — lede */
+  --font-size-title-sm: 1.875rem;  /* 30px */
+  --font-size-title: 2.25rem;      /* 36px */
+  --font-size-title-lg: 2.75rem;   /* 44px */
+  --font-size-display-sm: 3.375rem;/* 54px */
+  --font-size-display: 4rem;       /* 64px */
+  --font-size-display-lg: 5rem;    /* 80px */
+
+  --leading-tight: 1.08;  /* @kind other */
+  --leading-snug: 1.25;   /* @kind other */
+  --leading-body: 1.6;    /* @kind other */
+  --leading-loose: 1.75;  /* @kind other */
+
+  --tracking-display: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-eyebrow: 0.16em;
+
+  --weight-regular: 400;   /* @kind font */
+  --weight-medium: 500;    /* @kind font */
+  --weight-semibold: 600;  /* @kind font */
+  --weight-bold: 700;      /* @kind font */
+
+  --measure-prose: 58ch;
+  --measure-narrow: 40ch;
+  --measure-wide: 70ch;
+}

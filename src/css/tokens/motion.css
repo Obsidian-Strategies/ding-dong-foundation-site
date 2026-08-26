@@ -1,0 +1,12 @@
+/* Motion — short and settled. --ease-bell overshoots slightly then rests, like a bell
+   coming back to rest; use it for entrances, never for hover. */
+:root {
+  --dur-quick: 120ms;   /* @kind other */
+  --dur-base: 220ms;    /* @kind other */
+  --dur-slow: 420ms;    /* @kind other */
+  --dur-chime: 900ms;   /* @kind other */
+
+  --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* @kind other */
+  --ease-bell: cubic-bezier(0.2, 0.9, 0.25, 1);          /* @kind other */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);           /* @kind other */
+}

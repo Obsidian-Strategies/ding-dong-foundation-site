@@ -1,0 +1,27 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "Public source for [TheDingDongFoundation.org](https://thedingdongfoundation.org). Deployed automatically to GitHub Pages on every push to `main`.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Obsidian-Strategies/ding-dong-foundation-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Obsidian-Strategies/ding-dong-foundation-site/issues"
+  },
+  "homepage": "https://github.com/Obsidian-Strategies/ding-dong-foundation-site#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}

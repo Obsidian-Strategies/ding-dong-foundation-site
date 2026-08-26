@@ -1,20 +1,11 @@
-// Dependency-free WCAG contrast check for the token pairs used as text/background.
+// WCAG contrast check for every text/background pair the site uses.
+// Tokens are parsed from src/css/tokens/colors.css; the footer espresso is added by hand.
 // Usage: node tests/contrast.mjs   (run from site/)
 import { readFileSync } from "node:fs";
 
-const css = readFileSync(new URL("../css/styles.css", import.meta.url), "utf8");
-
-// Split the file at the dark-mode media query: everything before is the light
-// theme, the first block after it is the dark override.
-const [lightPart, darkPart = ""] = css.split("prefers-color-scheme: dark");
-
-function parseTokens(src) {
-  const out = {};
-  for (const m of src.matchAll(/--([a-z-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) out[m[1]] = m[2];
-  return out;
-}
-const light = parseTokens(lightPart);
-const dark = { ...light, ...parseTokens(darkPart) };
+const css = readFileSync(new URL("../src/css/tokens/colors.css", import.meta.url), "utf8");
+const tokens = { "espresso-900": "#1d1713" };
+for (const m of css.matchAll(/--([a-z0-9-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) tokens[m[1]] = m[2];
 
 function luminance(hex) {
   const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) =>
@@ -27,37 +18,31 @@ function ratio(a, b) {
   return (l1 + 0.05) / (l2 + 0.05);
 }
 
-// [foreground, background, minimum ratio, why]
-const PAIRS = [
-  ["ink", "bg", 4.5, "body text"],
-  ["ink-muted", "bg", 4.5, "secondary text"],
-  ["gold-ink", "bg", 4.5, "gold text & links"],
-  ["ink", "bg-raised", 4.5, "text on tiles"],
-  ["ink-muted", "bg-raised", 4.5, "secondary text on tiles"],
-  ["bg", "gold-ink", 4.5, "primary button label"],
-  ["bg", "ink", 4.5, "invitation section text"],
-  ["gold", "bg", 3, "gold icons & rules"],
-  ["glass-cobalt", "bg", 3, "cobalt accent"],
-  ["glass-garnet", "bg", 3, "garnet accent"],
-  ["glass-moss", "bg", 3, "moss accent"],
-];
+// Nothing on the site is WCAG "large text" at 21.33px/400, so 4.5:1 applies to everything.
+const PAIRS = [];
+for (const bg of ["linen-100", "linen-50", "sand-200", "sand-100"]) {
+  PAIRS.push(["ink-900", bg, "body text"], ["ink-800", bg, "headings, links"], ["ink-600", bg, "muted text, nav"],
+    ["ink-500", bg, "faint text, attributions, placeholders"], ["brass-700", bg, "eyebrows, wordmark"], ["rose-700", bg, "link hover, errors, headline emphasis"]);
+}
+PAIRS.push(
+  ["linen-50", "ink-800", "primary button label"],
+  ["ink-900", "brass-400", "warm button, selected amount, active nav"],
+  ["brass-700", "brass-100", "tag label"],
+  ["rose-700", "rose-100", "rose tag label"],
+  ["linen-100", "espresso-900", "footer wordmark"],
+  ["sand-300", "espresso-900", "footer links, contact"],
+  ["sand-400", "espresso-900", "footer legal line, Ave Maria"],
+  ["brass-400", "espresso-900", "footer Ding Dong"],
+  ["brass-300", "espresso-900", "footer link hover"],
+);
 
 let failures = 0;
-for (const [name, theme] of [["light", light], ["dark", dark]]) {
-  for (const [fg, bg, min, why] of PAIRS) {
-    if (!theme[fg] || !theme[bg]) {
-      console.log(`FAIL [${name}] missing token --${theme[fg] ? bg : fg}`);
-      failures++;
-      continue;
-    }
-    const r = ratio(theme[fg], theme[bg]);
-    const ok = r >= min;
-    if (!ok) failures++;
-    console.log(`${ok ? "ok  " : "FAIL"} [${name}] --${fg} on --${bg} = ${r.toFixed(2)} (min ${min}) — ${why}`);
-  }
+for (const [fg, bg, why] of PAIRS) {
+  if (!tokens[fg] || !tokens[bg]) { console.log(`FAIL missing token --${tokens[fg] ? bg : fg}`); failures++; continue; }
+  const r = ratio(tokens[fg], tokens[bg]);
+  const ok = r >= 4.5;
+  if (!ok) failures++;
+  console.log(`${ok ? "ok  " : "FAIL"} --${fg} on --${bg} = ${r.toFixed(2)} — ${why}`);
 }
-if (failures) {
-  console.error(`\n${failures} contrast failure(s)`);
-  process.exit(1);
-}
-console.log("\nAll contrast checks passed");
+if (failures) { console.error(`\n${failures} contrast failure(s)`); process.exit(1); }
+console.log(`\nAll ${PAIRS.length} contrast checks passed`);

@@ -1,0 +1,74 @@
+/* Colors — light, warm, simple. Whites, off-whites and beige, with warm brown ink.
+   Four families, nothing else: Linen (near-white surfaces), Sand (beige), Ink (warm
+   brown-black text and actions), and two accents — Brass and Rose.
+   High contrast is a hard client requirement (>=4.5:1 for all text, including the 21px floor);
+   every approved pair is in the Contrast cards. */
+:root {
+  /* Linen — near-white warm surfaces */
+  --linen-50: #fffdf9;
+  --linen-100: #fdfaf3;
+  --linen-200: #faf5ea;
+
+  /* Sand — beige */
+  --sand-100: #f5eee0;
+  --sand-200: #eee4d2;
+  --sand-300: #e4d7bf;
+  --sand-400: #d2c2a5;
+
+  /* Ink — warm brown-black */
+  --ink-900: #2a2118;
+  --ink-800: #3b2f23;
+  --ink-700: #4e3f2f;
+  --ink-600: #63523d;
+  --ink-500: #6e5c47;
+
+  /* Brass — bell metal, gilding. The one bright note. */
+  --brass-700: #7a5c22;
+  --brass-600: #a6822f;
+  --brass-500: #c09a45;
+  --brass-400: #d8b76f;
+  --brass-300: #ebd6a6;
+  --brass-100: #f8efda;
+
+  /* Rose — soft clay. Links, emphasis, one word in a headline. */
+  --rose-700: #9a5148;
+  --rose-600: #b0655a;
+  --rose-500: #c4867a;
+  --rose-300: #e3bfb6;
+  --rose-100: #f6e8e2;
+
+  /* Sage — used only for "correct" marks in guidance. Not a brand colour. */
+  --sage-600: #5c7a5e;
+
+  /* --- Semantic aliases --- */
+  --text-body: var(--ink-900);
+  --text-heading: var(--ink-800);
+  --text-muted: var(--ink-600);
+  --text-faint: var(--ink-500);
+  --text-accent: var(--rose-700);
+  --text-link: var(--ink-800);
+  --text-link-hover: var(--rose-700);
+
+  --surface-page: var(--linen-100);
+  --surface-card: var(--linen-50);
+  --surface-sunk: var(--sand-100);
+  --surface-band: var(--sand-200);
+  --surface-footer: var(--sand-100);
+
+  --border-hairline: var(--sand-300);
+  --border-strong: var(--sand-400);
+
+  --accent-primary: var(--ink-800);
+  --accent-primary-hover: var(--ink-700);
+  --accent-warm: var(--brass-400);
+  --accent-warm-hover: var(--brass-500);
+  --accent-warm-ink: var(--brass-700);
+  --accent-rose: var(--rose-600);
+
+  --focus-ring-color: var(--brass-500);
+  --status-error: var(--rose-700);
+  --status-ok: var(--sage-600);
+
+  /* The only gradient in the system: light falling from above. Hero frames only. */
+  --wash-light: radial-gradient(120% 95% at 50% -15%, #ffffff 0%, var(--linen-50) 40%, var(--linen-100) 75%);
+}

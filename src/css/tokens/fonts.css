@@ -1,0 +1,4 @@
+/* Webfonts. No font files were supplied by the client (see readme.md → Type substitution).
+   Vollkorn and Nunito Sans are served from Google Fonts; swap these @import lines for
+   self-hosted @font-face rules if licensed files arrive. */
+@import url("https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..900;1,400..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,300..800;1,6..12,300..800&display=swap");
