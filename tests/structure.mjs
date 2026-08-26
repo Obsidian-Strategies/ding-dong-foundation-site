@@ -33,7 +33,11 @@ for (const route of Object.keys(PAGES)) {
   check(tag("no 'Submit' / 'Learn more' buttons"), !/>(Submit|Learn more)</.test(html));
   check(tag("Phosphor icons stylesheet"), /@phosphor-icons\/web@2\.1\.1\/src\/regular\/style\.css/.test(html));
   check(tag("tokens + site css linked"), /css\/styles\.css/.test(html) && /css\/site\.css/.test(html));
+  check(tag("intro gate script before first paint"), /<head>[\s\S]*ddf-intro-v1[\s\S]*prefers-reduced-motion[\s\S]*<\/head>/.test(html));
+  check(tag("intro overlay is aria-hidden and precedes the header"), /<body>\s*<div class="intro" data-intro-overlay[^>]* aria-hidden="true">[\s\S]*intro__bell-clapper[\s\S]*<\/div>\s*<header/.test(html));
+  check(tag("intro bell audio preloaded and wired"), /<link rel="preload" href="[^"]*\/audio\/bell\.mp3" as="fetch" crossorigin>/.test(html) && /data-intro-audio="[^"]*\/audio\/bell\.mp3"/.test(html));
 }
+check("intro bell audio copied to _site", existsSync(new URL("../_site/audio/bell.mp3", import.meta.url)));
 
 const read = (r) => readFileSync(new URL(`../_site${r}index.html`, import.meta.url), "utf8");
 check("home: founding sentence verbatim", read("/").includes(FOUNDING));

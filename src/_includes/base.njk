@@ -3,15 +3,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+  // Bell intro gate. Runs before first paint: shows at most once per 24h, never under
+  // reduced motion. ?intro or #intro forces it (for review). site.js runs the rest.
+  (function(){try{
+    var K='ddf-intro-v1',D=864e5,n=Date.now(),last=parseInt(localStorage.getItem(K)||'0',10);
+    var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var force=/[?&]intro\b/.test(location.search)||location.hash==='#intro';
+    if(!r&&(force||n-last>D)){document.documentElement.setAttribute('data-intro','active');if(!force)localStorage.setItem(K,String(n));}
+  }catch(e){}})();
+  </script>
   <title>{% if title %}{{ title }} · {% endif %}The Ding Dong Foundation</title>
   <meta name="description" content="{{ description or 'Grants for church bells, pipe organs, rose windows and the sacred arts. A Florida 501(c)(3), founded February 2026.' }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="{{ '/audio/bell.mp3' | url }}" as="fetch" crossorigin>
   <link rel="stylesheet" href="{{ '/css/styles.css' | url }}">
   <link rel="stylesheet" href="{{ '/css/site.css' | url }}">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 </head>
 <body>
+  <div class="intro" data-intro-overlay data-intro-audio="{{ '/audio/bell.mp3' | url }}" aria-hidden="true">
+    <div class="intro__glow"></div>
+    <div class="intro__stage">
+      <svg class="intro__bell" viewBox="0 0 120 130" width="150" height="163" aria-hidden="true" focusable="false">
+        <!-- Minimal outline bell: one stroke weight, brass ink, no fill. -->
+        <g class="intro__bell-swing" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <!-- headstock pin and crown loop -->
+          <circle cx="60" cy="4" r="2.5" fill="currentColor" stroke="none"/>
+          <path d="M60 6.5 V 10"/>
+          <path d="M54 16 a6 6 0 0 1 12 0"/>
+          <!-- body -->
+          <path d="M60 16 C 44 16, 38 28, 37 50 C 36 72, 30 86, 20 98 C 17 101.5, 19 105, 24 105 L 96 105 C 101 105, 103 101.5, 100 98 C 90 86, 84 72, 83 50 C 82 28, 76 16, 60 16 Z"/>
+          <!-- clapper (lags behind the body, strikes the lip) -->
+          <g class="intro__bell-clapper">
+            <path d="M60 54 V 102"/>
+            <circle cx="60" cy="110" r="7"/>
+          </g>
+        </g>
+      </svg>
+      <div class="intro__word">Ding Dong</div>
+      <div class="intro__sub">Foundation</div>
+    </div>
+  </div>
   {%- set navItems = [
     { url: "/", label: "Home" },
     { url: "/story/", label: "Our story" },

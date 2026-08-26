@@ -22,8 +22,9 @@ src/
   css/tokens/*.css     design tokens, ported verbatim from the design system
   css/styles.css       token entry point (@imports)
   css/site.css         component + page styles
-  js/site.js           apply/donate UI states (submissions are stubbed)
+  js/site.js           bell intro (strikes, skip, exit) + apply/donate UI states (submissions are stubbed)
   uploads/             client photography
+  audio/bell.mp3       intro bell strike (Pixabay #293423, Pixabay Content License)
 tests/                 dependency-free checks (see below)
 ```
 
@@ -49,4 +50,5 @@ node tests/structure.mjs       # per-page contract: nav, footer, verbatim texts,
 - The founder is anonymous: no name, no bio, no photo credits.
 - Two verbatim texts are never rewritten: the filed mission statement and the founding sentence.
 - No newsletter signup, events calendar, cookie bar or sticky donate ribbon. The header is the only sticky element.
+- The bell intro plays `audio/bell.mp3` at each swing (second one pitched down a minor third); browsers keep it silent until the visitor has interacted with the site. It shows at most once per 24h (`localStorage` key `ddf-intro-v1`), never under reduced motion, and any click, key, scroll or touch skips it. Add `?intro` to the URL to force it for review.
 - "Ave Maria" stays as the standing dedication in the footer.

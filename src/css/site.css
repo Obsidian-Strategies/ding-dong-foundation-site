@@ -520,6 +520,106 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .site-footer__legal em { font-family: var(--font-display); font-style: italic; white-space: nowrap; }
 .site-footer a:focus-visible { outline-color: var(--brass-400); }
 
+/* --- Intro (the bell rings twice) ---------------------------------------- */
+/* Visibility is decided before first paint by the inline script in base.njk, which sets
+   data-intro="active" on <html> at most once per 24h and never under reduced motion.
+   Choreography: glow → bell drops in → two swings (clapper lags and strikes the lip on each)
+   → wordmark rises → curtain lifts. site.js plays the strikes, handles skip and the exit. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  place-items: center;
+  background: var(--surface-page);
+  will-change: opacity, transform;
+}
+html[data-intro] { overflow: hidden; }
+html[data-intro] .intro { display: grid; }
+html[data-intro="leaving"] .intro {
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 750ms var(--ease-bell), transform 750ms var(--ease-bell);
+}
+.intro__glow {
+  position: absolute;
+  width: clamp(280px, 60vmin, 560px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--brass-100) 0%, var(--brass-300) 38%, transparent 70%);
+  filter: blur(48px);
+  opacity: 0;
+}
+.intro__stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+.intro__bell {
+  width: clamp(96px, 18vmin, 150px);
+  height: auto;
+  overflow: visible;
+  color: var(--accent-warm-ink);
+}
+.intro__bell-swing { transform-origin: 60px 4px; transform-box: view-box; }
+.intro__bell-clapper { transform-origin: 60px 54px; transform-box: view-box; }
+.intro__word {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-semibold);
+  font-size: clamp(var(--font-size-title-lg), 8vw, var(--font-size-display-sm));
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  color: var(--accent-warm-ink);
+}
+.intro__sub {
+  font-family: var(--font-text);
+  font-size: var(--font-size-fine);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-heading);
+  margin-top: calc(var(--space-4) * -1 + 6px);
+  padding-left: var(--tracking-eyebrow);
+}
+
+html[data-intro] .intro__glow { animation: introGlow 1600ms var(--ease-bell) both; }
+html[data-intro] .intro__bell { animation: introDrop 700ms var(--ease-bell) both; }
+html[data-intro] .intro__bell-swing { animation: introSwing 2400ms linear 300ms both; }
+html[data-intro] .intro__bell-clapper { animation: introClapper 2400ms linear 300ms both; }
+html[data-intro] .intro__word { animation: introRise 850ms var(--ease-bell) 1400ms both; }
+html[data-intro] .intro__sub { animation: introRise 850ms var(--ease-bell) 1600ms both; }
+
+@keyframes introGlow {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes introDrop {
+  from { opacity: 0; transform: translateY(-28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes introRise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Pendulum: each leg eases in and out so the bell hangs at the top of every swing.
+   Peaks at 12.5% (0.64s) and 37.5% (1.24s) into the intro are where the strikes land. */
+@keyframes introSwing {
+  0% { transform: rotate(0deg); animation-timing-function: ease-out; }
+  12.5% { transform: rotate(22deg); animation-timing-function: ease-in-out; }
+  37.5% { transform: rotate(-22deg); animation-timing-function: ease-in-out; }
+  58% { transform: rotate(10deg); animation-timing-function: ease-in-out; }
+  75% { transform: rotate(-4deg); animation-timing-function: ease-in-out; }
+  88% { transform: rotate(1.5deg); animation-timing-function: ease-out; }
+  100% { transform: rotate(0deg); }
+}
+/* The clapper trails the body, then whips across and meets the lip just after each peak. */
+@keyframes introClapper {
+  0% { transform: rotate(0deg); animation-timing-function: ease-in; }
+  14% { transform: rotate(-28deg); animation-timing-function: ease-in-out; }
+  39% { transform: rotate(28deg); animation-timing-function: ease-in-out; }
+  60% { transform: rotate(-13deg); animation-timing-function: ease-in-out; }
+  77% { transform: rotate(5deg); animation-timing-function: ease-in-out; }
+  90% { transform: rotate(-1.5deg); animation-timing-function: ease-out; }
+  100% { transform: rotate(0deg); }
+}
+
 /* --- Responsive ---------------------------------------------------------- */
 @media (max-width: 900px) {
   .grid--2, .grid--3, .grid--hero, .grid--story, .grid--quote, .grid--steps, .grid--form { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
