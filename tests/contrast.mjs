@@ -13,6 +13,14 @@ function luminance(hex) {
   );
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
+// Frosted-glass buttons are a translucent tint over the page; the effective colour is the
+// tint composited on the surface beneath. Alphas mirror --glass-* in src/css/site.css.
+// Bloom's strongest tone seen through the linen frost (0.42): brass-300 / sand-300 at 0.58.
+const GLASS = { "brass glass": ["brass-300", 0.58], "clear glass": ["sand-300", 0.58] };
+function over(tintHex, alpha, bgHex) {
+  const ch = (h, i) => parseInt(h.slice(i, i + 2), 16);
+  return "#" + [1, 3, 5].map((i) => Math.round(alpha * ch(tintHex, i) + (1 - alpha) * ch(bgHex, i)).toString(16).padStart(2, "0")).join("");
+}
 function ratio(a, b) {
   const [l1, l2] = [luminance(a), luminance(b)].sort((x, y) => y - x);
   return (l1 + 0.05) / (l2 + 0.05);
@@ -25,8 +33,7 @@ for (const bg of ["linen-100", "linen-50", "sand-200", "sand-100"]) {
     ["ink-500", bg, "faint text, attributions, placeholders"], ["brass-700", bg, "eyebrows, wordmark"], ["rose-700", bg, "link hover, errors, headline emphasis"]);
 }
 PAIRS.push(
-  ["linen-50", "ink-800", "primary button label"],
-  ["ink-900", "brass-400", "warm button, selected amount, active nav"],
+  ["ink-900", "brass-400", "active nav"],
   ["brass-700", "brass-100", "tag label"],
   ["rose-700", "rose-100", "rose tag label"],
   ["linen-100", "espresso-900", "footer wordmark"],
@@ -35,6 +42,14 @@ PAIRS.push(
   ["brass-400", "espresso-900", "footer Ding Dong"],
   ["brass-300", "espresso-900", "footer link hover"],
 );
+
+for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
+  for (const bg of ["linen-100", "linen-50", "sand-200", "sand-100"]) {
+    const key = `${name} on ${bg}`;
+    tokens[key] = over(tokens[tint], alpha, tokens[bg]);
+    PAIRS.push([name === "brass glass" ? "ink-900" : "ink-800", key, `${name === "brass glass" ? "primary/warm button, selected amount" : "secondary button, intro button, amount"} label`]);
+  }
+}
 
 let failures = 0;
 for (const [fg, bg, why] of PAIRS) {

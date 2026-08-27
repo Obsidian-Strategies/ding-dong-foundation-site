@@ -1,6 +1,6 @@
 # The Ding Dong Foundation — Website
 
-Public source for [TheDingDongFoundation.org](https://thedingdongfoundation.org). Seven static pages built with [Eleventy](https://www.11ty.dev/) from the Claude Design handoff (design system + 7-page prototype).
+Public source for [TheDingDongFoundation.org](https://thedingdongfoundation.org). Eight static pages built with [Eleventy](https://www.11ty.dev/) from the Claude Design handoff (design system + 7-page prototype).
 
 - GitHub Pages: https://obsidian-strategies.github.io/ding-dong-foundation-site/ (deploys on push to `main`)
 - Railway: https://web-production-af1a6.up.railway.app (builds the Dockerfile on push to `main`)
@@ -18,6 +18,7 @@ src/
   guidelines.njk       Guidelines      /guidelines/
   apply.njk            Apply           /apply/
   grants.njk           Grants          /grants/
+  questions.njk        Questions       /questions/   (answers live in front matter; hover master-detail after Opal)
   donate.njk           Give            /donate/
   css/tokens/*.css     design tokens, ported verbatim from the design system
   css/styles.css       token entry point (@imports)
@@ -50,5 +51,5 @@ node tests/structure.mjs       # per-page contract: nav, footer, verbatim texts,
 - The founder is anonymous: no name, no bio, no photo credits.
 - Two verbatim texts are never rewritten: the filed mission statement and the founding sentence.
 - No newsletter signup, events calendar, cookie bar or sticky donate ribbon. The header is the only sticky element.
-- The bell intro plays `audio/bell.mp3` at each swing (second one pitched down a minor third); browsers keep it silent until the visitor has interacted with the site. It shows at most once per 24h (`localStorage` key `ddf-intro-v1`), never under reduced motion, and any click, key, scroll or touch skips it. Add `?intro` to the URL to force it for review.
+- The bell intro waits for the visitor to press "Ring the bell" — that click is the browser's permission for sound, so `audio/bell.mp3` (second strike pitched down a minor third) and the two swings always play together, then the curtain lifts. Esc lifts it quietly. It shows at most once per 24h (`localStorage` key `ddf-intro-v1`) and never under reduced motion. Add `?intro` to the URL to force it for review.
 - "Ave Maria" stays as the standing dedication in the footer.

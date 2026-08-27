@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 </head>
 <body>
-  <div class="intro" data-intro-overlay data-intro-audio="{{ '/audio/bell.mp3' | url }}" aria-hidden="true">
+  <div class="intro" data-intro-overlay data-intro-audio="{{ '/audio/bell.mp3' | url }}" role="dialog" aria-label="Welcome to The Ding Dong Foundation">
     <div class="intro__glow"></div>
     <div class="intro__stage">
       <svg class="intro__bell" viewBox="0 0 120 130" width="150" height="163" aria-hidden="true" focusable="false">
@@ -44,6 +44,7 @@
       </svg>
       <div class="intro__word">Ding Dong</div>
       <div class="intro__sub">Foundation</div>
+      <button class="btn intro__ring" type="button" data-intro-ring>Ring the bell</button>
     </div>
   </div>
   {%- set navItems = [
@@ -52,6 +53,7 @@
     { url: "/mission/", label: "Mission" },
     { url: "/guidelines/", label: "Guidelines" },
     { url: "/grants/", label: "Grants" },
+    { url: "/questions/", label: "Questions" },
     { url: "/donate/", label: "Donate" }
   ] -%}
   {%- set footerItems = [
@@ -61,6 +63,7 @@
     { url: "/guidelines/", label: "Guidelines" },
     { url: "/apply/", label: "Apply" },
     { url: "/grants/", label: "Grants" },
+    { url: "/questions/", label: "Questions" },
     { url: "/donate/", label: "Donate" }
   ] -%}
 
@@ -103,7 +106,7 @@
         <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>
         <span>The Ding Dong Foundation, Inc.</span>
         <span>1111 Ritz Carlton Drive, Suite 1008</span>
-        <span>Sarasota, FL 34236</span>
+        <span>Sarasota, FL 34236, USA</span>
       </div>
     </div>
     <div class="site-footer__legal">

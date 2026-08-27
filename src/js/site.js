@@ -85,67 +85,109 @@
     }
   }
 
+
+  // --- Questions (hover master-detail) ---------------------------------------
+  // Without this script every answer is visible beneath its question. With it, the answers
+  // move into the panel on the right: hover, focus or tap a question to show its answer.
+  // Under 900px the panel is hidden and the open answer shows beneath its question instead.
+  var faq = document.querySelector("[data-faq]");
+  if (faq) {
+    var faqItems = [].slice.call(faq.querySelectorAll("[data-faq-item]"));
+    var faqPanel = faq.querySelector("[data-faq-panel]");
+    var faqActive = -1;
+    var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
+
+    function faqOpen(i) {
+      if (i === faqActive) return;
+      faqActive = i;
+      faqItems.forEach(function (item, j) {
+        item.querySelector("[data-faq-bar]").setAttribute("aria-expanded", String(j === i));
+      });
+      var item = faqItems[i];
+      var q = item.querySelector("[data-faq-bar] span").textContent;
+      var body = item.querySelector("[data-faq-body]");
+      var article = document.createElement("article");
+      article.className = "card card--lg card--accent faq__answer";
+      var h = document.createElement("h3");
+      h.textContent = q;
+      article.appendChild(h);
+      [].slice.call(body.children).forEach(function (el) { article.appendChild(el.cloneNode(true)); });
+      faqPanel.innerHTML = "";
+      faqPanel.appendChild(article);
+    }
+
+    faqItems.forEach(function (item, i) {
+      var bar = item.querySelector("[data-faq-bar]");
+      bar.addEventListener("click", function () {
+        // on touch screens a second tap on the open question closes it
+        if (!canHover && faqActive === i) {
+          faqActive = -1;
+          bar.setAttribute("aria-expanded", "false");
+          return;
+        }
+        faqOpen(i);
+      });
+      bar.addEventListener("focus", function () { faqOpen(i); });
+      if (canHover) bar.addEventListener("mouseenter", function () { faqOpen(i); });
+    });
+
+    faq.setAttribute("data-faq", "enhanced");
+    faqOpen(0);
+  }
+
   // --- Intro (bell) --------------------------------------------------------
   // The inline script in base.njk decides visibility before first paint (data-intro="active").
-  // This block times the two strikes to the CSS swing, lets any interaction skip, and lifts
-  // the curtain. Sound is synthesized (no file) and fails silently if the browser blocks it.
+  // The overlay then waits for the visitor to press "Ring the bell": that click is the
+  // browser's permission to play sound, so the ding dong and the two swings always run
+  // together (data-intro="ringing"), then the curtain lifts (data-intro="leaving").
+  // Esc lifts it quietly without ringing. A second click during the ring lifts it early.
   var html = document.documentElement;
   var overlay = document.querySelector("[data-intro-overlay]");
   if (overlay && html.getAttribute("data-intro") === "active") {
-    var HOLD_MS = 2800;                 // entrance + hold before the curtain lifts
+    var RING_MS = 2600;                 // swings + hold before the curtain lifts
     var EXIT_MS = 750;                  // curtain lift (keep in sync with site.css)
-    // The recording swells for ~0.4s before it peaks, so each play starts a little ahead of
-    // the visual strike (0.64s and 1.24s) and the body of the sound lands on it.
-    // [ms into intro, playback rate]: the second strike is pitched down a minor third.
-    var STRIKES = [[440, 1], [1040, 0.84]];
-    var timers = [];
-    var ctx = null;
-    var bell = null; // decoded AudioBuffer, once the fetch lands
+    // [ms after the click, playback rate]. The visual strikes land at 300ms and 900ms; the
+    // recording swells for ~0.2s before it peaks, so each play starts a little ahead.
+    var STRIKES = [[100, 1], [700, 0.84]];
+    var button = overlay.querySelector("[data-intro-ring]");
     var src = overlay.getAttribute("data-intro-audio");
+    var timers = [];
+    var bytes = null;   // the mp3, fetched ahead of the click (preloaded in <head>)
+    var ctx = null;
 
-    // Start fetching straight away (the <link rel="preload"> in <head> has usually already
-    // pulled it) so the buffer is ready before the first strike.
-    function load() {
+    if (src && window.fetch) {
+      fetch(src).then(function (r) { return r.arrayBuffer(); }).then(function (b) { bytes = b; }).catch(function () {});
+    }
+
+    function playStrikes(t0) {
       try {
         var AC = window.AudioContext || window.webkitAudioContext;
-        if (!AC || !src || !window.fetch) return;
+        if (!AC || !bytes) return;
         ctx = ctx || new AC();
-        fetch(src)
-          .then(function (r) { return r.arrayBuffer(); })
-          .then(function (b) { return ctx.decodeAudioData(b); })
-          .then(function (buf) { bell = buf; })
-          .catch(function () {});
-      } catch (e) {}
-    }
-
-    function strike(rate) {
-      try {
-        if (!ctx || !bell) return;
         if (ctx.state !== "running") ctx.resume();
-        if (ctx.state !== "running") return; // autoplay blocked: stay silent
-        var s = ctx.createBufferSource();
-        var g = ctx.createGain();
-        s.buffer = bell;
-        s.playbackRate.value = rate;
-        g.gain.value = 0.8;
-        s.connect(g);
-        g.connect(ctx.destination);
-        s.start(ctx.currentTime);
+        ctx.decodeAudioData(bytes.slice(0)).then(function (buf) {
+          var elapsed = performance.now() - t0;
+          STRIKES.forEach(function (st) {
+            var s = ctx.createBufferSource();
+            var g = ctx.createGain();
+            s.buffer = buf;
+            s.playbackRate.value = st[1];
+            g.gain.value = 0.8;
+            s.connect(g);
+            g.connect(ctx.destination);
+            s.start(ctx.currentTime + Math.max(0, st[0] - elapsed) / 1000);
+          });
+        }).catch(function () {});
       } catch (e) {}
-    }
-    load();
-
-    function removeSkip() {
-      window.removeEventListener("pointerdown", finish);
-      window.removeEventListener("keydown", finish);
-      window.removeEventListener("wheel", finish);
-      window.removeEventListener("touchstart", finish);
     }
 
     function finish() {
-      if (html.getAttribute("data-intro") === "leaving") return;
+      var state = html.getAttribute("data-intro");
+      if (state === "leaving" || !state) return;
       timers.forEach(clearTimeout);
-      removeSkip();
+      window.removeEventListener("pointerdown", finish);
+      window.removeEventListener("wheel", finish);
+      window.removeEventListener("touchstart", finish);
       html.setAttribute("data-intro", "leaving");
       setTimeout(function () {
         html.removeAttribute("data-intro");
@@ -153,32 +195,25 @@
       }, EXIT_MS);
     }
 
-    // Schedule everything relative to the CSS animation clock so the sound lands on the
-    // strike even if this script runs before or after the first paint.
-    function schedule(elapsed) {
-      STRIKES.forEach(function (s) {
-        timers.push(setTimeout(function () { strike(s[1]); }, Math.max(0, s[0] - elapsed)));
-      });
-      timers.push(setTimeout(finish, Math.max(0, HOLD_MS - elapsed)));
+    function ring() {
+      if (html.getAttribute("data-intro") !== "active") return;
+      html.setAttribute("data-intro", "ringing");
+      button.disabled = true;
+      playStrikes(performance.now());
+      timers.push(setTimeout(finish, RING_MS));
+      // Any further interaction lifts the curtain early (the sound keeps ringing).
+      setTimeout(function () {
+        window.addEventListener("pointerdown", finish);
+        window.addEventListener("wheel", finish, { passive: true });
+        window.addEventListener("touchstart", finish, { passive: true });
+      }, 0);
     }
 
-    var bell = overlay.querySelector(".intro__bell");
-    var running = bell.getAnimations ? bell.getAnimations() : [];
-    if (running.length) {
-      schedule(running[0].currentTime || 0);
-    } else if (bell.getAnimations) {
-      bell.addEventListener("animationstart", function onStart(e) {
-        if (e.target !== bell) return;
-        bell.removeEventListener("animationstart", onStart);
-        schedule(0);
-      });
-    } else {
-      schedule(0);
-    }
-
-    window.addEventListener("pointerdown", finish);
-    window.addEventListener("keydown", finish);
-    window.addEventListener("wheel", finish, { passive: true });
-    window.addEventListener("touchstart", finish, { passive: true });
+    button.addEventListener("click", ring);
+    window.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") finish();
+    });
+    // No programmatic focus: it would draw a focus ring on load. The button is the first
+    // thing in the document, so one Tab reaches it.
   }
 })();

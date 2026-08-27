@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from "node:fs";
 
 const PAGES = {
   "/": { title: "The DingDong Foundation Website" },
-  "/story/": {}, "/mission/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/donate/": {},
+  "/story/": {}, "/mission/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/questions/": {}, "/donate/": {},
 };
 const FOUNDING = `When I went to school in Europe, I loved hearing church bells ringing every 1/2 hour and on Sundays but I've not heard much church bells ringing in the States and thought it'd be neat to have them ringing again as Christian's "Call to Prayers."`;
 const MISSION = `The specific purpose of The DingDong Foundation, Inc. is to provide grants to support the building and restoration of church bell towers, pipe organs, rose windows, stained glass windows, and related sacred elements, as well as to provide grants to spiritual organizations that utilize sound, color, and frequency for healing practices. The corporation may also support related activities in sacred arts and architecture, including the training of artisans and apprentices as well as the study and dissemination of authentic scriptural and spiritual teachings.`;
@@ -21,11 +21,11 @@ for (const route of Object.keys(PAGES)) {
   check(tag("doctype + lang"), /^<!DOCTYPE html>\s*<html lang="en">/i.test(html.trim()));
   check(tag("title ends with org name"), /<title>(.* · )?The Ding Dong Foundation<\/title>/.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
-  check(tag("sticky header with 6 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 6);
+  check(tag("sticky header with 7 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7);
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));
   check(tag("header Apply button"), /class="btn btn--sm btn--warm"[^>]*>Apply for a grant</.test(html));
   check(tag("one aria-current nav item"), route === "/apply/" ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
-  check(tag("footer nav has 7 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7 && />Apply<\/a>/.test(html));
+  check(tag("footer nav has 8 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 8 && />Apply<\/a>/.test(html));
   check(tag("Ave Maria dedication in footer"), /<em>Ave Maria<\/em>/.test(html));
   check(tag("501(c)(3) legal line"), /is a 501\(c\)\(3\) nonprofit organization incorporated in Florida\./.test(html));
   check(tag("no founder name"), !/Judy|Peng/.test(html));
@@ -34,7 +34,8 @@ for (const route of Object.keys(PAGES)) {
   check(tag("Phosphor icons stylesheet"), /@phosphor-icons\/web@2\.1\.1\/src\/regular\/style\.css/.test(html));
   check(tag("tokens + site css linked"), /css\/styles\.css/.test(html) && /css\/site\.css/.test(html));
   check(tag("intro gate script before first paint"), /<head>[\s\S]*ddf-intro-v1[\s\S]*prefers-reduced-motion[\s\S]*<\/head>/.test(html));
-  check(tag("intro overlay is aria-hidden and precedes the header"), /<body>\s*<div class="intro" data-intro-overlay[^>]* aria-hidden="true">[\s\S]*intro__bell-clapper[\s\S]*<\/div>\s*<header/.test(html));
+  check(tag("intro overlay is a labelled dialog before the header"), /<body>\s*<div class="intro" data-intro-overlay[^>]* role="dialog" aria-label="[^"]+">[\s\S]*intro__bell-clapper[\s\S]*<\/div>\s*<header/.test(html));
+  check(tag("intro has a real 'Ring the bell' button"), /<button class="btn intro__ring" type="button" data-intro-ring>Ring the bell<\/button>/.test(html));
   check(tag("intro bell audio preloaded and wired"), /<link rel="preload" href="[^"]*\/audio\/bell\.mp3" as="fetch" crossorigin>/.test(html) && /data-intro-audio="[^"]*\/audio\/bell\.mp3"/.test(html));
 }
 check("intro bell audio copied to _site", existsSync(new URL("../_site/audio/bell.mp3", import.meta.url)));
@@ -51,6 +52,9 @@ check("apply: org name required", /id="org"[^>]*required/.test(read("/apply/")))
 check("donate: anonymity checkbox", /id="anon"[^>]*type="checkbox"/.test(read("/donate/")));
 check("donate: five amount buttons", count(read("/donate/"), /<button class="amount"/g) === 5);
 check("grants: empty state", /The first grant is still ahead of us/.test(read("/grants/")));
+check("questions: ten questions, each a real button with its answer region", count(read("/questions/"), /<button class="faq__bar" type="button" id="faq-[a-z]+" aria-expanded="false" aria-controls="faq-[a-z]+-body" data-faq-bar>/g) === 10 && count(read("/questions/"), /<div class="faq__body" id="faq-[a-z]+-body" role="region"/g) === 10);
+check("questions: FAQPage structured data with ten entries", (() => { const m = read("/questions/").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); if (!m) return false; try { const j = JSON.parse(m[1]); return j["@type"] === "FAQPage" && j.mainEntity.length === 10 && j.mainEntity.every((e) => e.name && e.acceptedAnswer.text); } catch { return false; } })());
+check("questions: answers never name the founder", !/Judy|Peng/.test(read("/questions/")));
 
 // Type floor: no px font-size below 21.33 anywhere in site.css except icon glyph sizes (24px+).
 const siteCss = readFileSync(new URL("../src/css/site.css", import.meta.url), "utf8");

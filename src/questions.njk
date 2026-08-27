@@ -1,0 +1,82 @@
+---
+layout: base.njk
+title: Questions
+permalink: /questions/
+description: Who can apply, what a grant can pay for, how the process goes, and how to give. Plain answers to the questions we hear most.
+items:
+  - id: who
+    q: Who can apply?
+    a: Any 501(c)(3) organization. That is the one rule the IRS sets for us — we may fund other charities, not individuals. We prefer projects that are Christian-based, though the board can make exceptions for a project it finds grant-worthy.
+  - id: where
+    q: Do you fund projects outside the United States?
+    a: Not yet. For now we are concentrating on projects in the United States. International work may follow later, through other 501(c)(3) organizations.
+  - id: size
+    q: How large is a grant?
+    a: There is no fixed amount. Every project is different, so every grant is set case by case, according to the need and the funds we have available. Some grants are matching grants, where we meet what a congregation raises itself.
+  - id: what
+    q: What can a grant pay for, and what can it not?
+    a: Bells and their towers, pipe organs, rose windows and stained glass, and the training of the artisans who keep them. It cannot pay salaries, operating costs or debt, general building work unrelated to bells, organs or glass, or anything political. The full lists are on the guidelines page, and the board is still confirming the edges.
+  - id: how
+    q: How do I apply?
+    a: Send a short inquiry — the form on this site takes a few minutes, or you can print the paper form and post it. No documents yet. If it looks like a fit, we will write back and ask for photographs, drawings and estimates.
+  - id: decides
+    q: Who decides, and how long does it take?
+    a: A person reads every inquiry, and the board votes on each grant. Expect a first reply within a couple of weeks; a decision follows once we have the papers we need.
+  - id: deadline
+    q: Is there a deadline?
+    a: No. Inquiries are welcome at any time of year, and we read them as they arrive.
+  - id: awarded
+    q: Has anyone received a grant yet?
+    a: Not yet. We were founded in February 2026, and the first grant is still ahead of us. When a tower rings again, you will hear about it on the grants page.
+  - id: give
+    q: Can I give, and can I give anonymously?
+    a: Yes, and yes. Gifts pay for the repairs themselves, and nothing here is a subscription. You can give online or by check, and if you would rather not be named, tell us and we will record the gift without your name.
+  - id: share
+    q: Will you share our project publicly?
+    a: Only with your permission. The inquiry form has a box to tick if you would rather we did not share your story, photographs or recordings, and you can change your mind at any time.
+---
+<section class="section section--hero">
+  <div class="content stack">
+    <span class="eyebrow">Questions</span>
+    <h1 class="display">The things people <em>ask</em>.</h1>
+    <p class="lede">Plain answers to the questions we hear most. If yours is not here, write to us — a person reads every message.</p>
+  </div>
+</section>
+<section class="section section--page">
+  <div class="wrap faq" data-faq>
+    <div class="faq__list" role="list">
+      {%- for item in items %}
+      <div class="faq__item" role="listitem" data-faq-item>
+        <h2 class="faq__q">
+          <button class="faq__bar" type="button" id="faq-{{ item.id }}" aria-expanded="false" aria-controls="faq-{{ item.id }}-body" data-faq-bar>
+            <span>{{ item.q }}</span>
+            <i class="ph ph-arrow-right icon icon--sm faq__arrow" aria-hidden="true"></i>
+          </button>
+        </h2>
+        <div class="faq__body" id="faq-{{ item.id }}-body" role="region" aria-labelledby="faq-{{ item.id }}" data-faq-body>
+          <p>{{ item.a }}</p>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+    <div class="faq__detail" data-faq-panel aria-live="polite" aria-atomic="true"></div>
+  </div>
+</section>
+<section class="section section--tight section--sunk">
+  <div class="content stack stack--sm stack--start">
+    <h2 class="title">Still wondering?</h2>
+    <p class="muted m0 prose">Write to <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>, or start with a short inquiry and ask there.</p>
+    <a class="btn" href="{{ '/apply/' | url }}">Apply for a grant</a>
+  </div>
+</section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for item in items %}
+    { "@type": "Question", "name": {{ item.q | dump | safe }}, "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | dump | safe }} } }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ]
+}
+</script>
