@@ -74,6 +74,7 @@
     var summary = details.querySelector("[data-summary]");
     var submitBtn = details.querySelector("[data-donate-submit]");
     var chargeNote = details.querySelector("[data-charge-note]");
+    var submitNote = details.querySelector("[data-submit-note]");
     var anonNote = details.querySelector("[data-anon-note]");
     var freqButtons = details.querySelectorAll("[data-freq]");
     var freq = "once";
@@ -82,7 +83,7 @@
     function updateStep2() {
       var c = chosen() || 0;
       summary.textContent = money(c) + (freq === "monthly" ? " every month" : ", once");
-      submitBtn.textContent = freq === "monthly" ? "Give " + money(c) + " a month" : "Give " + money(c);
+      submitNote.textContent = summary.textContent;
       chargeNote.textContent = freq === "monthly"
         ? "Charged today, then on this date each month. Stop any time by email."
         : "Charged once, today.";
@@ -115,19 +116,12 @@
     var MESSAGES = {
       dname: "We need a name for the receipt.",
       demail: "We need an email address for the receipt.",
-      dcard: "Enter the long number on the front of the card.",
-      dexp: "Enter the expiry as MM / YY.",
-      dcvc: "Enter the three or four digit code.",
-      dcardname: "Enter the name as it appears on the card.",
-      dzip: "Enter the billing ZIP code."
+      dphone: "We need a phone number, in case there is a problem with the gift."
     };
     function valid(id, v) {
       v = v.trim();
       if (id === "demail") return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
-      if (id === "dcard") { var d = v.replace(/\D/g, ""); return d.length >= 13 && d.length <= 19; }
-      if (id === "dexp") return /^(0[1-9]|1[0-2])\s*\/?\s*\d{2}$/.test(v);
-      if (id === "dcvc") return /^\d{3,4}$/.test(v);
-      if (id === "dzip") return /^\d{5}(-\d{4})?$/.test(v);
+      if (id === "dphone") return v.replace(/\D/g, "").length >= 7;
       return v.length > 0;
     }
 
@@ -144,16 +138,24 @@
         if (!ok && !first) first = input;
       });
       if (first) { first.focus(); return; }
+      // Mock hand-off. The real version sends name, email, phone, amount and cadence to
+      // Stripe Checkout and lands back here on Stripe's success URL.
       var c = chosen();
       var when = freq === "monthly" ? money(c) + " every month" : money(c) + ", once";
-      thanks.textContent = (anon.checked
-        ? "Your gift of " + when + " is recorded without your name. "
-        : "Your gift of " + when + " is recorded. ")
-        + "A receipt is on its way to " + detailsForm.querySelector("#demail").value.trim() + "."
-        + (freq === "monthly" ? " Write to us whenever you want to change or stop it." : " We will let you know where the money went.");
-      details.hidden = true;
-      donateSuccess.hidden = false;
-      window.scrollTo(0, 0);
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Opening Stripe\u2026";
+      setTimeout(function () {
+        thanks.textContent = (anon.checked
+          ? "Your gift of " + when + " is recorded without your name. "
+          : "Your gift of " + when + " is recorded. ")
+          + "Stripe is sending a receipt to " + detailsForm.querySelector("#demail").value.trim() + "."
+          + (freq === "monthly" ? " Write to us whenever you want to change or stop it." : " We will let you know where the money went.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Continue to Stripe";
+        details.hidden = true;
+        donateSuccess.hidden = false;
+        window.scrollTo(0, 0);
+      }, 900);
     });
 
     var donateReset = document.querySelector("[data-donate-reset]");

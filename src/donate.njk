@@ -74,6 +74,12 @@ description: Gifts pay for the repair — a headstock, a rank of pipes, a panel 
         </div>
           </div>
         <div class="field">
+          <label for="dphone">Phone<span class="field__req" aria-hidden="true">*</span></label>
+          <span class="field__hint">Only used if there is a problem with the gift.</span>
+          <div><input class="field__control" id="dphone" name="dphone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="dphone-error"></div>
+          <span class="field__error" id="dphone-error" data-error-for="dphone" hidden></span>
+        </div>
+        <div class="field">
           <label for="daddress">Mailing address</label>
           <span class="field__hint">Only if you would like a paper receipt as well.</span>
           <div><input class="field__control" id="daddress" name="daddress" type="text" autocomplete="street-address" aria-describedby="daddress-error"></div>
@@ -82,41 +88,21 @@ description: Gifts pay for the repair — a headstock, a rank of pipes, a panel 
 
         <fieldset class="fieldset">
           <legend class="fieldset__legend">Payment</legend>
-        <div class="field">
-          <label for="dcard">Card number<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="dcard" name="dcard" type="text" inputmode="numeric" autocomplete="cc-number" required aria-describedby="dcard-error"></div>
-          <span class="field__error" id="dcard-error" data-error-for="dcard" hidden></span>
-        </div>
-          <div class="grid grid--form">
-        <div class="field">
-          <label for="dexp">Expiry<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="dexp" name="dexp" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" required aria-describedby="dexp-error"></div>
-          <span class="field__error" id="dexp-error" data-error-for="dexp" hidden></span>
-        </div>
-        <div class="field">
-          <label for="dcvc">Security code<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="dcvc" name="dcvc" type="text" inputmode="numeric" autocomplete="cc-csc" required aria-describedby="dcvc-error"></div>
-          <span class="field__error" id="dcvc-error" data-error-for="dcvc" hidden></span>
-        </div>
+          <div class="handoff" data-stripe-mock>
+            <div class="handoff__row">
+              <i class="ph ph-lock-simple icon icon--brass" aria-hidden="true"></i>
+              <p class="m0">Card details are entered on Stripe's secure page, never on this site. When the payment is done, Stripe brings you back here.</p>
+            </div>
+            <div class="handoff__row handoff__row--meta">
+              <span class="fine faint">Powered by Stripe</span>
+              <span class="fine faint" data-charge-note>Charged once, today.</span>
+            </div>
           </div>
-          <div class="grid grid--form">
-        <div class="field">
-          <label for="dcardname">Name on card<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="dcardname" name="dcardname" type="text" autocomplete="cc-name" required aria-describedby="dcardname-error"></div>
-          <span class="field__error" id="dcardname-error" data-error-for="dcardname" hidden></span>
-        </div>
-        <div class="field">
-          <label for="dzip">Billing ZIP<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="dzip" name="dzip" type="text" inputmode="numeric" autocomplete="postal-code" required aria-describedby="dzip-error"></div>
-          <span class="field__error" id="dzip-error" data-error-for="dzip" hidden></span>
-        </div>
-          </div>
-          <span class="field__hint">Card details go straight to the payment processor. The Foundation never sees or stores them.</span>
         </fieldset>
 
         <div class="actions">
-          <button class="btn btn--lg btn--warm" type="submit" data-donate-submit>Give $100</button>
-          <span class="fine faint" data-charge-note>Charged once, today.</span>
+          <button class="btn btn--lg btn--warm" type="submit" data-donate-submit>Continue to Stripe</button>
+          <span class="fine faint" data-submit-note>$100, once</span>
         </div>
       </form>
     </div>
