@@ -45,6 +45,7 @@ check("home: founding sentence verbatim", read("/").includes(FOUNDING));
 check("story: founding sentence verbatim", read("/story/").includes(FOUNDING));
 check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
 check("home: hero photo", /uploads\/IMG_8851\.JPG/.test(read("/")));
+check("story: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/story/")) && !/figure__placeholder/.test(read("/story/")));
 check("home: three fund cards", count(read("/"), /<div class="card card--accent card--interactive">/g) === 3);
 check("guidelines: three steps", count(read("/guidelines/"), /<span class="steps__num"/g) === 3);
 check("apply: story/media opt-out checkbox", /id="optout"[^>]*type="checkbox"/.test(read("/apply/")));
