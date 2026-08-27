@@ -97,8 +97,17 @@
     var faqActive = -1;
     var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
 
-    function faqOpen(i) {
+    function faqBusy() {
+      // someone is writing in the ask form: leave the panel alone until they are done
+      var form = faqPanel.querySelector("[data-ask-form]");
+      if (!form) return false;
+      if (form.contains(document.activeElement)) return true;
+      return [].slice.call(form.querySelectorAll("input, textarea")).some(function (f) { return f.value.trim(); });
+    }
+
+    function faqOpen(i, soft) {
       if (i === faqActive) return;
+      if (soft && faqBusy()) return;
       faqActive = i;
       faqItems.forEach(function (item, j) {
         item.querySelector("[data-faq-bar]").setAttribute("aria-expanded", String(j === i));
@@ -128,11 +137,60 @@
         faqOpen(i);
       });
       bar.addEventListener("focus", function () { faqOpen(i); });
-      if (canHover) bar.addEventListener("mouseenter", function () { faqOpen(i); });
+      if (canHover) bar.addEventListener("mouseenter", function () { faqOpen(i, true); });
+    });
+
+    // Ask-your-own form. The panel holds a clone of it, so listen on the whole block.
+    // Submission is stubbed until a form service is chosen.
+    faq.addEventListener("submit", function (e) {
+      var form = e.target;
+      if (!form.matches("[data-ask-form]")) return;
+      e.preventDefault();
+      var email = form.querySelector("[name=email]");
+      var q = form.querySelector("[name=question]");
+      var err = form.querySelector("[data-ask-error]");
+      var msg = "";
+      if (!q.value.trim()) msg = "Write your question first.";
+      else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) msg = "We need an email address to reply to.";
+      if (msg) {
+        err.textContent = msg;
+        err.hidden = false;
+        q.closest(".field").classList.toggle("field--error", !q.value.trim());
+        email.closest(".field").classList.toggle("field--error", !!q.value.trim());
+        (q.value.trim() ? email : q).focus();
+        return;
+      }
+      var thanks = document.createElement("p");
+      thanks.className = "faq__thanks";
+      thanks.textContent = "Thank you. Your question is on its way, and a person will write back to " + email.value.trim() + ".";
+      form.replaceWith(thanks);
     });
 
     faq.setAttribute("data-faq", "enhanced");
     faqOpen(0);
+  }
+
+  // --- Fund cards (homepage photo reveal) ------------------------------------
+  // After Opal's showcase: one data-focus on the grid, set from JS rather than :hover so
+  // it cannot flicker while the siblings move, held until the pointer leaves the grid.
+  var fund = document.querySelector("[data-fund]");
+  if (fund && window.matchMedia && window.matchMedia("(hover: hover)").matches) {
+    var fundCards = [].slice.call(fund.querySelectorAll("[data-fund-card]"));
+    function fundEngage(i) {
+      if (fund.getAttribute("data-focus") === String(i)) return;
+      fund.setAttribute("data-focus", String(i));
+      fundCards.forEach(function (c, j) { if (j === i) c.setAttribute("data-engaged", ""); else c.removeAttribute("data-engaged"); });
+    }
+    function fundClear() {
+      fund.removeAttribute("data-focus");
+      fundCards.forEach(function (c) { c.removeAttribute("data-engaged"); });
+    }
+    fundCards.forEach(function (c, i) {
+      c.addEventListener("mousemove", function () { fundEngage(i); });
+      c.addEventListener("focusin", function () { fundEngage(i); });
+    });
+    fund.addEventListener("mouseleave", fundClear);
+    fund.addEventListener("focusout", function (e) { if (!fund.contains(e.relatedTarget)) fundClear(); });
   }
 
   // --- Intro (bell) --------------------------------------------------------
