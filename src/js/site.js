@@ -67,11 +67,91 @@
     });
     customInput.addEventListener("input", updateLabel);
 
+    // Step 2: who is giving, and how. Payment is stubbed until a processor is chosen;
+    // real card entry must go through the processor's own fields, never this form.
+    var details = document.querySelector("[data-donate-details]");
+    var detailsForm = details.querySelector("[data-donate-form]");
+    var summary = details.querySelector("[data-summary]");
+    var submitBtn = details.querySelector("[data-donate-submit]");
+    var chargeNote = details.querySelector("[data-charge-note]");
+    var anonNote = details.querySelector("[data-anon-note]");
+    var freqButtons = details.querySelectorAll("[data-freq]");
+    var freq = "once";
+
+    function money(c) { return "$" + c; }
+    function updateStep2() {
+      var c = chosen() || 0;
+      summary.textContent = money(c) + (freq === "monthly" ? " every month" : ", once");
+      submitBtn.textContent = freq === "monthly" ? "Give " + money(c) + " a month" : "Give " + money(c);
+      chargeNote.textContent = freq === "monthly"
+        ? "Charged today, then on this date each month. Stop any time by email."
+        : "Charged once, today.";
+    }
+
     give.addEventListener("click", function () {
-      thanks.textContent = anon.checked
-        ? "Your gift is recorded without your name. A receipt is on its way to your inbox."
-        : "A receipt is on its way to your inbox. We will let you know where the money went.";
+      if (!chosen()) { customInput.focus(); return; }
+      anonNote.hidden = !anon.checked;
+      updateStep2();
       donate.hidden = true;
+      details.hidden = false;
+      window.scrollTo(0, 0);
+      details.querySelector("#dname").focus({ preventScroll: true });
+    });
+
+    freqButtons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        freq = b.dataset.freq;
+        freqButtons.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        updateStep2();
+      });
+    });
+
+    details.querySelector("[data-donate-back]").addEventListener("click", function () {
+      details.hidden = true;
+      donate.hidden = false;
+      window.scrollTo(0, 0);
+    });
+
+    var MESSAGES = {
+      dname: "We need a name for the receipt.",
+      demail: "We need an email address for the receipt.",
+      dcard: "Enter the long number on the front of the card.",
+      dexp: "Enter the expiry as MM / YY.",
+      dcvc: "Enter the three or four digit code.",
+      dcardname: "Enter the name as it appears on the card.",
+      dzip: "Enter the billing ZIP code."
+    };
+    function valid(id, v) {
+      v = v.trim();
+      if (id === "demail") return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+      if (id === "dcard") { var d = v.replace(/\D/g, ""); return d.length >= 13 && d.length <= 19; }
+      if (id === "dexp") return /^(0[1-9]|1[0-2])\s*\/?\s*\d{2}$/.test(v);
+      if (id === "dcvc") return /^\d{3,4}$/.test(v);
+      if (id === "dzip") return /^\d{5}(-\d{4})?$/.test(v);
+      return v.length > 0;
+    }
+
+    detailsForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var first = null;
+      Object.keys(MESSAGES).forEach(function (id) {
+        var input = detailsForm.querySelector("#" + id);
+        var err = detailsForm.querySelector("[data-error-for=" + id + "]");
+        var ok = valid(id, input.value);
+        input.closest(".field").classList.toggle("field--error", !ok);
+        err.textContent = ok ? "" : MESSAGES[id];
+        err.hidden = ok;
+        if (!ok && !first) first = input;
+      });
+      if (first) { first.focus(); return; }
+      var c = chosen();
+      var when = freq === "monthly" ? money(c) + " every month" : money(c) + ", once";
+      thanks.textContent = (anon.checked
+        ? "Your gift of " + when + " is recorded without your name. "
+        : "Your gift of " + when + " is recorded. ")
+        + "A receipt is on its way to " + detailsForm.querySelector("#demail").value.trim() + "."
+        + (freq === "monthly" ? " Write to us whenever you want to change or stop it." : " We will let you know where the money went.");
+      details.hidden = true;
       donateSuccess.hidden = false;
       window.scrollTo(0, 0);
     });
@@ -79,8 +159,14 @@
     var donateReset = document.querySelector("[data-donate-reset]");
     if (donateReset) {
       donateReset.addEventListener("click", function () {
+        detailsForm.reset();
+        detailsForm.querySelectorAll(".field--error").forEach(function (f) { f.classList.remove("field--error"); });
+        detailsForm.querySelectorAll("[data-error-for]").forEach(function (s) { s.hidden = true; });
+        freq = "once";
+        freqButtons.forEach(function (x) { x.setAttribute("aria-pressed", String(x.dataset.freq === "once")); });
         donateSuccess.hidden = true;
         donate.hidden = false;
+        window.scrollTo(0, 0);
       });
     }
   }

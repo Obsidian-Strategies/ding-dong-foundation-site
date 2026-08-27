@@ -2,13 +2,13 @@
 layout: base.njk
 title: Give
 permalink: /donate/
-description: Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Nothing here is a subscription.
+description: Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Once, or every month, as you like.
 ---
 <section class="section section--hero">
   <div class="content stack">
     <span class="eyebrow">Give</span>
     <h1 class="display">Give, <em>quietly</em> if you like.</h1>
-    <p class="lede">Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Nothing here is a subscription.</p>
+    <p class="lede">Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Once, or every month, as you like.</p>
   </div>
 </section>
 
@@ -37,9 +37,88 @@ description: Gifts pay for the repair — a headstock, a rank of pipes, a panel 
         </div>
         <div class="actions">
           <button class="btn btn--lg btn--warm" type="button" data-give>Give $100</button>
-          <span class="fine faint">One gift. No account, no recurring charge.</span>
+          <span class="fine faint">No account needed. Once or monthly, your choice on the next step.</span>
         </div>
       </div>
+    </div>
+
+    <div class="card card--lg card--accent" data-donate-details hidden>
+      <form class="stack" style="gap: var(--space-6);" data-donate-form novalidate>
+        <div class="stack stack--xs stack--start">
+          <h2 class="title">Your gift</h2>
+          <p class="muted m0"><strong data-summary>$100, once</strong> <button class="btn btn--ghost" type="button" data-donate-back>Change the amount</button></p>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">How often?</legend>
+          <div class="amounts" role="group" aria-label="How often">
+            <button class="amount amount--freq" type="button" data-freq="once" aria-pressed="true">One time</button>
+            <button class="amount amount--freq" type="button" data-freq="monthly" aria-pressed="false">Every month</button>
+          </div>
+          <span class="field__hint">A monthly gift can be stopped at any time with one email.</span>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">About you</legend>
+          <p class="muted m0 prose" data-anon-note hidden>You asked to stay anonymous. We still need a name and email for the receipt; neither will be published or passed on.</p>
+          <div class="grid grid--form">
+        <div class="field">
+          <label for="dname">Full name<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="dname" name="dname" type="text" autocomplete="name" required aria-describedby="dname-error"></div>
+          <span class="field__error" id="dname-error" data-error-for="dname" hidden></span>
+        </div>
+        <div class="field">
+          <label for="demail">Email<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="demail" name="demail" type="email" autocomplete="email" required aria-describedby="demail-error"></div>
+          <span class="field__error" id="demail-error" data-error-for="demail" hidden></span>
+        </div>
+          </div>
+        <div class="field">
+          <label for="daddress">Mailing address</label>
+          <span class="field__hint">Only if you would like a paper receipt as well.</span>
+          <div><input class="field__control" id="daddress" name="daddress" type="text" autocomplete="street-address" aria-describedby="daddress-error"></div>
+        </div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Payment</legend>
+        <div class="field">
+          <label for="dcard">Card number<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="dcard" name="dcard" type="text" inputmode="numeric" autocomplete="cc-number" required aria-describedby="dcard-error"></div>
+          <span class="field__error" id="dcard-error" data-error-for="dcard" hidden></span>
+        </div>
+          <div class="grid grid--form">
+        <div class="field">
+          <label for="dexp">Expiry<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="dexp" name="dexp" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" required aria-describedby="dexp-error"></div>
+          <span class="field__error" id="dexp-error" data-error-for="dexp" hidden></span>
+        </div>
+        <div class="field">
+          <label for="dcvc">Security code<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="dcvc" name="dcvc" type="text" inputmode="numeric" autocomplete="cc-csc" required aria-describedby="dcvc-error"></div>
+          <span class="field__error" id="dcvc-error" data-error-for="dcvc" hidden></span>
+        </div>
+          </div>
+          <div class="grid grid--form">
+        <div class="field">
+          <label for="dcardname">Name on card<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="dcardname" name="dcardname" type="text" autocomplete="cc-name" required aria-describedby="dcardname-error"></div>
+          <span class="field__error" id="dcardname-error" data-error-for="dcardname" hidden></span>
+        </div>
+        <div class="field">
+          <label for="dzip">Billing ZIP<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="dzip" name="dzip" type="text" inputmode="numeric" autocomplete="postal-code" required aria-describedby="dzip-error"></div>
+          <span class="field__error" id="dzip-error" data-error-for="dzip" hidden></span>
+        </div>
+          </div>
+          <span class="field__hint">Card details go straight to the payment processor. The Foundation never sees or stores them.</span>
+        </fieldset>
+
+        <div class="actions">
+          <button class="btn btn--lg btn--warm" type="submit" data-donate-submit>Give $100</button>
+          <span class="fine faint" data-charge-note>Charged once, today.</span>
+        </div>
+      </form>
     </div>
 
     <div class="card card--lg card--accent card--accent-rose" data-donate-success hidden>
@@ -59,7 +138,7 @@ description: Gifts pay for the repair — a headstock, a rank of pipes, a panel 
       <p class="muted m0">Make it out to The Ding Dong Foundation, Inc. and send it to the address in the footer. We will write back either way.</p>
     </div>
     <div class="card card--lg card--interactive">
-      <h3 class="card__title card__title--top">Matching and recurring gifts</h3>
+      <h3 class="card__title card__title--top">Matching gifts and bequests</h3>
       <p class="muted m0">Handled one at a time, by email. There is no portal to log into and no staff to get past.</p>
     </div>
   </div>
