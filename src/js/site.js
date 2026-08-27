@@ -107,7 +107,7 @@
       var q = item.querySelector("[data-faq-bar] span").textContent;
       var body = item.querySelector("[data-faq-body]");
       var article = document.createElement("article");
-      article.className = "card card--lg card--accent faq__answer";
+      article.className = "card card--lg card--accent card--interactive faq__answer";
       var h = document.createElement("h3");
       h.textContent = q;
       article.appendChild(h);
