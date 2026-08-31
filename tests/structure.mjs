@@ -56,15 +56,18 @@ check("home: hero photo", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("story: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/story/")) && !/figure__placeholder/.test(read("/story/")));
 check("home: three fund cards with reveal photos", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 3 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")));
 check("guidelines: three steps", count(read("/guidelines/"), /<span class="steps__num"/g) === 3);
+check("guidelines: electronic carillon section", /[Ee]lectronic carillon/.test(read("/guidelines/")));
+check("apply: carillon project type", /<option value="carillon">Electronic carillon<\/option>/.test(read("/apply/")));
+check("home: carillon mention on bells card", /electronic carillons/.test(read("/")));
 check("apply: story/media opt-out checkbox", /id="optout"[^>]*type="checkbox"/.test(read("/apply/")));
 check("apply: org name required", /id="org"[^>]*required/.test(read("/apply/")));
 check("donate: anonymity checkbox", /id="anon"[^>]*type="checkbox"/.test(read("/donate/")));
 check("donate: five amount buttons", count(read("/donate/"), /<button class="amount"/g) === 5);
 check("donate: step two asks for name, email, phone and frequency, then hands off to Stripe", (() => { const h = read("/donate/"); return /data-donate-details hidden/.test(h) && /<form class="stack"[^>]*data-donate-form novalidate>/.test(h) && ["dname","demail","dphone"].every((id) => new RegExp('id="' + id + '"[^>]*required').test(h)) && !/autocomplete="cc-/.test(h) && /data-stripe-mock/.test(h) && />Continue to Stripe</.test(h) && count(h, /<button class="amount amount--freq" type="button" data-freq="(once|monthly)"/g) === 2 && /data-donate-back>Change the amount</.test(h); })());
 check("grants: empty state", /The first grant is still ahead of us/.test(read("/grants/")));
-check("questions: ten questions plus ask-your-own, each a real button with its region", count(read("/questions/"), /<button class="faq__bar" type="button" id="faq-[a-z]+" aria-expanded="false" aria-controls="faq-[a-z]+-body" data-faq-bar>/g) === 11 && count(read("/questions/"), /<div class="faq__body" id="faq-[a-z]+-body" role="region"/g) === 11);
+check("questions: ten questions plus ask-your-own, each a real button with its region", count(read("/questions/"), /<button class="faq__bar" type="button" id="faq-[a-z]+" aria-expanded="false" aria-controls="faq-[a-z]+-body" data-faq-bar>/g) === 12 && count(read("/questions/"), /<div class="faq__body" id="faq-[a-z]+-body" role="region"/g) === 12);
 check("questions: ask-your-own form is the last item, with email and question fields", (() => { const h = read("/questions/"); const last = h.lastIndexOf("data-faq-item"); return h.indexOf('faq__item--ask') < last && h.indexOf('faq__item--ask') > h.lastIndexOf('id="faq-share"') - 200 && /id="faq-ask-body"[\s\S]*<form class="faq__ask" data-ask-form novalidate>[\s\S]*name="email"[^>]*required[\s\S]*<textarea[^>]*name="question"[^>]*required[\s\S]*>Send the question<\/button>/.test(h); })());
-check("questions: FAQPage structured data with ten entries", (() => { const m = read("/questions/").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); if (!m) return false; try { const j = JSON.parse(m[1]); return j["@type"] === "FAQPage" && j.mainEntity.length === 10 && j.mainEntity.every((e) => e.name && e.acceptedAnswer.text); } catch { return false; } })());
+check("questions: FAQPage structured data with ten entries", (() => { const m = read("/questions/").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); if (!m) return false; try { const j = JSON.parse(m[1]); return j["@type"] === "FAQPage" && j.mainEntity.length === 11 && j.mainEntity.every((e) => e.name && e.acceptedAnswer.text); } catch { return false; } })());
 check("questions: answers never name the founder", !/Judy|Peng/.test(read("/questions/")));
 
 // Type floor: no px font-size below 21.33 anywhere in site.css except icon glyph sizes (24px+).
