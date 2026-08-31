@@ -113,6 +113,12 @@ check("header collapse: keyboard focus reopens the collapsed nav", /\[data-conde
 const bellPos = siteCss.match(/\.figure--bell \.figure__frame img \{[^}]*object-position:\s*([0-9.]+)%/);
 check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellPos && parseFloat(bellPos[1]) <= 50);
 
+// Fund-card photo reveal must work on touch too (client, 2026-08-31): the hover path is
+// gated, so there has to be a tap path beside it, not instead of it.
+check("fund cards: hover path still engages on pointer devices", /fundHoverable[\s\S]{0,400}addEventListener\("mousemove"/.test(siteJs));
+check("fund cards: touch path taps to reveal", /else \{[\s\S]{0,900}addEventListener\("click", toggle\)/.test(siteJs));
+check("fund cards: tap targets are announced as buttons", /setAttribute\("role", "button"\)[\s\S]{0,300}aria-expanded/.test(siteJs));
+
 let failed = 0;
 for (const [name, ok] of checks) { if (!ok) failed++; console.log(`${ok ? "ok  " : "FAIL"} ${name}`); }
 if (failed) { console.error(`\n${failed} structure failure(s)`); process.exit(1); }

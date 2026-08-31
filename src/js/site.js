@@ -262,23 +262,52 @@
   // After Opal's showcase: one data-focus on the grid, set from JS rather than :hover so
   // it cannot flicker while the siblings move, held until the pointer leaves the grid.
   var fund = document.querySelector("[data-fund]");
-  if (fund && window.matchMedia && window.matchMedia("(hover: hover)").matches) {
+  if (fund) {
     var fundCards = [].slice.call(fund.querySelectorAll("[data-fund-card]"));
-    function fundEngage(i) {
+    var fundEngage = function (i) {
       if (fund.getAttribute("data-focus") === String(i)) return;
       fund.setAttribute("data-focus", String(i));
       fundCards.forEach(function (c, j) { if (j === i) c.setAttribute("data-engaged", ""); else c.removeAttribute("data-engaged"); });
-    }
-    function fundClear() {
+    };
+    var fundClear = function () {
       fund.removeAttribute("data-focus");
       fundCards.forEach(function (c) { c.removeAttribute("data-engaged"); });
+    };
+    var fundHoverable = window.matchMedia && window.matchMedia("(hover: hover)").matches;
+
+    if (fundHoverable) {
+      fundCards.forEach(function (c, i) {
+        c.addEventListener("mousemove", function () { fundEngage(i); });
+        c.addEventListener("focusin", function () { fundEngage(i); });
+      });
+      fund.addEventListener("mouseleave", fundClear);
+      fund.addEventListener("focusout", function (e) { if (!fund.contains(e.relatedTarget)) fundClear(); });
+    } else {
+      // Touch: there is no hover to reveal the photo, so a tap does it (client, 2026-08-31).
+      // Tapping the open card closes it; tapping another switches; tapping off the grid clears.
+      // The cards hold no links, so a tap can't collide with navigation, and the browser only
+      // fires click on a real tap — never while the finger is scrolling the page.
+      fundCards.forEach(function (c, i) {
+        c.setAttribute("role", "button");
+        c.setAttribute("tabindex", "0");
+        c.setAttribute("aria-expanded", "false");
+        var toggle = function () {
+          if (c.hasAttribute("data-engaged")) fundClear();
+          else fundEngage(i);
+          fundCards.forEach(function (o) { o.setAttribute("aria-expanded", o.hasAttribute("data-engaged") ? "true" : "false"); });
+        };
+        c.addEventListener("click", toggle);
+        c.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") { e.preventDefault(); toggle(); }
+        });
+      });
+      document.addEventListener("click", function (e) {
+        if (!fund.contains(e.target)) {
+          fundClear();
+          fundCards.forEach(function (o) { o.setAttribute("aria-expanded", "false"); });
+        }
+      });
     }
-    fundCards.forEach(function (c, i) {
-      c.addEventListener("mousemove", function () { fundEngage(i); });
-      c.addEventListener("focusin", function () { fundEngage(i); });
-    });
-    fund.addEventListener("mouseleave", fundClear);
-    fund.addEventListener("focusout", function (e) { if (!fund.contains(e.relatedTarget)) fundClear(); });
   }
 
   // --- Intro (bell) --------------------------------------------------------
