@@ -1,10 +1,10 @@
-// WCAG contrast check for every text/background pair the site uses.
-// Tokens are parsed from src/css/tokens/colors.css; the footer espresso is added by hand.
+// WCAG contrast check for every text/background pair the site uses (navy/gold dark theme).
+// Tokens are parsed from src/css/tokens/colors.css.
 // Usage: node tests/contrast.mjs   (run from site/)
 import { readFileSync } from "node:fs";
 
 const css = readFileSync(new URL("../src/css/tokens/colors.css", import.meta.url), "utf8");
-const tokens = { "espresso-900": "#1d1713" };
+const tokens = {};
 for (const m of css.matchAll(/--([a-z0-9-]+)\s*:\s*(#[0-9a-fA-F]{6})\s*;/g)) tokens[m[1]] = m[2];
 
 function luminance(hex) {
@@ -13,10 +13,9 @@ function luminance(hex) {
   );
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
-// Frosted-glass buttons are a translucent tint over the page; the effective colour is the
-// tint composited on the surface beneath. Alphas mirror --glass-* in src/css/site.css.
-// Bloom's strongest tone seen through the linen frost (0.42): brass-300 / sand-300 at 0.58.
-const GLASS = { "brass glass": ["brass-300", 0.58], "clear glass": ["sand-300", 0.58] };
+// Frosted-glass buttons are a translucent navy tint over the page; the effective colour is
+// the tint composited on the surface beneath. Alpha mirrors --glass-frost in src/css/site.css.
+const GLASS = { "navy glass": ["navy-800", 0.5] };
 function over(tintHex, alpha, bgHex) {
   const ch = (h, i) => parseInt(h.slice(i, i + 2), 16);
   return "#" + [1, 3, 5].map((i) => Math.round(alpha * ch(tintHex, i) + (1 - alpha) * ch(bgHex, i)).toString(16).padStart(2, "0")).join("");
@@ -28,26 +27,34 @@ function ratio(a, b) {
 
 // Nothing on the site is WCAG "large text" at 21.33px/400, so 4.5:1 applies to everything.
 const PAIRS = [];
-for (const bg of ["linen-100", "linen-50", "sand-200", "sand-100"]) {
-  PAIRS.push(["ink-900", bg, "body text"], ["ink-800", bg, "headings, links"], ["ink-600", bg, "muted text, nav"],
-    ["ink-500", bg, "faint text, attributions, placeholders"], ["brass-700", bg, "eyebrows, wordmark"], ["rose-700", bg, "link hover, errors, headline emphasis"]);
+for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+  PAIRS.push(
+    ["ivory-50", bg, "body text, headings"],
+    ["ivory-300", bg, "muted text, nav"],
+    ["ivory-400", bg, "faint text, attributions, placeholders"],
+    ["gold-300", bg, "eyebrows, links, wordmark, headline emphasis"],
+    ["gold-200", bg, "link hover"],
+    ["rose-300", bg, "errors"],
+    ["sage-300", bg, "correct marks"],
+  );
 }
 PAIRS.push(
-  ["ink-900", "brass-400", "active nav"],
-  ["brass-700", "brass-100", "tag label"],
-  ["rose-700", "rose-100", "rose tag label"],
-  ["linen-100", "espresso-900", "footer wordmark"],
-  ["sand-300", "espresso-900", "footer links, contact"],
-  ["sand-400", "espresso-900", "footer legal line, Ave Maria"],
-  ["brass-400", "espresso-900", "footer Ding Dong"],
-  ["brass-300", "espresso-900", "footer link hover"],
+  ["navy-950", "gold-400", "primary/warm button label, active nav, selected amount"],
+  ["navy-950", "gold-300", "primary/warm button hover label"],
+  ["gold-200", "navy-600", "tag label"],
+  ["rose-200", "navy-600", "rose tag label"],
+  ["ivory-50", "navy-950", "footer wordmark, intro text"],
+  ["ivory-300", "navy-950", "footer links, contact"],
+  ["ivory-400", "navy-950", "footer legal line, Ave Maria"],
+  ["gold-400", "navy-950", "footer Ding Dong, intro bell"],
+  ["gold-200", "navy-950", "footer link hover"],
 );
 
 for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
-  for (const bg of ["linen-100", "linen-50", "sand-200", "sand-100"]) {
+  for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
     const key = `${name} on ${bg}`;
     tokens[key] = over(tokens[tint], alpha, tokens[bg]);
-    PAIRS.push([name === "brass glass" ? "ink-900" : "ink-800", key, `${name === "brass glass" ? "primary/warm button, selected amount" : "secondary button, intro button, amount"} label`]);
+    PAIRS.push(["ivory-50", key, "glass button label"], ["gold-300", key, "glass button accent"]);
   }
 }
 
