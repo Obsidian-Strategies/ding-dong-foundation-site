@@ -4,10 +4,10 @@
    High contrast is a hard client requirement (>=4.5:1 for all text, including the 21px floor);
    every approved pair is checked by tests/contrast.mjs. */
 :root {
-  /* Navy — surfaces, darkest to lightest */
-  --navy-950: #0a1226;  /* footer, intro overlay */
-  --navy-900: #101c34;  /* page */
-  --navy-850: #0c1628;  /* sunk sections */
+  /* Navy — surfaces, darkest to lightest: 950, 925, 900, 800, 700, 600, 500 */
+  --navy-950: #0a1226;  /* footer */
+  --navy-925: #0c1628;  /* sunk sections */
+  --navy-900: #101c34;  /* page, intro overlay */
   --navy-800: #16253f;  /* bands */
   --navy-700: #1d2f4e;  /* cards */
   --navy-600: #2a3f63;  /* hairline borders, tag fills */
@@ -44,7 +44,7 @@
 
   --surface-page: var(--navy-900);
   --surface-card: var(--navy-700);
-  --surface-sunk: var(--navy-850);
+  --surface-sunk: var(--navy-925);
   --surface-band: var(--navy-800);
   --surface-footer: var(--navy-950);
 

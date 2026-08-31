@@ -27,7 +27,7 @@ function ratio(a, b) {
 
 // Nothing on the site is WCAG "large text" at 21.33px/400, so 4.5:1 applies to everything.
 const PAIRS = [];
-for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
   PAIRS.push(
     ["ivory-50", bg, "body text, headings"],
     ["ivory-300", bg, "muted text, nav"],
@@ -43,15 +43,15 @@ PAIRS.push(
   ["navy-950", "gold-300", "primary/warm button hover label"],
   ["gold-200", "navy-600", "tag label"],
   ["rose-200", "navy-600", "rose tag label"],
-  ["ivory-50", "navy-950", "footer wordmark, intro text"],
+  ["ivory-50", "navy-950", "footer wordmark"],
   ["ivory-300", "navy-950", "footer links, contact"],
   ["ivory-400", "navy-950", "footer legal line, Ave Maria"],
-  ["gold-400", "navy-950", "footer Ding Dong, intro bell"],
+  ["gold-400", "navy-950", "footer Ding Dong"],
   ["gold-200", "navy-950", "footer link hover"],
 );
 
 for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
-  for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+  for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
     const key = `${name} on ${bg}`;
     tokens[key] = over(tokens[tint], alpha, tokens[bg]);
     PAIRS.push(["ivory-50", key, "glass button label"], ["gold-300", key, "glass button accent"]);
@@ -68,7 +68,7 @@ const WARM_GLASS = {
   "warm active": ["gold-400", 0.75],
 };
 for (const [name, [tint, alpha]] of Object.entries(WARM_GLASS)) {
-  for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+  for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
     const key = `${name} on ${bg}`;
     tokens[key] = over(tokens[tint], alpha, tokens[bg]);
     PAIRS.push(["navy-950", key, "warm button label"]);
@@ -83,7 +83,7 @@ const TINTED_GLASS = {
   "selected amount hover": ["gold-400", 0.4],
 };
 for (const [name, [tint, alpha]] of Object.entries(TINTED_GLASS)) {
-  for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+  for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
     const key = `${name} on ${bg}`;
     tokens[key] = over(tokens[tint], alpha, tokens[bg]);
     PAIRS.push(["ivory-50", key, "selected amount / open FAQ bar label"]);

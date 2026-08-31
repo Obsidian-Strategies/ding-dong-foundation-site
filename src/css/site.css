@@ -155,14 +155,10 @@ main > section.section:last-of-type::after {
   --glass-shadow-hover: 0 2px 4px rgba(4, 8, 18, 0.15), 0 16px 36px rgba(4, 8, 18, 0.36);
   --glass-shadow-active: 0 1px 2px rgba(4, 8, 18, 0.18);
   --glass-focus: 0 0 0 3px var(--focus-ring-color);
-  /* Blooms: pale and desaturated — barely-there on dark glass. Brass (primary) and sand
-     (secondary) now share the same subdued gold/rose/navy tint; hierarchy comes from the
+  /* Bloom: pale and desaturated — barely-there on dark glass. Primary and secondary panes
+     now share the same subdued gold/rose/navy tint; hierarchy comes from the
      label colour instead (see .btn--warm). */
-  --glass-bloom-brass:
-    radial-gradient(55% 70% at 28% 40%, rgba(217, 189, 120, 0.16) 0%, rgba(217, 189, 120, 0) 70%),
-    radial-gradient(50% 65% at 78% 65%, rgba(227, 191, 182, 0.10) 0%, rgba(227, 191, 182, 0) 70%),
-    radial-gradient(70% 70% at 55% 20%, rgba(36, 54, 92, 0.6) 0%, rgba(36, 54, 92, 0) 70%);
-  --glass-bloom-sand:
+  --glass-bloom:
     radial-gradient(55% 70% at 28% 40%, rgba(217, 189, 120, 0.16) 0%, rgba(217, 189, 120, 0) 70%),
     radial-gradient(50% 65% at 78% 65%, rgba(227, 191, 182, 0.10) 0%, rgba(227, 191, 182, 0) 70%),
     radial-gradient(70% 70% at 55% 20%, rgba(36, 54, 92, 0.6) 0%, rgba(36, 54, 92, 0) 70%);
@@ -185,7 +181,7 @@ main > section.section:last-of-type::after {
   z-index: -2;
   inset: -45% -14%;
   border-radius: 50%;
-  background: var(--glass-bloom-brass);
+  background: var(--glass-bloom);
   filter: blur(18px);
   opacity: 0.85;
   transition: opacity var(--dur-base) var(--ease-standard), filter var(--dur-base) var(--ease-standard);
@@ -246,7 +242,7 @@ main > section.section:last-of-type::after {
 .btn:hover::after { background: rgba(217, 189, 120, 0.85); }
 .btn:active::after { background: rgba(217, 189, 120, 0.75); }
 .btn--secondary, .intro__ring { color: var(--text-heading); }
-.btn--secondary::before, .intro__ring::before { background: var(--glass-bloom-sand); }
+.btn--secondary::before, .intro__ring::before { background: var(--glass-bloom); }
 .btn--secondary::after, .intro__ring::after { background: var(--glass-frost); }
 .btn--secondary:hover, .intro__ring:hover { color: var(--text-body); }
 .btn--secondary:hover::after, .intro__ring:hover::after { background: var(--glass-frost-hover); }
@@ -298,7 +294,7 @@ main > section.section:last-of-type::after {
 
 /* Interactive card hover (Opal-style: lift, deepen, glint, nudge — all on one soft ease).
    1. the card lifts 5px and its shadow deepens
-   2. a glint travels along the brass rule
+   2. a glint travels along the gold rule
    3. the icon rises a touch and the title warms to rose, like a link
    4. the tag's glass brightens as if it caught the light */
 .card--interactive { cursor: pointer; }
@@ -346,7 +342,7 @@ main > section.section:last-of-type::after {
   letter-spacing: 0.01em;
   white-space: nowrap;
 }
-.tag::before { inset: -35% -10%; background: var(--glass-bloom-sand); opacity: 0.75; filter: blur(12px); }
+.tag::before { inset: -35% -10%; background: var(--glass-bloom); opacity: 0.75; filter: blur(12px); }
 .tag::after { background: var(--navy-600); }
 
 /* --- Icons (Phosphor, regular) ------------------------------------------ */
@@ -566,9 +562,9 @@ select.field__control { appearance: none; background-image: none; padding-right:
   cursor: pointer;
   white-space: nowrap;
 }
-.amount::before { background: var(--glass-bloom-sand); }
+.amount::before { background: var(--glass-bloom); }
 .amount[aria-pressed="true"] { color: var(--text-body); }
-.amount[aria-pressed="true"]::before { background: var(--glass-bloom-brass); }
+.amount[aria-pressed="true"]::before { background: var(--glass-bloom); }
 /* Selected amount: the pane itself takes a gentle gold tint so the choice is legible. */
 .amount[aria-pressed="true"]::after { background: rgba(217, 189, 120, 0.3); }
 .amount[aria-pressed="true"]:hover::after { background: rgba(217, 189, 120, 0.4); }
@@ -616,7 +612,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
 
 /* --- Questions (hover master-detail, after Opal) -------------------------
    Question bars down the left, the answer in a card on the right. Hover, focus or tap a bar
-   to show its answer; the active bar takes a brass tint and slides a touch. Without JS every
+   to show its answer; the active bar takes a gold tint and slides a touch. Without JS every
    answer is simply visible beneath its question. Under 900px it is a stacked list where the
    open answer sits beneath its question (site.js toggles aria-expanded). */
 .faq {
@@ -643,7 +639,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   cursor: pointer;
   transition: color var(--dur-base) var(--ease-standard), transform 400ms var(--ease-hover);
 }
-.faq__bar::before { background: var(--glass-bloom-sand); }
+.faq__bar::before { background: var(--glass-bloom); }
 .faq__arrow {
   color: var(--gold-300);
   opacity: 0;
@@ -651,7 +647,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   transition: opacity 350ms var(--ease-hover), transform 350ms var(--ease-hover);
 }
 .faq__bar[aria-expanded="true"] { transform: translateX(-6px); }
-.faq__bar[aria-expanded="true"]::before { background: var(--glass-bloom-brass); }
+.faq__bar[aria-expanded="true"]::before { background: var(--glass-bloom); }
 .faq__bar[aria-expanded="true"]::after { background: rgba(217, 189, 120, 0.3); }
 .faq__bar[aria-expanded="true"] .faq__arrow { opacity: 1; transform: translateX(0); }
 .faq__body { padding: var(--space-3) var(--space-5) var(--space-4); color: var(--text-muted); }
@@ -751,7 +747,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   transition: color var(--dur-quick) var(--ease-standard);
 }
 .site-nav a span { height: 2px; background: transparent; border-radius: 1px; transition: background var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard); }
-/* Hover: a soft ombre bloom, brass into rose, fades in behind the word and the underline
+/* Hover: a soft ombre bloom, gold into rose, fades in behind the word and the underline
    picks up the same gradient with a faint glow. Nothing moves. */
 .site-nav a { position: relative; isolation: isolate; }
 .site-nav a::before {
@@ -886,10 +882,10 @@ html[data-intro="leaving"] .intro {
 }
 .intro__glow {
   position: absolute;
-  width: clamp(280px, 60vmin, 560px);
+  width: clamp(420px, 70vmin, 560px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--gold-200) 0%, var(--gold-400) 38%, transparent 70%);
+  background: radial-gradient(circle, var(--gold-200) 0%, var(--gold-400) 48%, transparent 88%);
   filter: blur(48px);
   opacity: 0;
 }
@@ -909,7 +905,7 @@ html[data-intro="leaving"] .intro {
   font-size: clamp(var(--font-size-title-lg), 8vw, var(--font-size-display-sm));
   letter-spacing: var(--tracking-display);
   line-height: 1;
-  color: var(--accent-warm);
+  color: var(--accent-warm-ink);
 }
 .intro__sub {
   font-family: var(--font-text);
@@ -917,7 +913,7 @@ html[data-intro="leaving"] .intro {
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
-  color: var(--text-heading);
+  color: var(--accent-warm-ink);
   margin-top: calc(var(--space-4) * -1 + 6px);
   padding-left: var(--tracking-eyebrow);
 }

@@ -1,6 +1,6 @@
 // Structure / content contract for the built site in _site/. Run `npx @11ty/eleventy` first.
 // Usage: node tests/structure.mjs   (run from site/)
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 
 const PAGES = {
   "/": { title: "The DingDong Foundation Website" },
@@ -43,16 +43,20 @@ for (const route of Object.keys(PAGES)) {
 check("intro bell audio copied to _site", existsSync(new URL("../_site/audio/bell.mp3", import.meta.url)));
 
 const read = (r) => readFileSync(new URL(`../_site${r}index.html`, import.meta.url), "utf8");
+const siteCss = readFileSync(new URL("../src/css/site.css", import.meta.url), "utf8");
 check("home: call to prayer — Angelus", /rung the Angelus/i.test(read("/")));
 check("home: call to prayer — peal/toll pairing", /pealed for weddings and tolled in remembrance/i.test(read("/")));
 check("home: call to prayer — heard again", /so that call is heard again/i.test(read("/")));
 check("story: call to prayer — Angelus", /the Angelus tolled/i.test(read("/story/")));
 check("story: call to prayer — serious undertaking", /a serious undertaking, not a pastime/i.test(read("/story/")));
 check("story: call to prayer — healing frequency", /frequencies people have long found healing/i.test(read("/story/")));
+check("story: peal/toll phrasing", /peals for weddings and a slow toll in remembrance/i.test(read("/story/")));
 check("home: certification date", /certified by the IRS on July 28, 2026/i.test(read("/")));
 check("story: certification date", /certified by the IRS on July 28, 2026/i.test(read("/story/")));
 check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
 check("home: hero photo", /uploads\/IMG_8851\.JPG/.test(read("/")));
+check("home: hero photo has figure--bell crop class", /class="figure figure--bell"/.test(read("/")));
+check("home: figure--bell object-position crop is in the stylesheet", /\.figure--bell \.figure__frame img \{[^}]*object-position:/.test(siteCss));
 check("story: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/story/")) && !/figure__placeholder/.test(read("/story/")));
 check("home: three fund cards with reveal photos", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 3 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")));
 check("guidelines: three steps", count(read("/guidelines/"), /<span class="steps__num"/g) === 3);
@@ -71,9 +75,32 @@ check("questions: FAQPage structured data with eleven entries", (() => { const m
 check("questions: answers never name the founder", !/Judy|Peng/.test(read("/questions/")));
 
 // Type floor: no px font-size below 21.33 anywhere in site.css except icon glyph sizes (24px+).
-const siteCss = readFileSync(new URL("../src/css/site.css", import.meta.url), "utf8");
 const smallPx = [...siteCss.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)].map((m) => Number(m[1])).filter((n) => n < 21.33);
 check("no font-size below 21.33px in site.css", smallPx.length === 0);
+
+// Every var(--x) referenced anywhere in src/css/** must resolve to a --x defined somewhere in
+// src/css/**. Catches things like the focus-ring regression: --ink-800 was deleted from
+// colors.css but base.css kept referencing it, silently invalidating the whole outline shorthand.
+const cssDir = new URL("../src/css/", import.meta.url);
+const walk = (dirUrl) => {
+  const out = [];
+  for (const entry of readdirSync(dirUrl)) {
+    const entryUrl = new URL(entry, dirUrl);
+    if (statSync(entryUrl).isDirectory()) out.push(...walk(new URL(entry + "/", dirUrl)));
+    else if (entry.endsWith(".css")) out.push(entryUrl);
+  }
+  return out;
+};
+const cssFiles = walk(cssDir).map((u) => ({ path: u.pathname.split("/src/css/")[1] || u.pathname, text: readFileSync(u, "utf8") }));
+const definedTokens = new Set();
+for (const { text } of cssFiles) for (const m of text.matchAll(/--([a-zA-Z0-9-]+)\s*:/g)) definedTokens.add(m[1]);
+const unresolved = [];
+for (const { path, text } of cssFiles) {
+  for (const m of text.matchAll(/var\(\s*--([a-zA-Z0-9-]+)/g)) {
+    if (!definedTokens.has(m[1])) unresolved.push(`--${m[1]} (in ${path})`);
+  }
+}
+check(`every var(--x) in src/css/** resolves to a defined token` + (unresolved.length ? ` — unresolved: ${unresolved.join(", ")}` : ""), unresolved.length === 0);
 
 let failed = 0;
 for (const [name, ok] of checks) { if (!ok) failed++; console.log(`${ok ? "ok  " : "FAIL"} ${name}`); }
