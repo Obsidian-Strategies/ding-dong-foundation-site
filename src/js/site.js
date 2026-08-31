@@ -362,4 +362,47 @@
     // No programmatic focus: it would draw a focus ring on load. The button is the first
     // thing in the document, so one Tab reaches it.
   }
+
+  // --- Collapsing header --------------------------------------------------
+  // Scrolling down condenses the header; scrolling up restores it. The styling that
+  // responds to data-condensed is inside a max-width:900px query, so on desktop this
+  // attribute is set but has no visual effect.
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var TOP_ZONE = 120; // above this the header is always full
+    var DEADBAND = 6;   // ignore jitter and rubber-banding
+    // The header is sticky, so changing its height reflows the page and nudges the scroll
+    // position — which fires more scroll events. Without this lock those events read as a
+    // reversal, flip the state straight back, and the transition restarts every frame.
+    var SETTLE_MS = 400;
+    var lastY = window.pageYOffset || 0;
+    var lockedUntil = 0;
+    var queued = false;
+
+    var setCondensed = function (on, now) {
+      if (on === header.hasAttribute("data-condensed")) return;
+      if (on) header.setAttribute("data-condensed", "");
+      else header.removeAttribute("data-condensed");
+      lockedUntil = now + SETTLE_MS;
+    };
+
+    var apply = function (now) {
+      queued = false;
+      var y = window.pageYOffset || 0;
+      if (y <= TOP_ZONE) {
+        setCondensed(false, now);
+      } else if (now >= lockedUntil) {
+        if (y > lastY + DEADBAND) setCondensed(true, now);
+        else if (y < lastY - DEADBAND) setCondensed(false, now);
+      }
+      // Always resync, including while locked, so reflow movement never counts as a gesture.
+      if (Math.abs(y - lastY) > DEADBAND || y <= TOP_ZONE) lastY = y;
+    };
+
+    window.addEventListener("scroll", function () {
+      if (queued) return;
+      queued = true;
+      window.requestAnimationFrame(apply);
+    }, { passive: true });
+  }
 })();

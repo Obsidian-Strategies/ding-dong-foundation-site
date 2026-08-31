@@ -102,6 +102,17 @@ for (const { path, text } of cssFiles) {
 }
 check(`every var(--x) in src/css/** resolves to a defined token` + (unresolved.length ? ` — unresolved: ${unresolved.join(", ")}` : ""), unresolved.length === 0);
 
+// Collapsing mobile header (client, 2026-08-31). The behaviour is CSS + JS with no markup of
+// its own, so assert both halves stay wired together.
+const siteJs = readFileSync(new URL("../src/js/site.js", import.meta.url), "utf8");
+check("header collapse: script toggles data-condensed", /data-condensed/.test(siteJs));
+check("header collapse: script guards against the sticky-reflow feedback loop", /lockedUntil/.test(siteJs));
+check("header collapse: styles are scoped to <=900px", /@media \(max-width: 900px\)[\s\S]*?\[data-condensed\][\s\S]*?\.site-nav/.test(siteCss));
+check("header collapse: keyboard focus reopens the collapsed nav", /\[data-condensed\]:focus-within \.site-nav/.test(siteCss));
+// The bell crop must stay centred on the bell; 50%+ pushes the window right and clips its lip.
+const bellPos = siteCss.match(/\.figure--bell \.figure__frame img \{[^}]*object-position:\s*([0-9.]+)%/);
+check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellPos && parseFloat(bellPos[1]) <= 50);
+
 let failed = 0;
 for (const [name, ok] of checks) { if (!ok) failed++; console.log(`${ok ? "ok  " : "FAIL"} ${name}`); }
 if (failed) { console.error(`\n${failed} structure failure(s)`); process.exit(1); }

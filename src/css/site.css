@@ -478,7 +478,10 @@ main > section.section:last-of-type::after {
 /* Hero bell: client saw the bell clipped at the frame edge on iPad. A visible gilt frame
    plus a nudged crop makes the crop read as intentional. */
 .figure--bell .figure__frame { border: 1px solid var(--gold-500); }
-.figure--bell .figure__frame img { object-position: 62% 50%; }
+/* The great bell's centre sits at ~48.5% of the source image's width. The 4/5 frame shows
+   about 45% of that width, so the crop window must be centred on the bell or its lip clips
+   against the frame edge (client, 2026-08-31). 47% puts equal stone on both sides. */
+.figure--bell .figure__frame img { object-position: 47% 50%; }
 .figure__placeholder {
   padding: var(--space-5);
   text-align: center;
@@ -996,4 +999,41 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 @media (max-width: 600px) {
   :root { --leading-body: 1.5; --leading-loose: 1.6; }
   .lede { line-height: 1.45; }
+}
+
+/* Collapsing header (client, 2026-08-31). Below 900px the seven nav links wrap onto their own
+   row and the header eats most of a phone screen. Scrolling down condenses it to a slim bar —
+   wordmark plus the Apply button, which is the page's whole purpose — and scrolling up brings
+   the nav straight back. No new control to learn: the gesture is the control.
+   The wordmark steps down one size only; nothing goes below the 16pt floor. */
+@media (max-width: 900px) {
+  .site-nav {
+    overflow: hidden;
+    max-height: 20rem;
+    opacity: 1;
+    transition: max-height var(--dur-base) var(--ease-standard),
+                opacity var(--dur-base) var(--ease-standard);
+  }
+  .site-header__inner,
+  .wordmark__ding { transition: padding var(--dur-base) var(--ease-standard), font-size var(--dur-base) var(--ease-standard); }
+
+  .site-header[data-condensed] .site-nav {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .site-header[data-condensed] .site-header__inner { padding-block: var(--space-3); }
+  .site-header[data-condensed] .wordmark__ding { font-size: var(--font-size-title-sm); }
+
+  /* Keyboard users must never focus a link hidden inside the collapsed row. */
+  .site-header[data-condensed]:focus-within .site-nav {
+    max-height: 20rem;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-nav,
+  .site-header__inner,
+  .wordmark__ding { transition: none; }
 }
