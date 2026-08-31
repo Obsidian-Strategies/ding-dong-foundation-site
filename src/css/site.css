@@ -379,7 +379,6 @@ main > section.section:last-of-type::after {
   color: var(--text-heading);
   text-wrap: balance;
 }
-.section-heading .lede { line-height: var(--leading-body); }
 
 /* --- Quote --------------------------------------------------------------- */
 .quote {
@@ -483,7 +482,7 @@ main > section.section:last-of-type::after {
 /* Hero bell: client saw the bell clipped at the frame edge on iPad. A visible gilt frame
    plus a nudged crop makes the crop read as intentional. */
 .figure--bell .figure__frame { border: 1px solid var(--gold-500); }
-.figure--bell .figure__frame img { object-fit: cover; object-position: 62% 50%; }
+.figure--bell .figure__frame img { object-position: 62% 50%; }
 .figure__placeholder {
   padding: var(--space-5);
   text-align: center;
@@ -998,7 +997,7 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 
 /* Mobile: lines read "stretched" on phones (client, 2026-08-27). Tighten one step.
    Full mobile optimization remains its own later phase. */
-@media (max-width: 640px) {
+@media (max-width: 600px) {
   :root { --leading-body: 1.5; --leading-loose: 1.6; }
   .lede { line-height: 1.45; }
 }
