@@ -480,6 +480,10 @@ main > section.section:last-of-type::after {
 }
 .figure--square .figure__frame { aspect-ratio: 1 / 1; border-radius: 0; }
 .figure__frame img { width: 100%; height: 100%; object-fit: cover; }
+/* Hero bell: client saw the bell clipped at the frame edge on iPad. A visible gilt frame
+   plus a nudged crop makes the crop read as intentional. */
+.figure--bell .figure__frame { border: 1px solid var(--gold-500); }
+.figure--bell .figure__frame img { object-fit: cover; object-position: 62% 50%; }
 .figure__placeholder {
   padding: var(--space-5);
   text-align: center;
