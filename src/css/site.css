@@ -1001,39 +1001,108 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
   .lede { line-height: 1.45; }
 }
 
-/* Collapsing header (client, 2026-08-31). Below 900px the seven nav links wrap onto their own
-   row and the header eats most of a phone screen. Scrolling down condenses it to a slim bar —
-   wordmark plus the Apply button, which is the page's whole purpose — and scrolling up brings
-   the nav straight back. No new control to learn: the gesture is the control.
-   The wordmark steps down one size only; nothing goes below the 16pt floor. */
+/* Phone header (client, 2026-08-31) -------------------------------------------
+   Seven links at the 16pt floor cannot fit beside the wordmark, so the old header wrapped to
+   three rows and stood 319px tall on a 390px screen — a third of the display, with the Apply
+   button stranded between the wordmark and the links. Below 900px it is now one compact bar:
+   wordmark, and a Menu button holding the nav and Apply.
+
+   Hiding on scroll uses transform, never height. An earlier version shrank the header, which
+   changed the document height mid-scroll; iOS computes momentum from the height at the start
+   of a flick, so the page coasted past its own end and left dead space under the footer.
+   A transform moves the bar without touching layout, so the document height never varies. */
+.nav-toggle { display: none; }
+
 @media (max-width: 900px) {
-  .site-nav {
-    overflow: hidden;
-    max-height: 20rem;
-    opacity: 1;
-    transition: max-height var(--dur-base) var(--ease-standard),
-                opacity var(--dur-base) var(--ease-standard);
-  }
-  .site-header__inner,
-  .wordmark__ding { transition: padding var(--dur-base) var(--ease-standard), font-size var(--dur-base) var(--ease-standard); }
+  .site-header { transition: transform var(--dur-base) var(--ease-standard); will-change: transform; }
+  .site-header[data-hidden] { transform: translateY(-101%); }
 
-  .site-header[data-condensed] .site-nav {
-    max-height: 0;
-    opacity: 0;
-    pointer-events: none;
+  /* The wordmark and the button need 394px of the 390 available at the narrowest common
+     phone, so the bar trims its side padding to keep them on one row rather than wrapping
+     the button onto a line of its own. */
+  .site-header__inner {
+    padding-block: var(--space-4);
+    padding-inline: var(--space-5);
+    gap: var(--space-3);
+    align-items: center;
+    flex-wrap: wrap;
   }
-  .site-header[data-condensed] .site-header__inner { padding-block: var(--space-3); }
-  .site-header[data-condensed] .wordmark__ding { font-size: var(--font-size-title-sm); }
+  .wordmark__ding { font-size: var(--font-size-title-sm); }
+  /* Narrow phones (360px and the like) cannot hold the full wordmark and the button on one
+     row. The FOUNDATION line is the wide one and it already sits on the 16pt floor, so it
+     gives up letter-spacing rather than size; the display line steps down once. Both stay
+     above the floor. */
+  @media (max-width: 420px) {
+    .wordmark__ding { font-size: var(--font-size-body-lg); }
+    .wordmark__foundation { letter-spacing: 0.07em; }
+  }
 
-  /* Keyboard users must never focus a link hidden inside the collapsed row. */
-  .site-header[data-condensed]:focus-within .site-nav {
-    max-height: 20rem;
-    opacity: 1;
-    pointer-events: auto;
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-left: auto;
+    order: 1;
+    padding: 10px 14px;
+    white-space: nowrap;
+    background: transparent;
+    color: var(--text-body);
+    font-family: var(--font-text);
+    font-size: var(--font-size-fine);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-wide);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill, 999px);
+    cursor: pointer;
+  }
+  .nav-toggle__bars {
+    position: relative;
+    width: 20px;
+    height: 2px;
+    background: var(--accent-warm);
+    border-radius: 1px;
+    transition: background var(--dur-quick) var(--ease-standard);
+  }
+  .nav-toggle__bars::before,
+  .nav-toggle__bars::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-warm);
+    border-radius: 1px;
+    transition: transform var(--dur-base) var(--ease-standard);
+  }
+  .nav-toggle__bars::before { top: -6px; }
+  .nav-toggle__bars::after { top: 6px; }
+  .nav-toggle[aria-expanded="true"] { border-color: var(--gold-400); }
+  .nav-toggle[aria-expanded="true"] .nav-toggle__bars { background: transparent; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle__bars::before { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] .nav-toggle__bars::after { transform: translateY(-6px) rotate(-45deg); }
+
+  /* The panel: nav links and Apply, revealed together by the button. */
+  .site-nav,
+  .site-header__action { display: none; }
+  .site-header[data-nav-open] .site-nav {
+    display: flex;
+    order: 2;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding-top: var(--space-5);
+  }
+  .site-header[data-nav-open] .site-header__action {
+    display: flex;
+    order: 3;
+    flex-basis: 100%;
+    padding-top: var(--space-2, 8px);
+    padding-bottom: var(--space-3);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-nav,
-  .site-header__inner,
-  .wordmark__ding { transition: none; }
+  .site-header,
+  .nav-toggle__bars,
+  .nav-toggle__bars::before,
+  .nav-toggle__bars::after { transition: none; }
 }

@@ -397,34 +397,31 @@
   // responds to data-condensed is inside a max-width:900px query, so on desktop this
   // attribute is set but has no visual effect.
   var header = document.querySelector(".site-header");
+  var navToggle = header && header.querySelector("[data-nav-toggle]");
   if (header) {
-    var TOP_ZONE = 120; // above this the header is always full
+    var TOP_ZONE = 120; // above this the bar is always shown
     var DEADBAND = 6;   // ignore jitter and rubber-banding
-    // The header is sticky, so changing its height reflows the page and nudges the scroll
-    // position — which fires more scroll events. Without this lock those events read as a
-    // reversal, flip the state straight back, and the transition restarts every frame.
-    var SETTLE_MS = 400;
     var lastY = window.pageYOffset || 0;
-    var lockedUntil = 0;
     var queued = false;
 
-    var setCondensed = function (on, now) {
-      if (on === header.hasAttribute("data-condensed")) return;
-      if (on) header.setAttribute("data-condensed", "");
-      else header.removeAttribute("data-condensed");
-      lockedUntil = now + SETTLE_MS;
+    var closeNav = function () {
+      if (!navToggle) return;
+      header.removeAttribute("data-nav-open");
+      navToggle.setAttribute("aria-expanded", "false");
     };
+    var navOpen = function () { return header.hasAttribute("data-nav-open"); };
 
-    var apply = function (now) {
+    // Only ever transform the bar — never its height. Changing the header's height would
+    // change the document height mid-scroll, which is what left dead space below the footer
+    // on iOS. A transform is purely visual, so the page keeps exactly one length.
+    var apply = function () {
       queued = false;
       var y = window.pageYOffset || 0;
-      if (y <= TOP_ZONE) {
-        setCondensed(false, now);
-      } else if (now >= lockedUntil) {
-        if (y > lastY + DEADBAND) setCondensed(true, now);
-        else if (y < lastY - DEADBAND) setCondensed(false, now);
-      }
-      // Always resync, including while locked, so reflow movement never counts as a gesture.
+      // While the menu is open the bar must stay put; it holds the links being read.
+      if (navOpen()) { lastY = y; return; }
+      if (y <= TOP_ZONE) header.removeAttribute("data-hidden");
+      else if (y > lastY + DEADBAND) header.setAttribute("data-hidden", "");
+      else if (y < lastY - DEADBAND) header.removeAttribute("data-hidden");
       if (Math.abs(y - lastY) > DEADBAND || y <= TOP_ZONE) lastY = y;
     };
 
@@ -433,5 +430,28 @@
       queued = true;
       window.requestAnimationFrame(apply);
     }, { passive: true });
+
+    if (navToggle) {
+      navToggle.addEventListener("click", function () {
+        var open = !navOpen();
+        if (open) {
+          header.setAttribute("data-nav-open", "");
+          header.removeAttribute("data-hidden"); // never open a panel on a hidden bar
+        } else {
+          header.removeAttribute("data-nav-open");
+        }
+        navToggle.setAttribute("aria-expanded", String(open));
+      });
+      // Following a link ends the panel's job; so does Escape, or a tap outside it.
+      header.querySelectorAll(".site-nav a, .site-header__action a").forEach(function (a) {
+        a.addEventListener("click", closeNav);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && navOpen()) { closeNav(); navToggle.focus(); }
+      });
+      document.addEventListener("click", function (e) {
+        if (navOpen() && !header.contains(e.target)) closeNav();
+      });
+    }
   }
 })();

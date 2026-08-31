@@ -105,10 +105,18 @@ check(`every var(--x) in src/css/** resolves to a defined token` + (unresolved.l
 // Collapsing mobile header (client, 2026-08-31). The behaviour is CSS + JS with no markup of
 // its own, so assert both halves stay wired together.
 const siteJs = readFileSync(new URL("../src/js/site.js", import.meta.url), "utf8");
-check("header collapse: script toggles data-condensed", /data-condensed/.test(siteJs));
-check("header collapse: script guards against the sticky-reflow feedback loop", /lockedUntil/.test(siteJs));
-check("header collapse: styles are scoped to <=900px", /@media \(max-width: 900px\)[\s\S]*?\[data-condensed\][\s\S]*?\.site-nav/.test(siteCss));
-check("header collapse: keyboard focus reopens the collapsed nav", /\[data-condensed\]:focus-within \.site-nav/.test(siteCss));
+check("phone header: script hides the bar on scroll", /data-hidden/.test(siteJs));
+// The guard that matters: hiding must be a transform. Animating the header's HEIGHT changes
+// the document height mid-scroll, and iOS then coasts past the end of the page, leaving dead
+// space below the footer. If someone reintroduces a height/padding/max-height transition on
+// the hidden state, this fails.
+const hiddenRule = siteCss.match(/\.site-header\[data-hidden\][^{]*\{([^}]*)\}/);
+check("phone header: hidden state moves the bar by transform only", !!hiddenRule && /transform:\s*translateY/.test(hiddenRule[1]));
+check("phone header: hidden state never animates height", !!hiddenRule && !/(^|[^-])height:|padding|max-height/.test(hiddenRule[1]));
+check("phone header: nav sits behind a Menu button below 900px", /@media \(max-width: 900px\)[\s\S]*?\[data-nav-open\] \.site-nav/.test(siteCss));
+check("phone header: toggle is a real disclosure button", /<button class="nav-toggle"[^>]*aria-expanded="false"[^>]*aria-controls="site-nav"/.test(read("/")));
+check("phone header: nav has the id the toggle points at", /<nav class="site-nav" id="site-nav"/.test(read("/")));
+check("phone header: Escape and outside taps close the menu", /Escape[\s\S]{0,200}closeNav/.test(siteJs) && /!header\.contains\(e\.target\)/.test(siteJs));
 // The bell crop must stay centred on the bell; 50%+ pushes the window right and clips its lip.
 const bellPos = siteCss.match(/\.figure--bell \.figure__frame img \{[^}]*object-position:\s*([0-9.]+)%/);
 check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellPos && parseFloat(bellPos[1]) <= 50);
