@@ -20,7 +20,8 @@ for (const route of Object.keys(PAGES)) {
   const tag = (s) => `${route} ${s}`;
   check(tag("doctype + lang"), /^<!DOCTYPE html>\s*<html lang="en">/i.test(html.trim()));
   check(tag("title ends with org name"), /<title>(.* · )?The Ding Dong Foundation<\/title>/.test(html));
-  check(tag("wordmark includes The"), count(html, /wordmark__ding">The Ding Dong</g) >= 2);
+  check(tag("header/footer wordmark includes The"), count(html, /wordmark__ding">The Ding Dong</g) >= 2);
+  check(tag("intro overlay wordmark includes The"), /intro__word">The Ding Dong</.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
   check(tag("sticky header with 7 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7);
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));

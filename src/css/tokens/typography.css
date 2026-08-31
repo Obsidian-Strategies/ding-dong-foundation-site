@@ -1,4 +1,5 @@
-/* Type — Vollkorn (display/headings, warm old-style serif) + Nunito Sans (text/UI).
+/* Type — Times New Roman everywhere (display and text), served by the OS, per the client's
+   direction (2026-08-27 call). No webfont, no display/text family split.
    Hard client requirement, revised upward: nothing below 16pt. CSS defines 1pt = 1/72in and
    1px = 1/96in, so 16pt = 21.333px exactly — that is --font-size-fine, the floor of the scale,
    and there is no smaller token.
