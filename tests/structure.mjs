@@ -43,10 +43,14 @@ for (const route of Object.keys(PAGES)) {
 check("intro bell audio copied to _site", existsSync(new URL("../_site/audio/bell.mp3", import.meta.url)));
 
 const read = (r) => readFileSync(new URL(`../_site${r}index.html`, import.meta.url), "utf8");
-check("home: call to prayer framing", /call to prayer/i.test(read("/")));
-check("story: call to prayer framing", /call to prayer/i.test(read("/story/")));
-check("home: certification date", /certified by the IRS on July 28, 2026/.test(read("/")));
-check("story: certification date", /certified by the IRS on July 28, 2026/.test(read("/story/")));
+check("home: call to prayer — Angelus", /rung the Angelus/i.test(read("/")));
+check("home: call to prayer — peal/toll pairing", /pealed for weddings and tolled in remembrance/i.test(read("/")));
+check("home: call to prayer — heard again", /so that call is heard again/i.test(read("/")));
+check("story: call to prayer — Angelus", /the Angelus tolled/i.test(read("/story/")));
+check("story: call to prayer — serious undertaking", /a serious undertaking, not a pastime/i.test(read("/story/")));
+check("story: call to prayer — healing frequency", /frequencies people have long found healing/i.test(read("/story/")));
+check("home: certification date", /certified by the IRS on July 28, 2026/i.test(read("/")));
+check("story: certification date", /certified by the IRS on July 28, 2026/i.test(read("/story/")));
 check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
 check("home: hero photo", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("story: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/story/")) && !/figure__placeholder/.test(read("/story/")));
