@@ -5,8 +5,8 @@
    The audience is older readers; the whole scale is set for them, not scaled down for density.
    Size tokens are --font-size-*; --text-* names belong to colors.css (semantic ink colors). */
 :root {
-  --font-display: "Vollkorn", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --font-text: "Nunito Sans", ui-sans-serif, system-ui, "Segoe UI", Helvetica, sans-serif;
+  --font-display: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
+  --font-text: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* Scale — 21.33px (16pt) floor */
