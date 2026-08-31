@@ -58,6 +58,38 @@ for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
   }
 }
 
+// Warm/primary buttons (.btn, .btn--warm) push their frost pane to a near-opaque gold tint
+// instead of navy glass, so the label reads navy-950-on-gold. Alphas mirror .btn::after /
+// .btn:hover::after / .btn:active::after in site.css. Checked against every surface a bare
+// .btn can sit on (guidelines.njk and questions.njk put it directly on --surface-sunk).
+const WARM_GLASS = {
+  "warm rest": ["gold-400", 0.7],
+  "warm hover": ["gold-400", 0.85],
+  "warm active": ["gold-400", 0.75],
+};
+for (const [name, [tint, alpha]] of Object.entries(WARM_GLASS)) {
+  for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+    const key = `${name} on ${bg}`;
+    tokens[key] = over(tokens[tint], alpha, tokens[bg]);
+    PAIRS.push(["navy-950", key, "warm button label"]);
+  }
+}
+
+// Selected amount / open FAQ bar: the pane takes a gentle gold tint but keeps the light label
+// (see .amount[aria-pressed="true"]::after and .faq__bar[aria-expanded="true"]::after, both
+// rgba(217, 189, 120, 0.3) at rest — the FAQ bar has no distinct hover tint, the amount does).
+const TINTED_GLASS = {
+  "selected/open rest": ["gold-400", 0.3],
+  "selected amount hover": ["gold-400", 0.4],
+};
+for (const [name, [tint, alpha]] of Object.entries(TINTED_GLASS)) {
+  for (const bg of ["navy-900", "navy-850", "navy-800", "navy-700"]) {
+    const key = `${name} on ${bg}`;
+    tokens[key] = over(tokens[tint], alpha, tokens[bg]);
+    PAIRS.push(["ivory-50", key, "selected amount / open FAQ bar label"]);
+  }
+}
+
 let failures = 0;
 for (const [fg, bg, why] of PAIRS) {
   if (!tokens[fg] || !tokens[bg]) { console.log(`FAIL missing token --${tokens[fg] ? bg : fg}`); failures++; continue; }

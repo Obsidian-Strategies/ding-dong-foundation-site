@@ -35,7 +35,7 @@ main > .section:first-child::before { content: none; }
 .section--sunk::before { background: linear-gradient(to bottom, rgba(12, 22, 40, 0.000) 0%, rgba(12, 22, 40, 0.004) 8.3%, rgba(12, 22, 40, 0.019) 16.7%, rgba(12, 22, 40, 0.047) 25%, rgba(12, 22, 40, 0.089) 33.3%, rgba(12, 22, 40, 0.146) 41.7%, rgba(12, 22, 40, 0.218) 50%, rgba(12, 22, 40, 0.306) 58.3%, rgba(12, 22, 40, 0.410) 66.7%, rgba(12, 22, 40, 0.531) 75%, rgba(12, 22, 40, 0.670) 83.3%, rgba(12, 22, 40, 0.826) 91.7%, #0c1628 100%); }
 .section--hero::before { content: none; }
 /* The page's last section fades into the footer: extra bottom padding holds a 240px ramp to
-   espresso, so the dark part never reaches content and the footer starts solid — no seam. */
+   navy-950, so the dark part never reaches content and the footer starts solid — no seam. */
 main > section.section:last-of-type { padding-bottom: calc(var(--space-9) + 150px); }
 main > section.section:last-of-type::after {
   content: "";
@@ -242,9 +242,9 @@ main > section.section:last-of-type::after {
    pane that goes (mostly) opaque gold instead of navy glass, so its label reads navy-on-gold.
    Secondary and ghost opt back out to the light-on-navy-glass everything else uses. */
 .btn, .btn--warm { color: var(--accent-warm-ink); }
-.btn::after { background: rgba(217, 189, 120, 0.65); }
-.btn:hover::after { background: rgba(217, 189, 120, 0.8); }
-.btn:active::after { background: rgba(217, 189, 120, 0.55); }
+.btn::after { background: rgba(217, 189, 120, 0.7); }
+.btn:hover::after { background: rgba(217, 189, 120, 0.85); }
+.btn:active::after { background: rgba(217, 189, 120, 0.75); }
 .btn--secondary, .intro__ring { color: var(--text-heading); }
 .btn--secondary::before, .intro__ring::before { background: var(--glass-bloom-sand); }
 .btn--secondary::after, .intro__ring::after { background: var(--glass-frost); }
@@ -647,7 +647,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   transform: translateX(-6px);
   transition: opacity 350ms var(--ease-hover), transform 350ms var(--ease-hover);
 }
-.faq__bar[aria-expanded="true"] { color: var(--text-body); transform: translateX(-6px); }
+.faq__bar[aria-expanded="true"] { transform: translateX(-6px); }
 .faq__bar[aria-expanded="true"]::before { background: var(--glass-bloom-brass); }
 .faq__bar[aria-expanded="true"]::after { background: rgba(217, 189, 120, 0.3); }
 .faq__bar[aria-expanded="true"] .faq__arrow { opacity: 1; transform: translateX(0); }
