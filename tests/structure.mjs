@@ -36,6 +36,8 @@ for (const route of Object.keys(PAGES)) {
   check(tag("no February/Europe/Grounded/founder"), !/February|Europe|Grounded|founder/i.test(html));
   check(tag("no 'Ding Dong' with a space, no 'public charity'"), !/Ding Dong|public charity/i.test(html));
   check(tag("no emoji"), !/[\u{1F300}-\u{1FAFF}]/u.test(html));
+  check(tag("no inline style attributes"), !/ style="/.test(html));
+  check(tag("hero pattern: eyebrow, h1, lede"), route === "/" ? /<h1 class="motto">/.test(html) : /<section class="section section--hero">\s*<div class="content stack">\s*<span class="eyebrow">[^<]+<\/span>\s*<h1 class="display">[\s\S]*?<\/h1>\s*<p class="lede">/.test(html));
   check(tag("no 'Submit' / 'Learn more' buttons"), !/>(Submit|Learn more)</.test(html));
   check(tag("Phosphor icons stylesheet"), /@phosphor-icons\/web@2\.1\.1\/src\/regular\/style\.css/.test(html));
   check(tag("tokens + site css linked"), /css\/styles\.css/.test(html) && /css\/site\.css/.test(html));
@@ -157,6 +159,7 @@ check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellP
 check("intro: light ground, gold bell, navy name", /\.intro \{[^}]*background: var\(--ivory-50\)/.test(siteCss) && /\.intro__bell \{[^}]*color: var\(--gold-600\)/.test(siteCss) && /\.intro__name \{[^}]*color: var\(--navy-950\)/.test(siteCss));
 check("intro: button is a solid navy pane on the light ground", /\.intro__ring::after \{[^}]*background: var\(--navy-950\)/.test(siteCss));
 check("wordmark: roman, medium weight, breathing room", /\.wordmark__ding \{[^}]*font-style: normal/.test(siteCss) && /\.wordmark__ding \{[^}]*font-weight: var\(--weight-medium\)/.test(siteCss) && /\.wordmark \{[^}]*gap: var\(--space-2\)/.test(siteCss));
+check("type: one size for section h2s and the empty-state h2", /\.section-heading h2 \{[^}]*font-size: var\(--font-size-title-lg\)/.test(siteCss) && /\.empty h2 \{[^}]*font-size: var\(--font-size-title-lg\)/.test(siteCss));
 
 // Fund-card photo reveal must work on touch too (client, 2026-08-31): the hover path is
 // gated, so there has to be a tap path beside it, not instead of it.

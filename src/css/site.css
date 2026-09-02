@@ -515,7 +515,8 @@ main > section.section:last-of-type::after {
 .empty h2 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-title-lg);
+  line-height: var(--leading-snug);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-display);
   color: var(--text-heading);
