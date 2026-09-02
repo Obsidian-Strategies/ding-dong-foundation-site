@@ -22,10 +22,12 @@ for (const route of Object.keys(PAGES)) {
   check(tag("header/footer wordmark includes The"), count(html, /wordmark__ding">The DingDong</g) >= 2);
   check(tag("intro overlay: name, then motto pair, then the button"), /intro__name">The DingDong Foundation<\/div>\s*<div class="motto motto--light">\s*<span class="motto__en">Make a Joyful Noise to the Lord<\/span>\s*<span class="motto__la">Jubilate Deo<\/span>\s*<\/div>\s*<button class="btn intro__ring"/.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
-  check(tag("sticky header with 7 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7);
+  check(tag("sticky header with 6 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 6);
+  check(tag("header nav: Inspirations in, Mission out"), (() => { const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]; return />Inspirations</.test(nav) && !/>Mission</.test(nav) && !/>Our story</.test(nav); })());
+  check(tag("footer nav keeps Mission and Inspirations"), (() => { const nav = html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0]; return />Mission</.test(nav) && />Inspirations</.test(nav) && !/>Our story</.test(nav); })());
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));
   check(tag("header Apply button"), /class="btn btn--sm btn--warm"[^>]*>Apply for a grant</.test(html));
-  check(tag("one aria-current nav item"), route === "/apply/" ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
+  check(tag("one aria-current nav item"), (route === "/apply/" || route === "/mission/") ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
   check(tag("footer nav has 8 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 8 && />Apply<\/a>/.test(html));
   check(tag("Ave Maria dedication in footer"), /<em>Ave Maria<\/em>/.test(html));
   check(tag("501(c)(3) legal line"), /The DingDong Foundation, Inc\. A Florida nonprofit corporation recognized by the IRS as a 501\(c\)\(3\) private foundation\./.test(html));
@@ -132,6 +134,7 @@ check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellP
 
 check("intro: light ground, gold bell, navy name", /\.intro \{[^}]*background: var\(--ivory-50\)/.test(siteCss) && /\.intro__bell \{[^}]*color: var\(--gold-600\)/.test(siteCss) && /\.intro__name \{[^}]*color: var\(--navy-950\)/.test(siteCss));
 check("intro: button is a solid navy pane on the light ground", /\.intro__ring::after \{[^}]*background: var\(--navy-950\)/.test(siteCss));
+check("wordmark: roman, medium weight, breathing room", /\.wordmark__ding \{[^}]*font-style: normal/.test(siteCss) && /\.wordmark__ding \{[^}]*font-weight: var\(--weight-medium\)/.test(siteCss) && /\.wordmark \{[^}]*gap: var\(--space-2\)/.test(siteCss));
 
 // Fund-card photo reveal must work on touch too (client, 2026-08-31): the hover path is
 // gated, so there has to be a tap path beside it, not instead of it.

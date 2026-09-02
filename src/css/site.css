@@ -738,25 +738,30 @@ select.field__control { appearance: none; background-image: none; padding-right:
   gap: var(--space-5);
   flex-wrap: wrap;
 }
-/* Seven links plus the button fit on one line from 1024px up; the button never wraps under. */
+/* Six links plus the button fit on one line from 1024px up; the button never wraps under.
+   The wordmark's new roman weight needs a hair more room than the old italic did, so this
+   band also trims the header's own padding and gaps rather than the nav's font size —
+   nothing here goes below the 16pt floor. */
 @media (min-width: 1024px) {
-  .site-header__inner { flex-wrap: nowrap; }
+  .site-header__inner { flex-wrap: nowrap; padding-inline: var(--space-4); gap: var(--space-3); }
   .site-header__action { flex: none; }
 }
-.wordmark { display: inline-flex; flex-direction: column; gap: 2px; line-height: 1; text-decoration: none; }
+/* Wordmark. The client found the italic, tight version cramped (2026-09-01): roman, medium
+   weight, a real gap between the lines, and calmer tracking on FOUNDATION. */
+.wordmark { display: inline-flex; flex-direction: column; gap: var(--space-2); line-height: 1; text-decoration: none; }
 .wordmark__ding {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: var(--weight-semibold);
+  font-style: normal;
+  font-weight: var(--weight-medium);
   font-size: var(--font-size-title);
-  letter-spacing: var(--tracking-display);
+  letter-spacing: 0.01em;
   color: var(--accent-warm);
 }
 .wordmark__foundation {
   font-family: var(--font-text);
   font-size: var(--font-size-fine);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-eyebrow);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-heading);
 }
@@ -809,6 +814,10 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .site-nav a[aria-current="page"] { color: var(--text-accent); }
 .site-nav a[aria-current="page"] span { background: var(--accent-warm); }
 .site-header__action { display: flex; align-items: center; flex: none; white-space: nowrap; }
+/* Same room-for-the-wordmark trim as above, placed after the base nav rule so it wins. */
+@media (min-width: 1024px) {
+  .site-nav { gap: var(--space-2); }
+}
 
 /* --- Footer (navy-950 — the darkest surface) ------------------------------
    Compact, three columns on one row: wordmark + blurb, the nav in two short columns, and the
@@ -1041,7 +1050,7 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 }
 
 /* Phone header (client, 2026-08-31) -------------------------------------------
-   Seven links at the 16pt floor cannot fit beside the wordmark, so the old header wrapped to
+   Six links at the 16pt floor cannot fit beside the wordmark, so the old header wrapped to
    three rows and stood 319px tall on a 390px screen — a third of the display, with the Apply
    button stranded between the wordmark and the links. Below 900px it is now one compact bar:
    wordmark, and a Menu button holding the nav and Apply.
@@ -1073,7 +1082,7 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
      above the floor. */
   @media (max-width: 420px) {
     .wordmark__ding { font-size: var(--font-size-body-lg); }
-    .wordmark__foundation { letter-spacing: 0.07em; }
+    .wordmark__foundation { letter-spacing: 0.05em; }
   }
 
   .nav-toggle {

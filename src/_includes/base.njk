@@ -51,8 +51,7 @@
   </div>
   {%- set navItems = [
     { url: "/", label: "Home" },
-    { url: "/story/", label: "Our story" },
-    { url: "/mission/", label: "Mission" },
+    { url: "/inspirations/", label: "Inspirations" },
     { url: "/guidelines/", label: "Guidelines" },
     { url: "/grants/", label: "Grants" },
     { url: "/questions/", label: "Questions" },
@@ -60,7 +59,7 @@
   ] -%}
   {%- set footerItems = [
     { url: "/", label: "Home" },
-    { url: "/story/", label: "Our story" },
+    { url: "/inspirations/", label: "Inspirations" },
     { url: "/mission/", label: "Mission" },
     { url: "/guidelines/", label: "Guidelines" },
     { url: "/apply/", label: "Apply" },
@@ -75,7 +74,7 @@
         <em class="wordmark__ding">The DingDong</em>
         <span class="wordmark__foundation">Foundation</span>
       </a>
-      {#- Phone-only disclosure. Seven links at the 16pt floor cannot share a row with the
+      {#- Phone-only disclosure. Six links at the 16pt floor cannot share a row with the
           wordmark, so below 900px they live behind this button. Hidden from desktop entirely. #}
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
         <span class="nav-toggle__bars" aria-hidden="true"></span>
