@@ -55,6 +55,15 @@ PAIRS.push(
   ["gold-300", "navy-wash-peak", "motto on the hero wash"],
   ["ivory-50", "navy-wash-peak", "lede on the hero wash"],
 );
+// The entrance overlay is not flat ivory-50: .intro__glow sits behind the name and motto (a
+// gold-300 -> gold-400 radial, opacity 0.7 once introGlow finishes), so their real background
+// is that glow composited on the ivory ground. Model it the same way the glass buttons are
+// modelled above, with the shared over() helper.
+tokens["intro glow on ivory"] = over(tokens["gold-400"], 0.7, tokens["ivory-50"]);
+PAIRS.push(
+  ["gold-700", "intro glow on ivory", "entrance motto over the glow"],
+  ["navy-950", "intro glow on ivory", "entrance name over the glow"],
+);
 
 for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
   for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {

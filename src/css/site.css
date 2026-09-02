@@ -1,5 +1,5 @@
 /* ==========================================================================
-   The Ding Dong Foundation — site styles
+   The DingDong Foundation — site styles
    Recreates the design-system components (Button, Card, Tag, Icon, Field,
    Checkbox, Figure, Quote, SectionHeading, StepList, EmptyState, PhotoGrid,
    SiteHeader, SiteFooter) and page layouts from the Claude Design handoff.
@@ -277,6 +277,9 @@ main > section.section:last-of-type::after {
   text-decoration: underline;
   text-decoration-color: var(--gold-400);
   text-underline-offset: 5px;
+  white-space: normal;
+  text-align: left;
+  display: inline;
 }
 .btn--ghost::before, .btn--ghost::after { content: none; }
 .btn--ghost:hover { background: transparent; color: var(--rose-300); }
@@ -686,7 +689,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   gap: var(--space-7);
   align-items: start;
 }
-.faq__list { display: flex; flex-direction: column; gap: var(--space-3); }
+.faq__list { display: flex; flex-direction: column; gap: var(--space-3); overflow-x: clip; }
 .faq__q { margin: 0; font-size: inherit; font-weight: inherit; }
 .faq__bar {
   width: 100%;

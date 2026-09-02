@@ -3,7 +3,7 @@
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 
 const PAGES = {
-  "/": { title: "The DingDong Foundation Website" },
+  "/": {},
   "/inspirations/": {}, "/mission/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/questions/": {}, "/donate/": {},
 };
 const MISSION = `The specific purpose of The DingDong Foundation, Inc. is to provide grants to support the building and restoration of church bell towers, pipe organs, rose windows, stained glass windows, and related sacred elements, as well as to provide grants to spiritual organizations that utilize sound, color, and frequency for healing practices. The corporation may also support related activities in sacred arts and architecture, including the training of artisans and apprentices as well as the study and dissemination of authentic scriptural and spiritual teachings.`;
@@ -160,6 +160,11 @@ check("intro: light ground, gold bell, navy name", /\.intro \{[^}]*background: v
 check("intro: button is a solid navy pane on the light ground", /\.intro__ring::after \{[^}]*background: var\(--navy-950\)/.test(siteCss));
 check("wordmark: roman, medium weight, breathing room", /\.wordmark__ding \{[^}]*font-style: normal/.test(siteCss) && /\.wordmark__ding \{[^}]*font-weight: var\(--weight-medium\)/.test(siteCss) && /\.wordmark \{[^}]*gap: var\(--space-2\)/.test(siteCss));
 check("type: one size for section h2s and the empty-state h2", /\.section-heading h2 \{[^}]*font-size: var\(--font-size-title-lg\)/.test(siteCss) && /\.empty h2 \{[^}]*font-size: var\(--font-size-title-lg\)/.test(siteCss));
+
+// .btn--ghost is a plain text link (see the Home hero "Read the purpose as filed..." link). If
+// it inherits .btn's white-space: nowrap, a long label paints outside its box on narrow phones
+// and the whole page scrolls sideways. It must wrap like ordinary text instead.
+check("btn--ghost wraps like a plain text link instead of forcing nowrap", /\.btn--ghost \{[^}]*white-space:\s*normal/.test(siteCss));
 
 // Fund-card photo reveal must work on touch too (client, 2026-08-31): the hover path is
 // gated, so there has to be a tap path beside it, not instead of it.

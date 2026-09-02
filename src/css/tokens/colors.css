@@ -26,7 +26,8 @@
   --gold-400: #d9bd78;
   --gold-500: #c3a254;
   --gold-600: #a6862f;
-  --gold-700: #7a5f14;  /* script motto on the ivory entrance screen (5.4:1 on ivory-50) */
+  --gold-700: #665010;  /* script motto on the ivory entrance screen; the real background is the
+    intro glow composited on ivory-50 (~#e2cd9a), where this measures 4.94:1 (6.96:1 on flat ivory-50) */
 
   /* Rose — soft clay, lightened for dark ground. Errors and rare emphasis only. */
   --rose-200: #eed3cc;

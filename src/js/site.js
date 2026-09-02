@@ -36,6 +36,8 @@
   }
 
   // --- Donate ------------------------------------------------------------
+  // This markup only renders when site.onlineGiving is true (src/_data/site.json); until then
+  // there is no [data-donate] element in the page and this whole block is inert.
   var donate = document.querySelector("[data-donate]");
   if (donate) {
     var amount = 100;
