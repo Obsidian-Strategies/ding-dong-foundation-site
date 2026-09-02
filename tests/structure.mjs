@@ -18,9 +18,9 @@ for (const route of Object.keys(PAGES)) {
   const html = readFileSync(file, "utf8");
   const tag = (s) => `${route} ${s}`;
   check(tag("doctype + lang"), /^<!DOCTYPE html>\s*<html lang="en">/i.test(html.trim()));
-  check(tag("title ends with org name"), /<title>(.* · )?The Ding Dong Foundation<\/title>/.test(html));
-  check(tag("header/footer wordmark includes The"), count(html, /wordmark__ding">The Ding Dong</g) >= 2);
-  check(tag("intro overlay wordmark includes The"), /intro__word">The Ding Dong</.test(html));
+  check(tag("title ends with org name"), /<title>(.* · )?The DingDong Foundation<\/title>/.test(html));
+  check(tag("header/footer wordmark includes The"), count(html, /wordmark__ding">The DingDong</g) >= 2);
+  check(tag("intro overlay wordmark includes The"), /intro__word">The DingDong</.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
   check(tag("sticky header with 7 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7);
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));
@@ -28,9 +28,10 @@ for (const route of Object.keys(PAGES)) {
   check(tag("one aria-current nav item"), route === "/apply/" ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
   check(tag("footer nav has 8 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 8 && />Apply<\/a>/.test(html));
   check(tag("Ave Maria dedication in footer"), /<em>Ave Maria<\/em>/.test(html));
-  check(tag("501(c)(3) legal line"), /is a 501\(c\)\(3\) nonprofit organization incorporated in Florida\./.test(html));
+  check(tag("501(c)(3) legal line"), /The DingDong Foundation, Inc\. A Florida nonprofit corporation recognized by the IRS as a 501\(c\)\(3\) private foundation\./.test(html));
   check(tag("no founder name"), !/Judy|Peng/.test(html));
   check(tag("no February/Europe/Grounded/founder"), !/February|Europe|Grounded|founder/i.test(html));
+  check(tag("no 'Ding Dong' with a space, no 'public charity'"), !/Ding Dong|public charity/i.test(html));
   check(tag("no emoji"), !/[\u{1F300}-\u{1FAFF}]/u.test(html));
   check(tag("no 'Submit' / 'Learn more' buttons"), !/>(Submit|Learn more)</.test(html));
   check(tag("Phosphor icons stylesheet"), /@phosphor-icons\/web@2\.1\.1\/src\/regular\/style\.css/.test(html));

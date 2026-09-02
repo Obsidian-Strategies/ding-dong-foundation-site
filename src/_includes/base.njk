@@ -13,15 +13,15 @@
     if(!r&&(force||n-last>D)){document.documentElement.setAttribute('data-intro','active');if(!force)localStorage.setItem(K,String(n));}
   }catch(e){}})();
   </script>
-  <title>{% if title %}{{ title }} · {% endif %}The Ding Dong Foundation</title>
-  <meta name="description" content="{{ description or 'Grants for church bells, electronic carillons, pipe organs, rose windows and the sacred arts. A 501(c)(3) public charity, certified by the IRS on July 28, 2026.' }}">
+  <title>{% if title %}{{ title }} · {% endif %}The DingDong Foundation</title>
+  <meta name="description" content="{{ description or 'Grants for church bells, electronic carillons, pipe organs, rose windows and the sacred arts. A 501(c)(3) private foundation, certified by the IRS on July 28, 2026.' }}">
   <link rel="preload" href="{{ '/audio/bell.mp3' | url }}" as="fetch" crossorigin>
   <link rel="stylesheet" href="{{ '/css/styles.css' | url }}">
   <link rel="stylesheet" href="{{ '/css/site.css' | url }}">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 </head>
 <body>
-  <div class="intro" data-intro-overlay data-intro-audio="{{ '/audio/bell.mp3' | url }}" role="dialog" aria-label="Welcome to The Ding Dong Foundation">
+  <div class="intro" data-intro-overlay data-intro-audio="{{ '/audio/bell.mp3' | url }}" role="dialog" aria-label="Welcome to The DingDong Foundation">
     <div class="intro__glow"></div>
     <div class="intro__stage">
       <svg class="intro__bell" viewBox="0 0 120 130" width="150" height="163" aria-hidden="true" focusable="false">
@@ -40,7 +40,7 @@
           </g>
         </g>
       </svg>
-      <div class="intro__word">The Ding Dong</div>
+      <div class="intro__word">The DingDong</div>
       <div class="intro__sub">Foundation</div>
       <button class="btn intro__ring" type="button" data-intro-ring>Ring the bell</button>
     </div>
@@ -67,8 +67,8 @@
 
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="wordmark" href="{{ '/' | url }}" aria-label="The Ding Dong Foundation — home">
-        <em class="wordmark__ding">The Ding Dong</em>
+      <a class="wordmark" href="{{ '/' | url }}" aria-label="The DingDong Foundation — home">
+        <em class="wordmark__ding">The DingDong</em>
         <span class="wordmark__foundation">Foundation</span>
       </a>
       {#- Phone-only disclosure. Seven links at the 16pt floor cannot share a row with the
@@ -96,7 +96,7 @@
     <div class="site-footer__inner">
       <div class="stack stack--xs stack--start">
         <span class="wordmark">
-          <em class="wordmark__ding">The Ding Dong</em>
+          <em class="wordmark__ding">The DingDong</em>
           <span class="wordmark__foundation">Foundation</span>
         </span>
         <p class="site-footer__blurb">Grants for church bells, pipe organs, rose windows and the sacred arts.</p>
@@ -108,13 +108,13 @@
       </nav>
       <div class="site-footer__contact">
         <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>
-        <span>The Ding Dong Foundation, Inc.</span>
+        <span>The DingDong Foundation, Inc.</span>
         <span>1111 Ritz Carlton Drive, Suite 1008</span>
         <span>Sarasota, FL 34236, USA</span>
       </div>
     </div>
     <div class="site-footer__legal">
-      <span>The Ding Dong Foundation, Inc. is a 501(c)(3) nonprofit organization incorporated in Florida. Certified by the IRS on July 28, 2026.</span>
+      <span>The DingDong Foundation, Inc. A Florida nonprofit corporation recognized by the IRS as a 501(c)(3) private foundation.</span>
       <em>Ave Maria</em>
     </div>
   </footer>
