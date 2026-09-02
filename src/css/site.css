@@ -882,7 +882,9 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .site-footer__legal em { font-family: var(--font-display); font-style: italic; color: var(--gold-300); white-space: nowrap; }
 .site-footer a:focus-visible { outline-color: var(--focus-ring-color); }
 
-/* --- Intro (the bell rings twice) ---------------------------------------- */
+/* --- Intro (the bell rings twice) ----------------------------------------
+   Light ground (client, 2026-09-01: "a lighter background so the bell outline pops"); the
+   pages behind it stay navy. Order on screen: bell, name, motto pair, button. */
 /* Visibility is decided before first paint by the inline script in base.njk, which sets
    data-intro="active" on <html> at most once per 24h and never under reduced motion.
    States: active (glow, bell, wordmark and the "Ring the bell" button enter, then wait) →
@@ -894,7 +896,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   z-index: 200;
   display: none;
   place-items: center;
-  background: var(--surface-page);
+  background: var(--ivory-50);
   will-change: opacity, transform;
 }
 html[data-intro] { overflow: hidden; }
@@ -909,44 +911,48 @@ html[data-intro="leaving"] .intro {
   width: clamp(420px, 70vmin, 560px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--gold-200) 0%, var(--gold-400) 48%, transparent 88%);
+  background: radial-gradient(circle, var(--gold-300) 0%, var(--gold-400) 48%, transparent 88%);
   filter: blur(48px);
   opacity: 0;
 }
-.intro__stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+.intro__stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: 0 var(--space-5); text-align: center; }
 .intro__bell {
   width: clamp(96px, 18vmin, 150px);
   height: auto;
   overflow: visible;
-  color: var(--accent-warm);
+  color: var(--gold-600);
 }
 .intro__bell-swing { transform-origin: 60px 4px; transform-box: view-box; }
 .intro__bell-clapper { transform-origin: 60px 54px; transform-box: view-box; }
-.intro__word {
+.intro__name {
   font-family: var(--font-display);
-  font-style: italic;
+  font-size: clamp(var(--font-size-fine), 3.4vw, var(--font-size-title-sm));
   font-weight: var(--weight-semibold);
-  font-size: clamp(var(--font-size-title-lg), 8vw, var(--font-size-display-sm));
-  letter-spacing: var(--tracking-display);
-  line-height: 1;
-  color: var(--accent-warm-ink);
-}
-.intro__sub {
-  font-family: var(--font-text);
-  font-size: var(--font-size-fine);
-  font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
-  color: var(--accent-warm-ink);
-  margin-top: calc(var(--space-4) * -1 + 6px);
+  line-height: 1.2;
+  color: var(--navy-950);
   padding-left: var(--tracking-eyebrow);
 }
-.intro__ring { margin-top: var(--space-5); padding: 16px 36px; }
+.intro .motto { align-items: center; margin-top: var(--space-2); }
+/* On the light ground the glass pane would vanish, so the button is a solid navy pill. These
+   rules come after .btn--secondary/.intro__ring above and win at equal specificity. */
+.intro__ring { margin-top: var(--space-5); padding: 16px 36px; color: var(--ivory-50); }
+.intro__ring::before { content: none; }
+.intro__ring::after {
+  background: var(--navy-950);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: inset 0 0 0 1px var(--gold-500), var(--glass-shadow);
+}
+.intro__ring:hover { color: var(--ivory-50); }
+.intro__ring:hover::after { background: var(--navy-800); box-shadow: inset 0 0 0 1px var(--gold-400), var(--glass-shadow-hover); }
+.intro__ring:active::after { background: var(--navy-900); box-shadow: inset 0 0 0 1px var(--gold-500), var(--glass-shadow-active); }
 
 html[data-intro] .intro__glow { animation: introGlow 1600ms var(--ease-bell) both; }
 html[data-intro] .intro__bell { animation: introDrop 700ms var(--ease-bell) both; }
-html[data-intro] .intro__word { animation: introRise 850ms var(--ease-bell) 500ms both; }
-html[data-intro] .intro__sub { animation: introRise 850ms var(--ease-bell) 650ms both; }
+html[data-intro] .intro__name { animation: introRise 850ms var(--ease-bell) 500ms both; }
+html[data-intro] .intro .motto { animation: introRise 850ms var(--ease-bell) 650ms both; }
 html[data-intro] .intro__ring { animation: introRise 850ms var(--ease-bell) 900ms both; }
 html[data-intro="ringing"] .intro__bell-swing { animation: introSwing 2400ms linear both; }
 html[data-intro="ringing"] .intro__bell-clapper { animation: introClapper 2400ms linear both; }
@@ -956,7 +962,7 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 
 @keyframes introGlow {
   from { opacity: 0; transform: scale(0.7); }
-  to { opacity: 1; transform: scale(1); }
+  to { opacity: 0.7; transform: scale(1); }
 }
 @keyframes introDrop {
   from { opacity: 0; transform: translateY(-28px); }

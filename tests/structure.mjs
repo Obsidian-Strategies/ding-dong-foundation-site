@@ -20,7 +20,7 @@ for (const route of Object.keys(PAGES)) {
   check(tag("doctype + lang"), /^<!DOCTYPE html>\s*<html lang="en">/i.test(html.trim()));
   check(tag("title ends with org name"), /<title>(.* · )?The DingDong Foundation<\/title>/.test(html));
   check(tag("header/footer wordmark includes The"), count(html, /wordmark__ding">The DingDong</g) >= 2);
-  check(tag("intro overlay wordmark includes The"), /intro__word">The DingDong</.test(html));
+  check(tag("intro overlay: name, then motto pair, then the button"), /intro__name">The DingDong Foundation<\/div>\s*<div class="motto motto--light">\s*<span class="motto__en">Make a Joyful Noise to the Lord<\/span>\s*<span class="motto__la">Jubilate Deo<\/span>\s*<\/div>\s*<button class="btn intro__ring"/.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
   check(tag("sticky header with 7 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7);
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));
@@ -126,6 +126,9 @@ check("phone header: Escape and outside taps close the menu", /Escape[\s\S]{0,20
 // The bell crop must stay centred on the bell; 50%+ pushes the window right and clips its lip.
 const bellPos = siteCss.match(/\.figure--bell \.figure__frame img \{[^}]*object-position:\s*([0-9.]+)%/);
 check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellPos && parseFloat(bellPos[1]) <= 50);
+
+check("intro: light ground, gold bell, navy name", /\.intro \{[^}]*background: var\(--ivory-50\)/.test(siteCss) && /\.intro__bell \{[^}]*color: var\(--gold-600\)/.test(siteCss) && /\.intro__name \{[^}]*color: var\(--navy-950\)/.test(siteCss));
+check("intro: button is a solid navy pane on the light ground", /\.intro__ring::after \{[^}]*background: var\(--navy-950\)/.test(siteCss));
 
 // Fund-card photo reveal must work on touch too (client, 2026-08-31): the hover path is
 // gated, so there has to be a tap path beside it, not instead of it.
