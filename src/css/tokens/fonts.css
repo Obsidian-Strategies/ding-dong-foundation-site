@@ -1,13 +1,8 @@
-/* Type — Times New Roman everywhere (display and text), served by the OS, per the client's
-   direction (2026-08-27 call). One exception, per the client's email of 2026-09-01: the motto
-   pair ("Make a Joyful Noise to the Lord" / "Jubilate Deo") is set in a script face. Great
-   Vibes, SIL Open Font License (see fonts/OFL-GreatVibes.txt), self-hosted so there is no
-   third-party request. It is used only through --font-script and only by .motto.
-   Hard client requirement, revised upward: nothing below 16pt. CSS defines 1pt = 1/72in and
-   1px = 1/96in, so 16pt = 21.333px exactly — that is --font-size-fine, the floor of the scale,
-   and there is no smaller token.
-   The audience is older readers; the whole scale is set for them, not scaled down for density.
-   Size tokens are --font-size-*; --text-* names belong to colors.css (semantic ink colors). */
+/* Times New Roman is the type family everywhere else; that scale lives in typography.css.
+   One exception, per the client's email of 2026-09-01: the motto pair ("Make a Joyful Noise
+   to the Lord" / "Jubilate Deo") is set in a script face — Great Vibes, SIL Open Font License
+   (see fonts/OFL-GreatVibes.txt), self-hosted so there is no third-party request. Used only
+   through --font-script and only by .motto. */
 @font-face {
   font-family: "Great Vibes";
   font-style: normal;
@@ -16,8 +11,5 @@
   src: url("../../fonts/great-vibes-latin.woff2") format("woff2");
 }
 :root {
-  --font-display: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
-  --font-text: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
   --font-script: "Great Vibes", "Snell Roundhand", "Apple Chancery", "Brush Script MT", cursive;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
