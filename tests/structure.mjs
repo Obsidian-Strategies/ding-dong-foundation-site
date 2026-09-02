@@ -75,6 +75,7 @@ check("inspirations: dedication line verbatim", /Every project our foundation to
 check("inspirations: four resource links, names only", count(read("/inspirations/"), /<li><a href="https:\/\/[^"]+" rel="noopener">[^<]+<\/a><\/li>/g) === 4);
 check("inspirations: no 'bells are the story', no 'what we are for'", !/The bells are the story|What we are for/i.test(read("/inspirations/")));
 check("/story/ redirects to /inspirations/", (() => { const f = new URL("../_site/story/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/inspirations\/">/.test(readFileSync(f, "utf8")); })());
+check("prayer for the world: template exists but is not published until Judy sends the text", existsSync(new URL("../src/prayer-for-the-world.njk", import.meta.url)) && !existsSync(new URL("../_site/prayer-for-the-world/index.html", import.meta.url)) && !/Prayer for the World/.test(read("/")));
 check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
 check("home: bell photo present", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("home: hero photo has figure--bell crop class", /class="figure figure--bell"/.test(read("/")));

@@ -1,0 +1,34 @@
+---
+layout: base.njk
+title: A Prayer for the World
+description: The foundation's work is rooted in Christian worship. This page holds an invocation as a wider prayer for light and goodwill among all people.
+# Held back (client, 2026-09-01): Judy will supply the official text of the Great Invocation
+# and the credit line it requires. Until both arrive, permalink stays false so nothing is
+# built, and the page stays out of the nav. To publish: set permalink to /prayer-for-the-world/,
+# paste the text into `invocation` (one line per verse line), set `credit`, add
+# { url: "/prayer-for-the-world/", label: "Prayer for the World" } to navItems and footerItems
+# in _includes/base.njk, and update the nav-count tests.
+permalink: false
+invocation: ""
+credit: ""
+---
+<section class="section section--hero">
+  <div class="content stack">
+    <span class="eyebrow">Prayer for the World</span>
+    <h1 class="display">A prayer for the <em>world</em>.</h1>
+    <p class="lede">The foundation's work is rooted in Christian worship — bells, organs, glass, and prayer.</p>
+    <p class="lede">We also keep this invocation here as a wider prayer for light and goodwill among all people.</p>
+  </div>
+</section>
+
+<section class="section section--page">
+  <div class="content stack">
+    <header class="section-heading">
+      <h2>The Great Invocation</h2>
+    </header>
+    {%- if invocation %}
+    <p class="prayer__lines prayer__lines--pre">{{ invocation }}</p>
+    <p class="fine faint m0">Used by permission, with credit as required.{% if credit %} {{ credit }}{% endif %}</p>
+    {%- endif %}
+  </div>
+</section>
