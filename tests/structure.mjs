@@ -89,9 +89,14 @@ check("apply: carillon project type", /<option value="carillon">Electronic caril
 check("home: carillon mention on bells card", /Repair, rehanging, new rings — and electronic carillons for churches with no bells at all\./.test(read("/")));
 check("apply: story/media opt-out checkbox", /id="optout"[^>]*type="checkbox"/.test(read("/apply/")));
 check("apply: org name required", /id="org"[^>]*required/.test(read("/apply/")));
-check("donate: anonymity checkbox", /id="anon"[^>]*type="checkbox"/.test(read("/donate/")));
-check("donate: five amount buttons", count(read("/donate/"), /<button class="amount"/g) === 5);
-check("donate: step two asks for name, email, phone and frequency, then hands off to Stripe", (() => { const h = read("/donate/"); return /data-donate-details hidden/.test(h) && /<form class="stack"[^>]*data-donate-form novalidate>/.test(h) && ["dname","demail","dphone"].every((id) => new RegExp('id="' + id + '"[^>]*required').test(h)) && !/autocomplete="cc-/.test(h) && /data-stripe-mock/.test(h) && />Continue to Stripe</.test(h) && count(h, /<button class="amount amount--freq" type="button" data-freq="(once|monthly)"/g) === 2 && /data-donate-back>Change the amount</.test(h); })());
+// Online giving is behind site.onlineGiving (src/_data/site.json). While it is false the page is
+// check donations only (client, 2026-09-01). When it flips to true, restore the v2 assertions
+// from git history (amount buttons, details form, Stripe hand-off, anonymity checkbox).
+const siteData = JSON.parse(readFileSync(new URL("../src/_data/site.json", import.meta.url), "utf8"));
+check("donate: online giving is switched off", siteData.onlineGiving === false);
+check("donate: no amount buttons, no Stripe hand-off, no anonymity checkbox while giving is off", (() => { const h = read("/donate/"); return !/<button class="amount"/.test(h) && !/data-stripe-mock/.test(h) && !/id="anon"/.test(h) && !/data-donate/.test(h); })());
+check("donate: Judy's check-only copy verbatim", (() => { const h = read("/donate/"); return /Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass\./.test(h) && /To give by check, please make it payable to The DingDong Foundation, Inc\. and mail it to the address in the footer\. A receipt will be sent\./.test(h) && /Matching gifts, stock, and bequests can be arranged by <a href="mailto:hello@thedingdongfoundation\.org">email<\/a>\./.test(h); })());
+check("donate: removed phrases are gone", !/Once, or every month|no staff to get past|write back either way/.test(read("/donate/")));
 check("grants: empty state", /The first grant is still ahead of us/.test(read("/grants/")));
 check("grants: new hero, no placeholders, no closing CTA", (() => { const h = read("/grants/"); return /<h1 class="display">Projects we have <em>funded<\/em>\.<\/h1>/.test(h) && /This page will show projects funded in whole or in part by The DingDong Foundation\./.test(h) && !/Where the grants have gone|figure__placeholder|Working on a bell/.test(h) && /What will live here/.test(h); })());
 check("questions: eight questions plus ask-your-own, each a real button with its region", count(read("/questions/"), /<button class="faq__bar" type="button" id="faq-[a-z]+" aria-expanded="false" aria-controls="faq-[a-z]+-body" data-faq-bar>/g) === 9 && count(read("/questions/"), /<div class="faq__body" id="faq-[a-z]+-body" role="region"/g) === 9);

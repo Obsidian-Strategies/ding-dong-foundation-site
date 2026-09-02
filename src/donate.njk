@@ -2,20 +2,21 @@
 layout: base.njk
 title: Give
 permalink: /donate/
-description: Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Once, or every month, as you like.
+description: Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass. Gifts by check are welcome.
 ---
 <section class="section section--hero">
   <div class="content stack">
     <span class="eyebrow">Give</span>
     <h1 class="display">Give, <em>quietly</em> if you like.</h1>
-    <p class="lede">Gifts pay for the repair — a headstock, a rank of pipes, a panel of glass. Once, or every month, as you like.</p>
+    <p class="lede">Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass.</p>
   </div>
 </section>
 
+{% if site.onlineGiving %}
 <section class="section section--page">
   <div class="content">
     <div class="card card--lg card--accent" data-donate>
-      <div class="stack" style="gap: var(--space-6);">
+      <div class="stack stack--lg">
         <h2 class="title">Choose an amount</h2>
         <div class="amounts" role="group" aria-label="Amount">
           <button class="amount" type="button" data-amount="50" aria-pressed="false">$50</button>
@@ -43,7 +44,7 @@ description: Gifts pay for the repair — a headstock, a rank of pipes, a panel 
     </div>
 
     <div class="card card--lg card--accent" data-donate-details hidden>
-      <form class="stack" style="gap: var(--space-6);" data-donate-form novalidate>
+      <form class="stack stack--lg" data-donate-form novalidate>
         <div class="stack stack--xs stack--start">
           <h2 class="title">Your gift</h2>
           <p class="muted m0"><strong data-summary>$100, once</strong> <button class="btn btn--ghost" type="button" data-donate-back>Change the amount</button></p>
@@ -116,22 +117,23 @@ description: Gifts pay for the repair — a headstock, a rank of pipes, a panel 
     </div>
   </div>
 </section>
+{% endif %}
 
-<section class="section section--band">
+<section class="section section--page">
   <div class="wrap grid grid--2">
-    <div class="card card--lg card--interactive">
-      <h3 class="card__title card__title--top">Prefer to mail a check?</h3>
-      <p class="muted m0">Make it out to The DingDong Foundation, Inc. and send it to the address in the footer. We will write back either way.</p>
+    <div class="card card--lg card--accent card--interactive">
+      <h3 class="card__title card__title--top">By check</h3>
+      <p class="muted m0">To give by check, please make it payable to The DingDong Foundation, Inc. and mail it to the address in the footer. A receipt will be sent.</p>
     </div>
     <div class="card card--lg card--interactive">
-      <h3 class="card__title card__title--top">Matching gifts and bequests</h3>
-      <p class="muted m0">Handled one at a time, by email. There is no portal to log into and no staff to get past.</p>
+      <h3 class="card__title card__title--top">Matching gifts, stock, and bequests</h3>
+      <p class="muted m0">Matching gifts, stock, and bequests can be arranged by <a href="mailto:hello@thedingdongfoundation.org">email</a>.</p>
     </div>
   </div>
 </section>
 
 <section class="section section--tight section--sunk">
   <div class="content">
-    <p class="muted m0">Gifts are tax-deductible to the extent allowed by law. A receipt follows by email.</p>
+    <p class="muted m0">Gifts are tax-deductible to the extent allowed by law.</p>
   </div>
 </section>
