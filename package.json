@@ -1,7 +1,7 @@
 {
   "name": "site",
   "version": "1.0.0",
-  "description": "Public source for [TheDingDongFoundation.org](https://thedingdongfoundation.org). Deployed automatically to GitHub Pages on every push to `main`.",
+  "description": "Public source for [TheDingDongFoundation.org](https://thedingdongfoundation.org). Deployed by Railway on every push to `main`.",
   "main": "index.js",
   "directories": {
     "test": "tests"

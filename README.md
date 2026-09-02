@@ -2,8 +2,8 @@
 
 Public source for [TheDingDongFoundation.org](https://thedingdongfoundation.org). Eight static pages built with [Eleventy](https://www.11ty.dev/) from the Claude Design handoff (design system + 7-page prototype).
 
-- GitHub Pages: https://obsidian-strategies.github.io/ding-dong-foundation-site/ (deploys on push to `main`)
-- Railway: https://web-production-af1a6.up.railway.app (builds the Dockerfile on push to `main`)
+- Client preview and live (today): Railway, deploys on every push to `main`. A separate preview link is planned, see CLAUDE.md.
+- https://web-production-af1a6.up.railway.app (builds the Dockerfile)
 
 Planning docs and client materials live in the private [ding-dong-foundation](https://github.com/Obsidian-Strategies/ding-dong-foundation) repo. Managed by Obsidian Strategies.
 
