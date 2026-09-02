@@ -59,11 +59,11 @@ main > section.section:last-of-type::after {
 .grid { display: grid; gap: var(--space-6); align-items: start; }
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
-.grid--hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-9); align-items: center; }
 .grid--story { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-8); }
 .grid--quote { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--space-8); align-items: center; }
 .grid--steps { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--space-8); }
 .grid--form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+.grid--prayer { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-9); align-items: start; }
 
 .mt-7 { margin-top: var(--space-7); }
 .m0 { margin: 0; }
@@ -389,6 +389,31 @@ main > section.section:last-of-type::after {
   text-underline-offset: 5px;
 }
 .resources a:hover { color: var(--text-link-hover); }
+
+/* Prayer (Home): the Lord's Prayer and Psalm 100 beside the bell photo. Plenty of space, no
+   decoration (client, 2026-09-01). Verse numbers are gold at the fine size, never smaller. */
+.prayer__text { display: flex; flex-direction: column; gap: var(--space-4); }
+.prayer__lines {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-body-lg);
+  line-height: var(--leading-loose);
+  color: var(--text-body);
+}
+.prayer__verses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--font-size-body-lg);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+}
+.prayer__num { color: var(--text-accent); font-size: var(--font-size-fine); margin-right: var(--space-3); }
+.prayer .figure { position: sticky; top: var(--space-8); }
 
 /* --- Section heading ----------------------------------------------------- */
 .section-heading {
@@ -1023,7 +1048,8 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 
 /* --- Responsive ---------------------------------------------------------- */
 @media (max-width: 900px) {
-  .grid--2, .grid--3, .grid--hero, .grid--story, .grid--quote, .grid--steps, .grid--form { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .grid--2, .grid--3, .grid--story, .grid--quote, .grid--steps, .grid--form, .grid--prayer { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .prayer .figure { position: static; }
   .photo-grid { grid-template-columns: minmax(0, 1fr); }
   .site-footer__inner { grid-template-columns: minmax(0, 1fr); grid-template-areas: "brand" "nav" "contact"; gap: var(--space-5); padding-inline: var(--space-6); }
   .site-footer__inner > .stack { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
