@@ -378,6 +378,18 @@ main > section.section:last-of-type::after {
 .checklist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-4); }
 .checklist li { display: flex; gap: var(--space-3); align-items: flex-start; color: var(--text-body); }
 
+/* Resources (Inspirations): a plain list of names, nothing that reads as advertising. */
+.resources { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-3); }
+.resources a {
+  font-family: var(--font-display);
+  font-size: var(--font-size-body-lg);
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-400);
+  text-underline-offset: 5px;
+}
+.resources a:hover { color: var(--text-link-hover); }
+
 /* --- Section heading ----------------------------------------------------- */
 .section-heading {
   display: flex;

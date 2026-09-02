@@ -4,7 +4,7 @@ import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 
 const PAGES = {
   "/": { title: "The DingDong Foundation Website" },
-  "/story/": {}, "/mission/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/questions/": {}, "/donate/": {},
+  "/inspirations/": {}, "/mission/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/questions/": {}, "/donate/": {},
 };
 const MISSION = `The specific purpose of The DingDong Foundation, Inc. is to provide grants to support the building and restoration of church bell towers, pipe organs, rose windows, stained glass windows, and related sacred elements, as well as to provide grants to spiritual organizations that utilize sound, color, and frequency for healing practices. The corporation may also support related activities in sacred arts and architecture, including the training of artisans and apprentices as well as the study and dissemination of authentic scriptural and spiritual teachings.`;
 
@@ -53,17 +53,20 @@ check("motto component uses the script face", /\.motto \{[^}]*font-family: var\(
 check("home: call to prayer — Angelus", /rung the Angelus/i.test(read("/")));
 check("home: call to prayer — peal/toll pairing", /pealed for weddings and tolled in remembrance/i.test(read("/")));
 check("home: call to prayer — heard again", /so that call is heard again/i.test(read("/")));
-check("story: call to prayer — Angelus", /the Angelus tolled/i.test(read("/story/")));
-check("story: call to prayer — serious undertaking", /a serious undertaking, not a pastime/i.test(read("/story/")));
-check("story: call to prayer — healing frequency", /frequencies people have long found healing/i.test(read("/story/")));
-check("story: peal/toll phrasing", /peals for weddings and a slow toll in remembrance/i.test(read("/story/")));
 check("home: certification date", /certified by the IRS on July 28, 2026/i.test(read("/")));
-check("story: certification date", /certified by the IRS on July 28, 2026/i.test(read("/story/")));
+check("inspirations: call to prayer — Angelus", /the Angelus is tolled at morning, noon, and evening/i.test(read("/inspirations/")));
+check("inspirations: serious undertaking", /a serious undertaking, not a pastime/i.test(read("/inspirations/")));
+check("inspirations: healing frequency mention", /frequencies long associated with healing/i.test(read("/inspirations/")));
+check("inspirations: certification date", /certified by the IRS on July 28, 2026/i.test(read("/inspirations/")));
+check("inspirations: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/inspirations/")) && !/figure__placeholder/.test(read("/inspirations/")));
+check("inspirations: dedication line verbatim", /Every project our foundation touches carries the same song with it: <em class="dedication">Ave Maria<\/em>\./.test(read("/inspirations/")));
+check("inspirations: four resource links, names only", count(read("/inspirations/"), /<li><a href="https:\/\/[^"]+" rel="noopener">[^<]+<\/a><\/li>/g) === 4);
+check("inspirations: no 'bells are the story', no 'what we are for'", !/The bells are the story|What we are for/i.test(read("/inspirations/")));
+check("/story/ redirects to /inspirations/", (() => { const f = new URL("../_site/story/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/inspirations\/">/.test(readFileSync(f, "utf8")); })());
 check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
 check("home: hero photo", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("home: hero photo has figure--bell crop class", /class="figure figure--bell"/.test(read("/")));
 check("home: figure--bell object-position crop is in the stylesheet", /\.figure--bell \.figure__frame img \{[^}]*object-position:/.test(siteCss));
-check("story: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/story/")) && !/figure__placeholder/.test(read("/story/")));
 check("home: three fund cards with reveal photos", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 3 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")));
 check("guidelines: three steps", count(read("/guidelines/"), /<span class="steps__num"/g) === 3);
 check("guidelines: electronic carillon section", (() => { const h = read("/guidelines/"); return /No bells\? No problem\./.test(h) && /A church without a tower can still ring/.test(h) && /nothing to cast, nothing to build/.test(h) && /Call to Worship/.test(h) && /the Angelus/.test(h) && /Westminster chimes/.test(h) && /a grant can cover one/.test(h); })());
