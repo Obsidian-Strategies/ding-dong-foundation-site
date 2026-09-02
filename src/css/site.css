@@ -413,7 +413,8 @@ main > section.section:last-of-type::after {
   color: var(--text-body);
 }
 .prayer__num { color: var(--text-accent); font-size: var(--font-size-fine); margin-right: var(--space-3); }
-.prayer .figure { position: sticky; top: var(--space-8); }
+/* the bell photo stays put under the sticky header while the prayer column scrolls, same as .faq__detail */
+.prayer .figure { position: sticky; top: calc(var(--space-9) + 24px); }
 
 /* --- Section heading ----------------------------------------------------- */
 .section-heading {

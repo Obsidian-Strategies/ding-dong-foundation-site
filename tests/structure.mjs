@@ -65,7 +65,7 @@ check("home: call to prayer sits above What we fund", read("/").indexOf("Why we 
 check("home: Lord's Prayer verbatim", /Our Father, who art in heaven,<br>\s*hallowed be thy name\.<br>[\s\S]*for ever and ever\. Amen\./.test(read("/")));
 check("home: Psalm 100 verbatim, five verses", count(read("/"), /<li><span class="prayer__num" aria-hidden="true">\d<\/span>/g) === 5 && /his truth endureth to all generations\./.test(read("/")));
 check("home: prayer intro line and photo caption", /The work of this foundation is carried with prayer\./.test(read("/")) && /figure__caption">Church of the Holy Sepulchre, bell tower, Jerusalem</.test(read("/")));
-check("home: prayer section holds the bell photo", /<section class="section section--band prayer">[\s\S]*uploads\/IMG_8851\.JPG[\s\S]*<\/section>/.test(read("/")));
+check("home: prayer section holds the bell photo", /<section class="section section--band prayer">(?:(?!<\/section>)[\s\S])*uploads\/IMG_8851\.JPG/.test(read("/")));
 check("inspirations: call to prayer — Angelus", /the Angelus is tolled at morning, noon, and evening/i.test(read("/inspirations/")));
 check("inspirations: serious undertaking", /a serious undertaking, not a pastime/i.test(read("/inspirations/")));
 check("inspirations: healing frequency mention", /frequencies long associated with healing/i.test(read("/inspirations/")));
@@ -76,7 +76,7 @@ check("inspirations: four resource links, names only", count(read("/inspirations
 check("inspirations: no 'bells are the story', no 'what we are for'", !/The bells are the story|What we are for/i.test(read("/inspirations/")));
 check("/story/ redirects to /inspirations/", (() => { const f = new URL("../_site/story/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/inspirations\/">/.test(readFileSync(f, "utf8")); })());
 check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
-check("home: hero photo", /uploads\/IMG_8851\.JPG/.test(read("/")));
+check("home: bell photo present", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("home: hero photo has figure--bell crop class", /class="figure figure--bell"/.test(read("/")));
 check("home: figure--bell object-position crop is in the stylesheet", /\.figure--bell \.figure__frame img \{[^}]*object-position:/.test(siteCss));
 check("home: three fund cards with reveal photos", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 3 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")));
