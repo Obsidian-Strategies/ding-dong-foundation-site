@@ -131,6 +131,27 @@ main > section.section:last-of-type::after {
   color: var(--text-accent);
 }
 
+/* Motto pair (client, 2026-09-01): "Make a Joyful Noise to the Lord" over "Jubilate Deo", both in
+   the script face, English larger, Latin quieter. Used as the Home h1 and on the entrance
+   overlay. Sizes cap at display-sm so the English line fits the 760px content column on one
+   line at 1440 and wraps to two balanced lines on phones. */
+.motto {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: var(--text-accent);
+  text-wrap: balance;
+}
+.motto__en { font-size: clamp(var(--font-size-title-lg), 6vw, var(--font-size-display-sm)); }
+.motto__la { font-size: clamp(var(--font-size-title-sm), 4vw, var(--font-size-title-lg)); }
+.motto--light { color: var(--gold-700); }
+
 /* --- Buttons (glass) --------------------------------------------------------
    iOS material. Glass is read at its edge: the same soft colour continues outside the pane and
    is frosted inside it. The page is navy, so each button brings a faint bloom of its own

@@ -49,6 +49,12 @@ PAIRS.push(
   ["gold-400", "navy-950", "footer Ding Dong"],
   ["gold-200", "navy-950", "footer link hover"],
 );
+PAIRS.push(
+  ["navy-950", "ivory-50", "entrance name"],
+  ["gold-700", "ivory-50", "entrance motto (script)"],
+  ["gold-300", "navy-wash-peak", "motto on the hero wash"],
+  ["ivory-50", "navy-wash-peak", "lede on the hero wash"],
+);
 
 for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
   for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {

@@ -12,6 +12,7 @@
   --navy-700: #1d2f4e;  /* cards */
   --navy-600: #2a3f63;  /* hairline borders, tag fills */
   --navy-500: #3d5378;  /* strong borders */
+  --navy-wash-peak: #24365c;  /* top of the hero wash; text sits on it, so it is a token */
 
   /* Ivory — warm near-white text on navy */
   --ivory-50: #f7f3e8;
@@ -25,6 +26,7 @@
   --gold-400: #d9bd78;
   --gold-500: #c3a254;
   --gold-600: #a6862f;
+  --gold-700: #7a5f14;  /* script motto on the ivory entrance screen (5.4:1 on ivory-50) */
 
   /* Rose — soft clay, lightened for dark ground. Errors and rare emphasis only. */
   --rose-200: #eed3cc;
@@ -63,5 +65,5 @@
   --status-ok: var(--sage-300);
 
   /* The only gradient in the system: light falling from above. Hero frames only. */
-  --wash-light: radial-gradient(120% 95% at 50% -15%, #24365c 0%, var(--navy-800) 40%, var(--navy-900) 75%);
+  --wash-light: radial-gradient(120% 95% at 50% -15%, var(--navy-wash-peak) 0%, var(--navy-800) 40%, var(--navy-900) 75%);
 }

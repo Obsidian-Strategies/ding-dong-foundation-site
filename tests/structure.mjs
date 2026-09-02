@@ -40,11 +40,16 @@ for (const route of Object.keys(PAGES)) {
   check(tag("intro overlay is a labelled dialog before the header"), /<body>\s*<div class="intro" data-intro-overlay[^>]* role="dialog" aria-label="[^"]+">[\s\S]*intro__bell-clapper[\s\S]*<\/div>\s*<header/.test(html));
   check(tag("intro has a real 'Ring the bell' button"), /<button class="btn intro__ring" type="button" data-intro-ring>Ring the bell<\/button>/.test(html));
   check(tag("intro bell audio preloaded and wired"), /<link rel="preload" href="[^"]*\/audio\/bell\.mp3" as="fetch" crossorigin>/.test(html) && /data-intro-audio="[^"]*\/audio\/bell\.mp3"/.test(html));
+  check(tag("script face preloaded"), /<link rel="preload" href="[^"]*\/fonts\/great-vibes-latin\.woff2" as="font" type="font\/woff2" crossorigin>/.test(html));
 }
 check("intro bell audio copied to _site", existsSync(new URL("../_site/audio/bell.mp3", import.meta.url)));
 
 const read = (r) => readFileSync(new URL(`../_site${r}index.html`, import.meta.url), "utf8");
 const siteCss = readFileSync(new URL("../src/css/site.css", import.meta.url), "utf8");
+check("script face copied to _site", existsSync(new URL("../_site/fonts/great-vibes-latin.woff2", import.meta.url)) && statSync(new URL("../_site/fonts/great-vibes-latin.woff2", import.meta.url)).size > 20000);
+const fontsCss = readFileSync(new URL("../src/css/tokens/fonts.css", import.meta.url), "utf8");
+check("fonts.css declares Great Vibes and --font-script", /@font-face\s*\{[^}]*font-family:\s*"Great Vibes"[^}]*great-vibes-latin\.woff2/.test(fontsCss) && /--font-script:\s*"Great Vibes"/.test(fontsCss));
+check("motto component uses the script face", /\.motto \{[^}]*font-family: var\(--font-script\)/.test(siteCss));
 check("home: call to prayer — Angelus", /rung the Angelus/i.test(read("/")));
 check("home: call to prayer — peal/toll pairing", /pealed for weddings and tolled in remembrance/i.test(read("/")));
 check("home: call to prayer — heard again", /so that call is heard again/i.test(read("/")));
