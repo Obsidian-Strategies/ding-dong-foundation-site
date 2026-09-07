@@ -19,17 +19,18 @@ for (const route of Object.keys(PAGES)) {
   const tag = (s) => `${route} ${s}`;
   check(tag("doctype + lang"), /^<!DOCTYPE html>\s*<html lang="en">/i.test(html.trim()));
   check(tag("title ends with org name"), /<title>(.* · )?The DingDong Foundation<\/title>/.test(html));
-  check(tag("header/footer wordmark includes The"), count(html, /wordmark__ding">The DingDong</g) >= 2);
+  check(tag("header wordmark includes The"), count(html, /wordmark__ding">The DingDong</g) === 1);
   check(tag("intro overlay: name, then motto pair, then the button"), /intro__name">The DingDong Foundation<\/div>\s*<div class="motto motto--light">\s*<span class="motto__en">Make a Joyful Noise to the Lord<\/span>\s*<span class="motto__la">Jubilate Deo<\/span>\s*<\/div>\s*<button class="btn intro__ring"/.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
   check(tag("sticky header with 6 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 6);
   check(tag("header nav: Inspirations in, Mission out"), (() => { const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]; return />Inspirations</.test(nav) && !/>Mission</.test(nav) && !/>Our story</.test(nav); })());
-  check(tag("footer nav: Inspirations in, Mission and Our story out"), (() => { const nav = html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0]; return />Inspirations</.test(nav) && !/>Mission</.test(nav) && !/>Our story</.test(nav); })());
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));
   check(tag("no Apply link inside main"), route === "/apply/" || !/\/apply\//.test(html.match(/<main[\s\S]*?<\/main>/)[0]));
-  check(tag("header Apply button"), /class="btn btn--sm btn--warm"[^>]*>Apply for a grant</.test(html));
+  check(tag("header Apply button is the only Apply button"), /class="btn btn--sm btn--warm"[^>]*>Apply for a grant</.test(html) && count(html, /Apply for a grant</g) === (route === "/apply/" ? 2 : 1));
   check(tag("one aria-current nav item"), route === "/apply/" ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
-  check(tag("footer nav has 7 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7 && />Apply<\/a>/.test(html));
+  // The footer repeats nothing from the header (client text, 2026-09-06): no second wordmark,
+  // no second set of page links, no Apply link.
+  check(tag("footer: no nav, no wordmark, no Apply link"), (() => { const f = html.match(/<footer[\s\S]*<\/footer>/)[0]; return !/<nav/.test(f) && !/wordmark/.test(f) && !/\/apply\//.test(f); })());
   check(tag("Ave Maria dedication in footer"), /<em>Ave Maria<\/em>/.test(html));
   // Footer contents and order are the client's list (2026-09-01): legal name, EIN, mailing
   // address, email, then the legal sentence. EIN is from the discovery questionnaire. No blurb.
@@ -144,6 +145,11 @@ check(`every var(--x) in src/css/** resolves to a defined token` + (unresolved.l
 // Collapsing mobile header (client, 2026-08-31). The behaviour is CSS + JS with no markup of
 // its own, so assert both halves stay wired together.
 const siteJs = readFileSync(new URL("../src/js/site.js", import.meta.url), "utf8");
+// Questions list (client, 2026-09-07): the open question must not shift sideways (the list clips
+// horizontally, so a shifted bar loses its left edge). Hover previews an answer; a click pins
+// it, and hover must not move the panel while a question is pinned.
+check("questions: open bar does not translate sideways", !/\.faq__bar\[aria-expanded="true"\] \{[^}]*translateX/.test(siteCss));
+check("questions: hover previews, click pins", (() => { const s = siteJs.match(/--- Questions[\s\S]*?--- Fund cards/)[0]; return /mouseenter[^\n]*faqOpen\(i, true\)/.test(s) && /if \(soft && \(faqPinned !== -1/.test(s) && /faqPinned = faqPinned === i \? -1 : i/.test(s); })());
 check("phone header: script hides the bar on scroll", /data-hidden/.test(siteJs));
 // The guard that matters: hiding must be a transform. Animating the header's HEIGHT changes
 // the document height mid-scroll, and iOS then coasts past the end of the page, leaving dead

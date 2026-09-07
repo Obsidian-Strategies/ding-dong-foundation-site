@@ -19,7 +19,7 @@ src/
   guidelines.njk             Guidelines      /guidelines/
   apply.njk                  Apply           /apply/
   grants.njk                 Grants          /grants/
-  questions.njk              Questions       /questions/   (answers live in front matter; hover master-detail after Opal)
+  questions.njk              Questions       /questions/   (answers live in front matter; hover previews an answer, click pins it)
   donate.njk                 Give            /donate/
   prayer-for-the-world.njk   held, permalink false
   _data/site.json            onlineGiving flag

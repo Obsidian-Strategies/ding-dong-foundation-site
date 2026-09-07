@@ -678,9 +678,9 @@ select.field__control { appearance: none; background-image: none; padding-right:
   .fund .card, .fund .card__photo, .fund .card .icon { transition: opacity 300ms ease, color 300ms ease !important; transform: none !important; }
 }
 
-/* --- Questions (hover master-detail, after Opal) -------------------------
-   Question bars down the left, the answer in a card on the right. Hover, focus or tap a bar
-   to show its answer; the active bar takes a gold tint and slides a touch. Without JS every
+/* --- Questions (hover to preview, click to pin) ---------------------------
+   Question bars down the left, the answer in a card on the right. Hover a bar to preview its answer, click to pin it;
+   the active bar takes a gold tint and shows its arrow. Without JS every
    answer is simply visible beneath its question. Under 900px it is a stacked list where the
    open answer sits beneath its question (site.js toggles aria-expanded). */
 .faq {
@@ -714,7 +714,8 @@ select.field__control { appearance: none; background-image: none; padding-right:
   transform: translateX(-6px);
   transition: opacity 350ms var(--ease-hover), transform 350ms var(--ease-hover);
 }
-.faq__bar[aria-expanded="true"] { transform: translateX(-6px); }
+/* The open question is marked by its gold pane and arrow only. It used to slide 6px left, which
+   the list's horizontal clip then cut off (client, 2026-09-07). */
 .faq__bar[aria-expanded="true"]::before { background: var(--glass-bloom); }
 .faq__bar[aria-expanded="true"]::after { background: rgba(217, 189, 120, 0.3); }
 .faq__bar[aria-expanded="true"] .faq__arrow { opacity: 1; transform: translateX(0); }
@@ -744,7 +745,6 @@ select.field__control { appearance: none; background-image: none; padding-right:
 @media (max-width: 900px) {
   .faq { grid-template-columns: minmax(0, 1fr); }
   .faq__detail { display: none; }
-  .faq__bar[aria-expanded="true"] { transform: none; }
   .faq[data-faq="enhanced"] .faq__bar[aria-expanded="true"] + .faq__body,
   .faq[data-faq="enhanced"] .faq__q:has(.faq__bar[aria-expanded="true"]) + .faq__body { display: block; animation: faqPop 350ms var(--ease-hover) both; }
 }
@@ -854,71 +854,38 @@ select.field__control { appearance: none; background-image: none; padding-right:
 }
 
 /* --- Footer (navy-950 — the darkest surface) ------------------------------
-   Compact, three columns on one row: wordmark, the nav in two short columns, and the
-   contact block. No hard edge: the last section of every page carries the fade into navy-950
-   inside its own bottom padding (see "Bleeds" under Layout primitives), so the footer starts
-   solid and nothing ever sits under the dark part. The legal row is a single hairline line. */
+   The client's list only: legal name, EIN, mailing address, email, then the legal sentence
+   and the Ave Maria dedication on the hairline row. Nothing from the header is repeated here,
+   no second wordmark and no second set of page links (client text, 2026-09-06). No hard
+   edge: the last section of every page carries the fade into navy-950 inside its own bottom
+   padding (see "Bleeds" under Layout primitives), so the footer starts solid and nothing
+   ever sits under the dark part. */
 .site-footer {
   position: relative;
   background: var(--surface-footer);
   color: var(--ivory-50);
 }
-/* Full window width (not the page column) so the content spreads sideways and the footer
-   stays short. Under 1600px: brand + contact on one row, the eight links in a row beneath.
-   From 1600px: one row — wordmark | nav in four columns of two | contact. */
 .site-footer__inner {
   max-width: none;
   margin: 0;
-  padding: var(--space-5) var(--space-7) var(--space-5);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
-  grid-template-areas: "brand contact" "nav nav";
-  gap: var(--space-4) var(--space-8);
-  align-items: center;
+  padding: var(--space-6) var(--space-7) var(--space-5);
 }
-.site-footer__inner > .stack { grid-area: brand; flex-direction: row; align-items: center; gap: var(--space-6); }
-.site-footer__inner > .stack .wordmark { flex: none; }
-.site-footer .wordmark__ding { color: var(--accent-warm); }
-.site-footer .wordmark__foundation { color: var(--ivory-50); }
-.site-footer__nav {
-  grid-area: nav;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-6);
-}
-.site-footer__nav a,
-.site-footer__contact a {
-  font-family: var(--font-text);
-  font-size: var(--font-size-fine);
-  line-height: var(--leading-snug);
-  color: var(--ivory-300);
-  text-decoration: none;
-  transition: color var(--dur-quick) var(--ease-standard);
-}
-.site-footer__nav a:hover,
-.site-footer__contact a:hover { color: var(--text-link-hover); }
 .site-footer__contact {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  grid-area: contact;
-  justify-self: end;
-  text-align: right;
-  white-space: nowrap; /* four clean lines: name, address, email */
   font-size: var(--font-size-fine);
   line-height: var(--leading-snug);
   color: var(--ivory-300);
   overflow-wrap: anywhere;
 }
-.site-footer__contact a { color: var(--ivory-50); white-space: nowrap; }
-@media (min-width: 1600px) {
-  .site-footer__inner {
-    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr);
-    grid-template-areas: "brand nav contact";
-    gap: var(--space-5) var(--space-8);
-  }
-  .site-footer__nav { display: grid; grid-template-columns: repeat(4, max-content); column-gap: var(--space-6); row-gap: var(--space-2); }
+.site-footer__contact a {
+  font-family: var(--font-text);
+  color: var(--ivory-50);
+  text-decoration: none;
+  transition: color var(--dur-quick) var(--ease-standard);
 }
+.site-footer__contact a:hover { color: var(--text-link-hover); }
 .site-footer__legal {
   max-width: none;
   margin: 0;
@@ -1057,11 +1024,7 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
   .grid--2, .grid--3, .grid--story, .grid--quote, .grid--steps, .grid--form, .grid--prayer { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
   .prayer .figure { position: static; }
   .photo-grid { grid-template-columns: minmax(0, 1fr); }
-  .site-footer__inner { grid-template-columns: minmax(0, 1fr); grid-template-areas: "brand" "nav" "contact"; gap: var(--space-5); padding-inline: var(--space-6); }
-  .site-footer__inner > .stack { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
-  .site-footer__contact { justify-self: start; text-align: left; }
-  .site-footer__contact, .site-footer__contact a { white-space: normal; }
-  .site-footer__legal { padding-inline: var(--space-6); }
+  .site-footer__inner, .site-footer__legal { padding-inline: var(--space-6); }
   .site-nav { order: 3; flex-basis: 100%; justify-content: flex-start; }
   .site-header__action { order: 2; }
 }

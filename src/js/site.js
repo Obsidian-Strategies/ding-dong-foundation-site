@@ -176,15 +176,19 @@
   }
 
 
-  // --- Questions (hover master-detail) ---------------------------------------
+  // --- Questions (hover to preview, click to pin) ------------------------------
   // Without this script every answer is visible beneath its question. With it, the answers
-  // move into the panel on the right: hover, focus or tap a question to show its answer.
+  // move into the panel on the right. Hovering a question previews its answer; clicking one
+  // pins it, and from then on hovering changes nothing until another question is clicked
+  // (client, 2026-09-07). Clicking the pinned question again unpins it. Keyboard focus and
+  // taps behave like clicks.
   // Under 900px the panel is hidden and the open answer shows beneath its question instead.
   var faq = document.querySelector("[data-faq]");
   if (faq) {
     var faqItems = [].slice.call(faq.querySelectorAll("[data-faq-item]"));
     var faqPanel = faq.querySelector("[data-faq-panel]");
     var faqActive = -1;
+    var faqPinned = -1;
     var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
 
     function faqBusy() {
@@ -197,7 +201,7 @@
 
     function faqOpen(i, soft) {
       if (i === faqActive) return;
-      if (soft && faqBusy()) return;
+      if (soft && (faqPinned !== -1 || faqBusy())) return;
       faqActive = i;
       faqItems.forEach(function (item, j) {
         item.querySelector("[data-faq-bar]").setAttribute("aria-expanded", String(j === i));
@@ -221,9 +225,12 @@
         // on touch screens a second tap on the open question closes it
         if (!canHover && faqActive === i) {
           faqActive = -1;
+          faqPinned = -1;
           bar.setAttribute("aria-expanded", "false");
           return;
         }
+        // a second click on the pinned question lets hover take over again
+        faqPinned = faqPinned === i ? -1 : i;
         faqOpen(i);
       });
       bar.addEventListener("focus", function () { faqOpen(i); });
