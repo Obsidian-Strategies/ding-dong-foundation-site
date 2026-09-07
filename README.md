@@ -15,7 +15,7 @@ src/
   index.njk                  Home            /
   inspirations.njk           Inspirations    /inspirations/
   story.njk                  redirect        /story/ → /inspirations/
-  mission.njk                Mission         /mission/
+  mission.njk                redirect        /mission/ → / (the filed statement is on Home)
   guidelines.njk             Guidelines      /guidelines/
   apply.njk                  Apply           /apply/
   grants.njk                 Grants          /grants/

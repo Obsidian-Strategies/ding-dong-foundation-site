@@ -4,7 +4,7 @@ Public source for thedingdongfoundation.org. The full project brief, client fact
 
 ## Rules that must hold (also in README.md)
 - Nothing below 16pt (21.33px). Every text/background pair at or above 4.5:1.
-- The filed mission statement on `/mission/` is never rewritten.
+- The filed mission statement on Home is never rewritten.
 - No founder name, bio, or photo credits anywhere.
 - Times New Roman everywhere except the motto pair, set in Great Vibes through `--font-script`. One dark theme, no toggle. The entrance overlay is the one light (ivory) surface. Sentence case, no emoji, verb-phrase buttons.
 - Banned strings in built HTML: February, Europe, Grounded, Judy, Peng, founder, Ding Dong, public charity.

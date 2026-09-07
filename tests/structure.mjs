@@ -4,7 +4,7 @@ import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 
 const PAGES = {
   "/": {},
-  "/inspirations/": {}, "/mission/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/questions/": {}, "/donate/": {},
+  "/inspirations/": {}, "/guidelines/": {}, "/apply/": {}, "/grants/": {}, "/questions/": {}, "/donate/": {},
 };
 const MISSION = `The specific purpose of The DingDong Foundation, Inc. is to provide grants to support the building and restoration of church bell towers, pipe organs, rose windows, stained glass windows, and related sacred elements, as well as to provide grants to spiritual organizations that utilize sound, color, and frequency for healing practices. The corporation may also support related activities in sacred arts and architecture, including the training of artisans and apprentices as well as the study and dissemination of authentic scriptural and spiritual teachings.`;
 
@@ -24,14 +24,17 @@ for (const route of Object.keys(PAGES)) {
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
   check(tag("sticky header with 6 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 6);
   check(tag("header nav: Inspirations in, Mission out"), (() => { const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]; return />Inspirations</.test(nav) && !/>Mission</.test(nav) && !/>Our story</.test(nav); })());
-  check(tag("footer nav keeps Mission and Inspirations"), (() => { const nav = html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0]; return />Mission</.test(nav) && />Inspirations</.test(nav) && !/>Our story</.test(nav); })());
+  check(tag("footer nav: Inspirations in, Mission and Our story out"), (() => { const nav = html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0]; return />Inspirations</.test(nav) && !/>Mission</.test(nav) && !/>Our story</.test(nav); })());
   check(tag("Apply is not in the header nav"), !/<nav class="site-nav"[\s\S]*?Apply[\s\S]*?<\/nav>/.test(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]));
   check(tag("no Apply link inside main"), route === "/apply/" || !/\/apply\//.test(html.match(/<main[\s\S]*?<\/main>/)[0]));
   check(tag("header Apply button"), /class="btn btn--sm btn--warm"[^>]*>Apply for a grant</.test(html));
-  check(tag("one aria-current nav item"), (route === "/apply/" || route === "/mission/") ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
-  check(tag("footer nav has 8 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 8 && />Apply<\/a>/.test(html));
+  check(tag("one aria-current nav item"), route === "/apply/" ? count(html, /aria-current="page"/g) === 0 : count(html, /aria-current="page"/g) === 1);
+  check(tag("footer nav has 7 links incl. Apply"), count(html.match(/<nav class="site-footer__nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 7 && />Apply<\/a>/.test(html));
   check(tag("Ave Maria dedication in footer"), /<em>Ave Maria<\/em>/.test(html));
-  check(tag("501(c)(3) legal line"), /The DingDong Foundation, Inc\. A Florida nonprofit corporation recognized by the IRS as a 501\(c\)\(3\) private foundation\./.test(html));
+  // Footer contents and order are the client's list (2026-09-01): legal name, EIN, mailing
+  // address, email, then the legal sentence. EIN is from the discovery questionnaire. No blurb.
+  check(tag("footer: Judy's list in her order"), /site-footer__contact">\s*<span>The DingDong Foundation, Inc\.<\/span>\s*<span>EIN 41-4593395<\/span>\s*<span>1111 Ritz Carlton Drive, Suite 1008<\/span>\s*<span>Sarasota, FL 34236, USA<\/span>\s*<a href="mailto:hello@thedingdongfoundation\.org">hello@thedingdongfoundation\.org<\/a>/.test(html) && !/site-footer__blurb/.test(html));
+  check(tag("501(c)(3) legal line"), /<footer[\s\S]*<span>A Florida nonprofit corporation recognized by the IRS as a 501\(c\)\(3\) private foundation\.<\/span>[\s\S]*<\/footer>/.test(html));
   check(tag("no founder name"), !/Judy|Peng/.test(html));
   check(tag("no February/Europe/Grounded/founder"), !/February|Europe|Grounded|founder/i.test(html));
   check(tag("no 'Ding Dong' with a space, no 'public charity'"), !/Ding Dong|public charity/i.test(html));
@@ -61,7 +64,8 @@ check("home: call to prayer — heard again", /so that call is heard again/i.tes
 check("home: certification date", /certified by the IRS on July 28, 2026/i.test(read("/")));
 check("home: h1 is the motto pair in script", /<h1 class="motto">\s*<span class="motto__en">Make a Joyful Noise to the Lord<\/span>\s*<span class="motto__la">Jubilate Deo<\/span>\s*<\/h1>/.test(read("/")));
 check("home: mission text verbatim", /The DingDong Foundation gives grants to mend what has gone quiet — church bells and their towers, pipe organs, rose windows, stained glass, and the craftspeople who keep them\. We also support sacred arts training and spiritual work with sound, color, and frequency\./.test(read("/")));
-check("home: link to the filed purpose", /href="\/mission\/">Read the purpose as filed with the State of Florida</.test(read("/")));
+check("home: filed statement verbatim, under the hero", read("/").includes(MISSION) && read("/").indexOf(MISSION) < read("/").indexOf("Why we ring"));
+check("home: no link to a mission page", !/\/mission\//.test(read("/")));
 check("home: no Apply or Read our story in the body", (() => { const main = read("/").match(/<main[\s\S]*?<\/main>/)[0]; return !/Apply for a grant|Read our story/.test(main); })());
 check("home: call to prayer sits above What we fund", read("/").indexOf("Why we ring") < read("/").indexOf("What we fund"));
 check("home: Lord's Prayer verbatim", /Our Father, who art in heaven,<br>\s*hallowed be thy name\.<br>[\s\S]*for ever and ever\. Amen\./.test(read("/")));
@@ -78,7 +82,7 @@ check("inspirations: four resource links, names only", count(read("/inspirations
 check("inspirations: no 'bells are the story', no 'what we are for'", !/The bells are the story|What we are for/i.test(read("/inspirations/")));
 check("/story/ redirects to /inspirations/", (() => { const f = new URL("../_site/story/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/inspirations\/">/.test(readFileSync(f, "utf8")); })());
 check("prayer for the world: template exists but is not published until Judy sends the text", existsSync(new URL("../src/prayer-for-the-world.njk", import.meta.url)) && !existsSync(new URL("../_site/prayer-for-the-world/index.html", import.meta.url)) && !/Prayer for the World/.test(read("/")));
-check("mission: filed statement verbatim", read("/mission/").includes(MISSION));
+check("/mission/ redirects to /", (() => { const f = new URL("../_site/mission/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/">/.test(readFileSync(f, "utf8")); })());
 check("home: bell photo present", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("home: hero photo has figure--bell crop class", /class="figure figure--bell"/.test(read("/")));
 check("home: figure--bell object-position crop is in the stylesheet", /\.figure--bell \.figure__frame img \{[^}]*object-position:/.test(siteCss));

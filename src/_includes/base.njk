@@ -60,7 +60,6 @@
   {%- set footerItems = [
     { url: "/", label: "Home" },
     { url: "/inspirations/", label: "Inspirations" },
-    { url: "/mission/", label: "Mission" },
     { url: "/guidelines/", label: "Guidelines" },
     { url: "/apply/", label: "Apply" },
     { url: "/grants/", label: "Grants" },
@@ -102,22 +101,24 @@
           <em class="wordmark__ding">The DingDong</em>
           <span class="wordmark__foundation">Foundation</span>
         </span>
-        <p class="site-footer__blurb">Grants for church bells, pipe organs, rose windows and the sacred arts.</p>
       </div>
       <nav class="site-footer__nav" aria-label="Footer">
         {%- for item in footerItems %}
         <a href="{{ item.url | url }}">{{ item.label }}</a>
         {%- endfor %}
       </nav>
+      {#- The client's footer list, in her order (2026-09-01): legal name, EIN, mailing address,
+          email, legal sentence. EIN from the discovery questionnaire. #}
       <div class="site-footer__contact">
-        <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>
         <span>The DingDong Foundation, Inc.</span>
+        <span>EIN 41-4593395</span>
         <span>1111 Ritz Carlton Drive, Suite 1008</span>
         <span>Sarasota, FL 34236, USA</span>
+        <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>
       </div>
     </div>
     <div class="site-footer__legal">
-      <span>The DingDong Foundation, Inc. A Florida nonprofit corporation recognized by the IRS as a 501(c)(3) private foundation.</span>
+      <span>A Florida nonprofit corporation recognized by the IRS as a 501(c)(3) private foundation.</span>
       <em>Ave Maria</em>
     </div>
   </footer>

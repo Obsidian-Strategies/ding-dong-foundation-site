@@ -854,7 +854,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
 }
 
 /* --- Footer (navy-950 — the darkest surface) ------------------------------
-   Compact, three columns on one row: wordmark + blurb, the nav in two short columns, and the
+   Compact, three columns on one row: wordmark, the nav in two short columns, and the
    contact block. No hard edge: the last section of every page carries the fade into navy-950
    inside its own bottom padding (see "Bleeds" under Layout primitives), so the footer starts
    solid and nothing ever sits under the dark part. The legal row is a single hairline line. */
@@ -865,7 +865,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
 }
 /* Full window width (not the page column) so the content spreads sideways and the footer
    stays short. Under 1600px: brand + contact on one row, the eight links in a row beneath.
-   From 1600px: one row — wordmark + blurb | nav in four columns of two | contact. */
+   From 1600px: one row — wordmark | nav in four columns of two | contact. */
 .site-footer__inner {
   max-width: none;
   margin: 0;
@@ -880,7 +880,6 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .site-footer__inner > .stack .wordmark { flex: none; }
 .site-footer .wordmark__ding { color: var(--accent-warm); }
 .site-footer .wordmark__foundation { color: var(--ivory-50); }
-.site-footer__blurb { margin: 0; flex: 0 1 30ch; min-width: 22ch; font-size: var(--font-size-fine); line-height: var(--leading-snug); color: var(--ivory-300); }
 .site-footer__nav {
   grid-area: nav;
   display: flex;
@@ -905,13 +904,13 @@ select.field__control { appearance: none; background-image: none; padding-right:
   grid-area: contact;
   justify-self: end;
   text-align: right;
-  white-space: nowrap; /* three clean lines: email, name, address */
+  white-space: nowrap; /* four clean lines: name, address, email */
   font-size: var(--font-size-fine);
   line-height: var(--leading-snug);
   color: var(--ivory-300);
   overflow-wrap: anywhere;
 }
-.site-footer__contact a { color: var(--ivory-50); margin-bottom: var(--space-1); white-space: nowrap; }
+.site-footer__contact a { color: var(--ivory-50); white-space: nowrap; }
 @media (min-width: 1600px) {
   .site-footer__inner {
     grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr);
@@ -1060,7 +1059,6 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
   .photo-grid { grid-template-columns: minmax(0, 1fr); }
   .site-footer__inner { grid-template-columns: minmax(0, 1fr); grid-template-areas: "brand" "nav" "contact"; gap: var(--space-5); padding-inline: var(--space-6); }
   .site-footer__inner > .stack { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
-  .site-footer__blurb { flex: 0 1 auto; min-width: 0; max-width: 34ch; } /* the 30ch basis is for the row layout */
   .site-footer__contact { justify-self: start; text-align: left; }
   .site-footer__contact, .site-footer__contact a { white-space: normal; }
   .site-footer__legal { padding-inline: var(--space-6); }
