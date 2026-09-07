@@ -57,16 +57,6 @@
     { url: "/questions/", label: "Questions" },
     { url: "/donate/", label: "Donate" }
   ] -%}
-  {%- set footerItems = [
-    { url: "/", label: "Home" },
-    { url: "/inspirations/", label: "Inspirations" },
-    { url: "/guidelines/", label: "Guidelines" },
-    { url: "/apply/", label: "Apply" },
-    { url: "/grants/", label: "Grants" },
-    { url: "/questions/", label: "Questions" },
-    { url: "/donate/", label: "Donate" }
-  ] -%}
-
   <header class="site-header">
     <div class="site-header__inner">
       <a class="wordmark" href="{{ '/' | url }}" aria-label="The DingDong Foundation — home">
@@ -94,21 +84,13 @@
     {{ content | safe }}
   </main>
 
+  {#- Footer: the client's list only, in her order (2026-09-01): legal name, EIN, mailing
+      address, email, legal sentence, plus the Ave Maria dedication. No second wordmark and no
+      second set of page links: she asked (text, 2026-09-06) not to repeat at the bottom what
+      is already at the top, and to keep the only "Apply for a grant" button in the header.
+      EIN from the discovery questionnaire. #}
   <footer class="site-footer">
     <div class="site-footer__inner">
-      <div class="stack stack--xs stack--start">
-        <span class="wordmark">
-          <em class="wordmark__ding">The DingDong</em>
-          <span class="wordmark__foundation">Foundation</span>
-        </span>
-      </div>
-      <nav class="site-footer__nav" aria-label="Footer">
-        {%- for item in footerItems %}
-        <a href="{{ item.url | url }}">{{ item.label }}</a>
-        {%- endfor %}
-      </nav>
-      {#- The client's footer list, in her order (2026-09-01): legal name, EIN, mailing address,
-          email, legal sentence. EIN from the discovery questionnaire. #}
       <div class="site-footer__contact">
         <span>The DingDong Foundation, Inc.</span>
         <span>EIN 41-4593395</span>
