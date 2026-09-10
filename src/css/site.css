@@ -64,7 +64,9 @@ main > section.section:last-of-type::after {
 .grid--quote { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--space-8); align-items: center; }
 .grid--steps { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--space-8); }
 .grid--form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
-.grid--prayer { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-9); align-items: start; }
+/* Home hero: motto and lede on the left, the bell photo on the right (client, 2026-09-09).
+   Centred vertically so the motto sits level with the bell. */
+.grid--hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); align-items: center; }
 
 .mt-7 { margin-top: var(--space-7); }
 .m0 { margin: 0; }
@@ -418,8 +420,6 @@ main > section.section:last-of-type::after {
 }
 .prayer__num { color: var(--text-accent); font-size: var(--font-size-fine); margin-right: var(--space-3); }
 .prayer__lines--pre { white-space: pre-line; }
-/* the bell photo stays put under the sticky header while the prayer column scrolls, same as .faq__detail */
-.prayer .figure { position: sticky; top: calc(var(--space-9) + 24px); }
 
 /* --- Section heading ----------------------------------------------------- */
 .section-heading {
@@ -541,11 +541,12 @@ main > section.section:last-of-type::after {
 .figure--square .figure__frame { aspect-ratio: 1 / 1; border-radius: 0; }
 .figure__frame img { width: 100%; height: 100%; object-fit: cover; }
 /* Hero bell: client saw the bell clipped at the frame edge on iPad. A visible gilt frame
-   plus a nudged crop makes the crop read as intentional. */
-.figure--bell .figure__frame { border: 1px solid var(--gold-500); }
-/* The great bell's centre sits at ~48.5% of the source image's width. The 4/5 frame shows
-   about 45% of that width, so the crop window must be centred on the bell or its lip clips
-   against the frame edge (client, 2026-08-31). 47% puts equal stone on both sides. */
+   plus a nudged crop makes the crop read as intentional. The source is landscape (2160x1207),
+   so the hero frame is 4/3: the whole bell and both arches show, with little cropped. */
+.figure--bell .figure__frame { aspect-ratio: 4 / 3; border: 1px solid var(--gold-500); }
+/* The great bell's centre sits at ~48.5% of the source image's width, so the crop window
+   stays centred on the bell or its lip clips against the frame edge (client, 2026-08-31).
+   47% puts equal stone on both sides. */
 .figure--bell .figure__frame img { object-position: 47% 50%; }
 .figure__placeholder {
   padding: var(--space-5);
@@ -1021,8 +1022,14 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 
 /* --- Responsive ---------------------------------------------------------- */
 @media (max-width: 900px) {
-  .grid--2, .grid--3, .grid--story, .grid--quote, .grid--steps, .grid--form, .grid--prayer { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
-  .prayer .figure { position: static; }
+  .grid--2, .grid--3, .grid--story, .grid--quote, .grid--steps, .grid--form, .grid--hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  /* Home hero stacks as motto, bell photo, lede: the photo stays near the top of the phone
+     screen instead of falling below the paragraph. The stack dissolves so its children become
+     grid items and can be ordered. */
+  .grid--hero > .stack { display: contents; }
+  .grid--hero .motto { order: 1; }
+  .grid--hero .figure { order: 2; }
+  .grid--hero .lede { order: 3; }
   .photo-grid { grid-template-columns: minmax(0, 1fr); }
   .site-footer__inner, .site-footer__legal { padding-inline: var(--space-6); }
   .site-nav { order: 3; flex-basis: 100%; justify-content: flex-start; }

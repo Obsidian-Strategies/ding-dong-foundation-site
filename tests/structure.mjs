@@ -72,7 +72,8 @@ check("home: call to prayer sits above What we fund", read("/").indexOf("Why we 
 check("home: Lord's Prayer verbatim", /Our Father, who art in heaven,<br>\s*hallowed be thy name\.<br>[\s\S]*for ever and ever\. Amen\./.test(read("/")));
 check("home: Psalm 100 verbatim, five verses", count(read("/"), /<li><span class="prayer__num" aria-hidden="true">\d<\/span>/g) === 5 && /his truth endureth to all generations\./.test(read("/")));
 check("home: prayer intro line and photo caption", /The work of this foundation is carried with prayer\./.test(read("/")) && /figure__caption">Church of the Holy Sepulchre, bell tower, Jerusalem</.test(read("/")));
-check("home: prayer section holds the bell photo", /<section class="section section--band prayer">(?:(?!<\/section>)[\s\S])*uploads\/IMG_8851\.JPG/.test(read("/")));
+check("home: hero holds the bell photo beside the motto", /<section class="section section--hero">(?:(?!<\/section>)[\s\S])*class="motto"(?:(?!<\/section>)[\s\S])*uploads\/IMG_8851\.JPG/.test(read("/")));
+check("home: prayer section no longer holds the bell photo", !/<section class="section section--band prayer">(?:(?!<\/section>)[\s\S])*uploads\/IMG_8851\.JPG/.test(read("/")));
 check("inspirations: call to prayer — Angelus", /the Angelus is tolled at morning, noon, and evening/i.test(read("/inspirations/")));
 check("inspirations: serious undertaking", /a serious undertaking, not a pastime/i.test(read("/inspirations/")));
 check("inspirations: healing frequency mention", /frequencies long associated with healing/i.test(read("/inspirations/")));
