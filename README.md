@@ -15,7 +15,6 @@ src/
   index.njk                  Home            /
   inspirations.njk           Inspirations    /inspirations/
   story.njk                  redirect        /story/ → /inspirations/
-  mission.njk                redirect        /mission/ → / (the filed statement is on Home)
   guidelines.njk             Guidelines      /guidelines/
   apply.njk                  Apply           /apply/
   grants.njk                 Grants          /grants/
@@ -53,11 +52,12 @@ node tests/structure.mjs       # per-page contract: nav, footer, verbatim texts,
 - Nothing smaller than 16pt (21.33px). The token scale has no smaller size.
 - Sentence case. No emoji. Buttons are verb phrases — never "Submit" or "Learn more".
 - The founder is anonymous: no name, no bio, no photo credits.
-- Three verbatim texts are never rewritten: the filed mission statement, Judy's mission paragraph on Home, and the prayers on Home.
+- Verbatim texts are never rewritten: every Home text from Judy's 2026-09-10 PDF (hero paragraph, credibility line, Why we ring, What we fund) and the prayers on Home (the Lord's Prayer in full, Psalm 100:1). The filed purpose statement is not on the site.
+- Home hero is the bell photo full width with "Jubilate Deo" alone over a navy scrim (0.85 behind the text; `tests/contrast.mjs` models it over white). The motto pair lives on the entrance overlay.
 - No newsletter signup, events calendar, cookie bar or sticky donate ribbon. The header is the only sticky element.
 - The bell intro waits for the visitor to press "Ring the bell" — that click is the browser's permission for sound, so `audio/bell.mp3` (second strike pitched down a minor third) and the two swings always play together, then the curtain lifts. Esc lifts it quietly. It shows at most once per 24h (`localStorage` key `ddf-intro-v1`) and never under reduced motion. Add `?intro` to the URL to force it for review.
 - "Ave Maria" stays as the standing dedication in the footer.
 - The public name is The DingDong Foundation, one word; `Ding Dong` and `public charity` are banned strings.
-- Times New Roman everywhere except the motto pair, set in Great Vibes through `--font-script`.
+- Times New Roman everywhere except the motto, set in Great Vibes through `--font-script`.
 - The entrance overlay is the one light surface (ivory); every page behind it is navy.
-- Apply for a grant lives in the header button and the footer only.
+- Apply for a grant lives in the header button only. Never in a page body or the footer.

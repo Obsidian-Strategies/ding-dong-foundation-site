@@ -1,43 +1,40 @@
 ---
 layout: base.njk
-description: The DingDong Foundation gives grants to mend what has gone quiet — church bells and their towers, pipe organs, rose windows, stained glass, and the craftspeople who keep them.
+description: The DingDong Foundation restores the voice and light of the church — bells, towers, pipe organs, rose windows, and stained glass. We fund the artisans who carry these crafts forward, and the organizations that employ sacred sound and light in the service of worship and healing.
 ---
-<section class="section section--hero">
-  <div class="wrap grid grid--hero">
-    <div class="stack">
-      <h1 class="motto">
-        <span class="motto__en">Make a Joyful Noise to the Lord</span>
-        <span class="motto__la">Jubilate Deo</span>
-      </h1>
-      <p class="lede">The DingDong Foundation gives grants to mend what has gone quiet — church bells and their towers, pipe organs, rose windows, stained glass, and the craftspeople who keep them. We also support sacred arts training and spiritual work with sound, color, and frequency.</p>
+{#- Home hero (client PDF, 2026-09-10): the Holy Sepulchre bell fills the width, first thing
+    after the entrance bell is rung. "Jubilate Deo" alone, then her paragraph, over a navy
+    scrim. The English motto line stays on the entrance overlay only. #}
+<section class="section section--hero hero-bleed">
+  <figure class="hero-bleed__media figure figure--bell">
+    <div class="hero-bleed__frame">
+      <img src="{{ '/uploads/IMG_8851.JPG' | url }}" alt="Looking up at the great bell in a stone ringing chamber, smaller bells hanging in the arched openings around it" width="2160" height="1207" fetchpriority="high">
+      <div class="hero-bleed__scrim" aria-hidden="true"></div>
     </div>
-    <figure class="figure figure--bell">
-      <div class="figure__frame">
-        <img src="{{ '/uploads/IMG_8851.JPG' | url }}" alt="Looking up at the great bell in a stone ringing chamber, smaller bells hanging in the arched openings around it" width="2160" height="1207" fetchpriority="high">
-      </div>
-      <figcaption><span class="figure__caption">Church of the Holy Sepulchre, bell tower, Jerusalem</span></figcaption>
-    </figure>
+    <figcaption><span class="figure__caption">Church of the Holy Sepulchre, bell tower, Jerusalem</span></figcaption>
+  </figure>
+  <div class="wrap hero-bleed__text">
+    <h1 class="motto motto--solo"><span class="motto__la">Jubilate Deo</span></h1>
+    <p class="lede hero-bleed__lede">The DingDong Foundation restores the voice and light of the church — bells, towers, pipe organs, rose windows, and stained glass. We fund the artisans who carry these crafts forward, and the organizations that employ sacred sound and light in the service of worship and healing.</p>
   </div>
 </section>
 
-<section class="section section--band">
+{#- One quiet line (client PDF, 2026-09-10). The certification day and "one at a time" left
+    the page with it. The filed purpose statement left Home too; where it lives is open. #}
+<section class="section section--page section--tight credibility">
+  <div class="wrap">
+    <p class="credibility__line">A 501(c)(3) private foundation <span class="credibility__dot" aria-hidden="true">·</span> IRS-certified July 2026 <span class="credibility__dot" aria-hidden="true">·</span> Grants across the United States</p>
+  </div>
+</section>
+
+{#- Why we ring (client PDF, 2026-09-10): her two paragraphs, the second one new. #}
+<section class="section section--page why">
   <div class="content stack">
-    <span class="eyebrow">As filed with the State of Florida</span>
-    <p class="statement">The specific purpose of The DingDong Foundation, Inc. is to provide grants to support the building and restoration of church bell towers, pipe organs, rose windows, stained glass windows, and related sacred elements, as well as to provide grants to spiritual organizations that utilize sound, color, and frequency for healing practices. The corporation may also support related activities in sacred arts and architecture, including the training of artisans and apprentices as well as the study and dissemination of authentic scriptural and spiritual teachings.</p>
-    <p class="fine faint m0">Quoted from the articles of incorporation, State of Florida.</p>
-  </div>
-</section>
-
-<section class="section section--page">
-  <div class="wrap grid grid--quote">
-    <figure class="quote quote--lg">
-      <blockquote>Church bells are the Christian call to prayer. For centuries they have called the faithful to Sunday worship, rung the Angelus at morning, noon and evening, pealed for weddings and tolled in remembrance. We exist so that call is heard again.</blockquote>
-      <figcaption>Why we ring</figcaption>
-    </figure>
-    <div class="stack stack--sm stack--start">
-      <p class="m0">The DingDong Foundation, Inc. is a 501(c)(3) private foundation, certified by the IRS on July 28, 2026 — approved fourteen days after filing. We fund projects across the United States, one at a time.</p>
-      <a class="btn btn--secondary" href="{{ '/guidelines/' | url }}">See the guidelines</a>
-    </div>
+    <header class="section-heading">
+      <h2>Why we ring</h2>
+    </header>
+    <p class="why__p">Church bells are the Christian call to prayer. For centuries they have called the faithful to Sunday worship, rung the Angelus at morning, noon, and evening, pealed for weddings, and tolled in remembrance.</p>
+    <p class="why__p">When a bell falls silent, a congregation loses more than a sound. We exist so that call is heard again.</p>
   </div>
 </section>
 
@@ -46,29 +43,34 @@ description: The DingDong Foundation gives grants to mend what has gone quiet �
     <header class="section-heading">
       <span class="eyebrow">What we fund</span>
       <h2>Bells, organs, glass, and the hands that keep them</h2>
-      <p class="lede">Grants support building and restoration, and the training of the artisans this work depends on. Amounts are set case by case.</p>
+      <p class="lede">Grants support the building, restoration, and preservation of sacred architecture and the elements that give a house of worship its voice and its light. We also fund the training of the artisans this work depends on. Grant amounts are determined case by case.</p>
     </header>
-    <div class="grid grid--3 mt-7 fund" data-fund>
+    {#- Four cards (client PDF, 2026-09-10). The first three keep the reveal photos Judy called
+        excellent (email 5, 2026-09-01). Artisan training has no photo yet; asked in the v4
+        message. No tag pills: she read them as stray labels. #}
+    <div class="grid grid--fund mt-7 fund" data-fund>
       <div class="card card--accent card--interactive fund__card" data-fund-card>
         <div class="card__photo" aria-hidden="true"><img src="{{ '/uploads/fund-bells.jpg' | url }}" alt="" width="1024" height="768" loading="lazy"></div>
         <i class="ph ph-bell-simple icon icon--lg icon--brass" aria-hidden="true"></i>
         <h3 class="card__title">Bells and towers</h3>
-        <p class="muted mb-4">Repair, rehanging, new rings — and electronic carillons for churches with no bells at all.</p>
-        <span class="tag">Bells</span>
+        <p class="muted m0">Repair, rehanging, and new rings. Electronic carillons for churches with no bells at all.</p>
       </div>
       <div class="card card--accent card--interactive fund__card" data-fund-card>
         <div class="card__photo" aria-hidden="true"><img src="{{ '/uploads/fund-organ.jpg' | url }}" alt="" width="1024" height="768" loading="lazy"></div>
         <i class="ph ph-music-notes icon icon--lg icon--brass" aria-hidden="true"></i>
         <h3 class="card__title">Pipe organs</h3>
-        <p class="muted mb-4">Restoration, purchase, and the tuning that keeps them honest.</p>
-        <span class="tag">Organs</span>
+        <p class="muted m0">Restoration, purchase, and the tuning that keeps them honest.</p>
       </div>
       <div class="card card--accent card--interactive fund__card" data-fund-card>
         <div class="card__photo" aria-hidden="true"><img src="{{ '/uploads/fund-glass.jpg' | url }}" alt="" width="1600" height="1200" loading="lazy"></div>
         <i class="ph ph-church icon icon--lg icon--brass" aria-hidden="true"></i>
         <h3 class="card__title">Windows and glass</h3>
-        <p class="muted mb-4">Rose windows, stained glass, leadwork and protective glazing.</p>
-        <span class="tag">Glass</span>
+        <p class="muted m0">Rose windows, stained glass, leadwork, and protective glazing.</p>
+      </div>
+      <div class="card card--accent card--interactive fund__card" data-fund-card>
+        <i class="ph ph-hammer icon icon--lg icon--brass" aria-hidden="true"></i>
+        <h3 class="card__title">Artisan training</h3>
+        <p class="muted m0">Apprenticeships and education in bell founding, organ building, and sacred glasswork.</p>
       </div>
     </div>
   </div>
@@ -83,7 +85,6 @@ description: The DingDong Foundation gives grants to mend what has gone quiet �
         <p class="lede">The work of this foundation is carried with prayer.</p>
       </header>
       <div class="prayer__text">
-        <h3 class="title-sm">The Lord's Prayer</h3>
         <p class="prayer__lines">Our Father, who art in heaven,<br>
 hallowed be thy name.<br>
 Thy kingdom come,<br>
@@ -97,16 +98,19 @@ but deliver us from evil.<br>
 For thine is the kingdom, and the power, and the glory,<br>
 for ever and ever. Amen.</p>
       </div>
-      <div class="prayer__text">
-        <h3 class="title-sm">Psalm 100</h3>
-        <ol class="prayer__verses">
-          <li><span class="prayer__num" aria-hidden="true">1</span>Make a joyful noise unto the Lord, all ye lands.</li>
-          <li><span class="prayer__num" aria-hidden="true">2</span>Serve the Lord with gladness: come before his presence with singing.</li>
-          <li><span class="prayer__num" aria-hidden="true">3</span>Know ye that the Lord he is God: it is he that hath made us, and not we ourselves; we are his people, and the sheep of his pasture.</li>
-          <li><span class="prayer__num" aria-hidden="true">4</span>Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.</li>
-          <li><span class="prayer__num" aria-hidden="true">5</span>For the Lord is good; his mercy is everlasting; and his truth endureth to all generations.</li>
-        </ol>
+      {#- Psalm 100 is verse 1 only (client PDF, 2026-09-10): the source of "Jubilate Deo". #}
+      <div class="prayer__text prayer__text--verse">
+        <p class="prayer__verse">Make a joyful noise unto the Lord, all ye lands.</p>
+        <p class="prayer__cite">— Psalm 100:1</p>
       </div>
     </div>
+  </div>
+</section>
+
+{#- One button, centred, last thing before the footer (client PDF, 2026-09-10). Apply stays in
+    the header only (her text, 2026-09-06); asked in the v4 message whether that still holds. #}
+<section class="section section--page section--tight cta">
+  <div class="content cta__inner">
+    <a class="btn btn--secondary btn--lg" href="{{ '/guidelines/' | url }}">See the grant guidelines</a>
   </div>
 </section>

@@ -64,6 +64,15 @@ PAIRS.push(
   ["gold-700", "intro glow on ivory", "entrance motto over the glow"],
   ["navy-950", "intro glow on ivory", "entrance name over the glow"],
 );
+// Home hero (client PDF, 2026-09-10): text sits over the bell photo on a navy-950 scrim that
+// reaches 0.85 alpha behind the text block (.hero-bleed__scrim in site.css). The photo pixel
+// under it could be anything, so model the worst case: the scrim over pure white.
+tokens["hero scrim on white"] = over(tokens["navy-950"], 0.85, "#ffffff");
+PAIRS.push(
+  ["gold-300", "hero scrim on white", "Jubilate Deo over the hero photo"],
+  ["ivory-50", "hero scrim on white", "hero lede over the photo"],
+  ["ivory-300", "hero scrim on white", "hero caption over the photo"],
+);
 
 for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
   for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {

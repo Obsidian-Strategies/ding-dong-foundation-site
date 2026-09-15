@@ -60,13 +60,11 @@ main > section.section:last-of-type::after {
 .grid { display: grid; gap: var(--space-6); align-items: start; }
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
+/* Fund cards: four across on wide screens, two by two on tablets, one column on phones. */
+.grid--fund { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
 .grid--story { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-8); }
-.grid--quote { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--space-8); align-items: center; }
 .grid--steps { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--space-8); }
 .grid--form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
-/* Home hero: motto and lede on the left, the bell photo on the right (client, 2026-09-09).
-   Centred vertically so the motto sits level with the bell. */
-.grid--hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); align-items: center; }
 
 .mt-7 { margin-top: var(--space-7); }
 .m0 { margin: 0; }
@@ -154,6 +152,55 @@ main > section.section:last-of-type::after {
 .motto__en { font-size: clamp(var(--font-size-title-lg), 6vw, var(--font-size-display-sm)); }
 .motto__la { font-size: clamp(var(--font-size-title-sm), 4vw, var(--font-size-title-lg)); }
 .motto--light { color: var(--gold-700); }
+/* Latin alone (Home hero, client PDF 2026-09-10): with no English line above it the Latin
+   takes the display size. */
+.motto--solo .motto__la { font-size: clamp(var(--font-size-display-sm), 7vw, var(--font-size-display-lg)); }
+
+/* --- Home hero: full-width bell photo ---------------------------------------
+   The photo is the first thing seen after the entrance bell (client, 2026-09-10). Desktop:
+   the picture fills the section and the text sits at the bottom left over a navy scrim that
+   is 0.85 opaque behind the text (tests/contrast.mjs models gold-300 / ivory-50 / ivory-300 on
+   that scrim over pure white, the worst possible photo pixel). Phones: the photo stacks on
+   top at 4:3 and the text sits on the page navy below it, so nothing is ever read over a
+   bright part of the picture on a small screen. */
+.section.hero-bleed { padding: 0; background: var(--surface-page); overflow: hidden; }
+.hero-bleed__media { position: relative; margin: 0; display: block; }
+.hero-bleed__frame { position: relative; }
+.hero-bleed img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 47% 50%; }
+.hero-bleed__scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10, 18, 38, 0.85) 0%, rgba(10, 18, 38, 0.85) 52%, rgba(10, 18, 38, 0.35) 78%, rgba(10, 18, 38, 0.15) 100%);
+  pointer-events: none;
+}
+.hero-bleed figcaption { max-width: none; }
+.hero-bleed .figure__caption { color: var(--ivory-300); }
+.hero-bleed__text { position: relative; display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-8) var(--space-6); }
+.hero-bleed__lede { color: var(--ivory-50); }
+@media (min-width: 901px) {
+  .hero-bleed { min-height: clamp(560px, 82vh, 860px); display: flex; flex-direction: column; justify-content: flex-end; }
+  .hero-bleed__media, .hero-bleed__frame { position: absolute; inset: 0; }
+  .hero-bleed figcaption { position: absolute; right: var(--space-6); bottom: var(--space-5); text-align: right; }
+  .hero-bleed__text { width: 100%; padding: var(--space-9) var(--space-6) var(--space-8); }
+  .hero-bleed__lede { max-width: var(--measure-prose); }
+}
+@media (max-width: 900px) {
+  .hero-bleed__frame { aspect-ratio: 4 / 3; }
+  .hero-bleed img { position: absolute; inset: 0; }
+  /* No text over the photo here, so only the bottom edge softens into the page navy. */
+  .hero-bleed__scrim { background: linear-gradient(to top, rgba(10, 18, 38, 0.6) 0%, rgba(10, 18, 38, 0) 40%); }
+  .hero-bleed figcaption { padding: var(--space-3) var(--space-5) 0; }
+  .hero-bleed__text { padding: var(--space-6) var(--space-5) var(--space-8); }
+}
+
+/* Credibility bar (client PDF, 2026-09-10): one centred line at the floor size. */
+.credibility__line { margin: 0; max-width: none; text-align: center; font-size: var(--font-size-fine); color: var(--text-muted); text-wrap: balance; }
+.credibility__dot { color: var(--text-accent); padding-inline: var(--space-2); }
+
+/* Why we ring (client PDF, 2026-09-10): a heading and two short paragraphs at prose width. */
+.why__p { margin: 0; font-family: var(--font-display); font-size: var(--font-size-body-lg); line-height: var(--leading-loose); color: var(--text-body); }
+
+/* Closing button (Home): one centred button, the last thing before the footer. */
+.cta__inner { display: flex; justify-content: center; }
 
 /* --- Buttons (glass) --------------------------------------------------------
    iOS material. Glass is read at its edge: the same soft colour continues outside the pane and
@@ -396,8 +443,8 @@ main > section.section:last-of-type::after {
 }
 .resources a:hover { color: var(--text-link-hover); }
 
-/* Prayer (Home): the Lord's Prayer and Psalm 100 beside the bell photo. Plenty of space, no
-   decoration (client, 2026-09-01). Verse numbers are gold at the fine size, never smaller. */
+/* Prayer (Home): the Lord's Prayer in full and Psalm 100:1 (client PDF, 2026-09-10). Plenty of
+   space, no decoration. The citation is ivory-400 on the band, an already-checked pair. */
 .prayer__text { display: flex; flex-direction: column; gap: var(--space-4); }
 .prayer__lines {
   margin: 0;
@@ -406,19 +453,9 @@ main > section.section:last-of-type::after {
   line-height: var(--leading-loose);
   color: var(--text-body);
 }
-.prayer__verses {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  font-family: var(--font-display);
-  font-size: var(--font-size-body-lg);
-  line-height: var(--leading-body);
-  color: var(--text-body);
-}
-.prayer__num { color: var(--text-accent); font-size: var(--font-size-fine); margin-right: var(--space-3); }
+.prayer__text--verse { gap: var(--space-2); }
+.prayer__verse { margin: 0; font-family: var(--font-display); font-style: italic; font-size: var(--font-size-title-sm); line-height: var(--leading-snug); color: var(--text-heading); }
+.prayer__cite { margin: 0; font-size: var(--font-size-fine); color: var(--text-faint); }
 .prayer__lines--pre { white-space: pre-line; }
 
 /* --- Section heading ----------------------------------------------------- */
@@ -540,14 +577,9 @@ main > section.section:last-of-type::after {
 }
 .figure--square .figure__frame { aspect-ratio: 1 / 1; border-radius: 0; }
 .figure__frame img { width: 100%; height: 100%; object-fit: cover; }
-/* Hero bell: client saw the bell clipped at the frame edge on iPad. A visible gilt frame
-   plus a nudged crop makes the crop read as intentional. The source is landscape (2160x1207),
-   so the hero frame is 4/3: the whole bell and both arches show, with little cropped. */
-.figure--bell .figure__frame { aspect-ratio: 4 / 3; border: 1px solid var(--gold-500); }
-/* The great bell's centre sits at ~48.5% of the source image's width, so the crop window
-   stays centred on the bell or its lip clips against the frame edge (client, 2026-08-31).
-   47% puts equal stone on both sides. */
-.figure--bell .figure__frame img { object-position: 47% 50%; }
+/* The bell photo itself is styled under "Home hero" above. The great bell's centre sits at
+   ~48.5% of the source image's width, so every crop of it stays at object-position 47% or the
+   lip clips against the edge (client, 2026-08-31). */
 .figure__placeholder {
   padding: var(--space-5);
   text-align: center;
@@ -1021,15 +1053,11 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 }
 
 /* --- Responsive ---------------------------------------------------------- */
+@media (max-width: 1279px) {
+  .grid--fund { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 900px) {
-  .grid--2, .grid--3, .grid--story, .grid--quote, .grid--steps, .grid--form, .grid--hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
-  /* Home hero stacks as motto, bell photo, lede: the photo stays near the top of the phone
-     screen instead of falling below the paragraph. The stack dissolves so its children become
-     grid items and can be ordered. */
-  .grid--hero > .stack { display: contents; }
-  .grid--hero .motto { order: 1; }
-  .grid--hero .figure { order: 2; }
-  .grid--hero .lede { order: 3; }
+  .grid--2, .grid--3, .grid--fund, .grid--story, .grid--steps, .grid--form { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
   .photo-grid { grid-template-columns: minmax(0, 1fr); }
   .site-footer__inner, .site-footer__legal { padding-inline: var(--space-6); }
   .site-nav { order: 3; flex-basis: 100%; justify-content: flex-start; }
