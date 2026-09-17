@@ -442,6 +442,16 @@ main > section.section:last-of-type::after {
   text-underline-offset: 5px;
 }
 .resources a:hover { color: var(--text-link-hover); }
+/* Expanded list (client, 2026-09-17): two groups; each firm is a link, a place, and one line. */
+.resources__group { margin: var(--space-6) 0 0; font-family: var(--font-display); font-size: var(--font-size-title-sm); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); color: var(--text-heading); }
+.resources li { display: flex; flex-direction: column; gap: var(--space-1); }
+.resources__place { font-size: var(--font-size-fine); color: var(--text-faint); }
+.resources__what { color: var(--text-muted); max-width: var(--measure-prose); }
+.resources__more { margin: var(--space-5) 0 0; color: var(--text-muted); max-width: var(--measure-prose); }
+.resources__more a { color: var(--text-link); text-decoration: underline; text-underline-offset: 5px; }
+.resources__more a:hover { color: var(--text-link-hover); }
+/* Apply (client, 2026-09-17): the one sentence that replaced the opt-out checkbox. */
+.apply__shared { margin: 0; color: var(--text-muted); max-width: var(--measure-prose); }
 
 /* Prayer (Home): the Lord's Prayer in full and Psalm 100:1 (client PDF, 2026-09-10). Plenty of
    space, no decoration. The citation is ivory-400 on the band, an already-checked pair. */

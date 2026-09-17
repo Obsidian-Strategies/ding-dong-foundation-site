@@ -27,7 +27,7 @@ src/
   css/site.css                component + page styles
   js/site.js                 bell intro (strikes, skip, exit) + apply/donate UI states (submissions are stubbed)
   fonts/                     Great Vibes latin woff2 (OFL), the only webfont
-  uploads/                   client photography
+  uploads/                   client photography, plus fund-glass.jpg (Unsplash licence) and fund-artisan.jpg (CC0, rawpixel via Openverse); neither needs a credit
   audio/bell.mp3             intro bell strike (Pixabay #293423, Pixabay Content License)
 tests/                       dependency-free checks (see below)
 ```
@@ -61,3 +61,4 @@ node tests/structure.mjs       # per-page contract: nav, footer, verbatim texts,
 - Times New Roman everywhere except the motto, set in Great Vibes through `--font-script`.
 - The entrance overlay is the one light surface (ivory); every page behind it is navy.
 - Apply for a grant lives in the header button only. Never in a page body or the footer.
+- Applications are online only: no paper form, no mailing option, email required. Funded projects are shared on the site and applicants do not opt out (client, 2026-09-17).

@@ -4,11 +4,12 @@ Public source for thedingdongfoundation.org. The full project brief, client fact
 
 ## Rules that must hold (also in README.md)
 - Nothing below 16pt (21.33px). Every text/background pair at or above 4.5:1.
-- The filed mission statement on Home is never rewritten.
+- Home copy is the client's verbatim text from her 2026-09-10 PDF; the Lord's Prayer in full and Psalm 100:1. The filed purpose statement is not on the site, and there is no Mission page or `/mission/` address.
 - No founder name, bio, or photo credits anywhere.
-- Times New Roman everywhere except the motto pair, set in Great Vibes through `--font-script`. One dark theme, no toggle. The entrance overlay is the one light (ivory) surface. Sentence case, no emoji, verb-phrase buttons.
+- Times New Roman everywhere except the motto, set in Great Vibes through `--font-script`: the pair on the entrance overlay, "Jubilate Deo" alone as the Home h1. One dark theme, no toggle. The entrance overlay is the one light (ivory) surface. Sentence case, no emoji, verb-phrase buttons.
+- "Apply for a grant" is the header button only. Applications are online only: no paper form, no mailing option. Funded projects are shared on the site; applicants do not opt out.
 - Banned strings in built HTML: February, Europe, Grounded, Judy, Peng, founder, Ding Dong, public charity.
-- Pages: Home, Inspirations, Mission (footer only), Guidelines, Apply, Grants, Questions, Give, plus `/story/` redirecting to `/inspirations/`.
+- Pages: Home, Inspirations, Guidelines, Apply, Grants, Questions, Give, plus `/story/` redirecting to `/inspirations/`.
 
 ## Commands (run here)
 - Dev: `npx @11ty/eleventy --serve`

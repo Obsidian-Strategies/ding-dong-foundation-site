@@ -85,7 +85,11 @@ check("inspirations: healing frequency mention", /frequencies long associated wi
 check("inspirations: certification date", /certified by the IRS on July 28, 2026/i.test(read("/inspirations/")));
 check("inspirations: ringing chamber photo, no placeholder", /uploads\/ringing-chamber\.jpg/.test(read("/inspirations/")) && !/figure__placeholder/.test(read("/inspirations/")));
 check("inspirations: dedication line verbatim", /Every project our foundation touches carries the same song with it: <em class="dedication">Ave Maria<\/em>\./.test(read("/inspirations/")));
-check("inspirations: four resource links, names only", count(read("/inspirations/"), /<li><a href="https:\/\/[^"]+" rel="noopener">[^<]+<\/a><\/li>/g) === 4);
+// Resources (client, 2026-09-17): two groups, eight to twelve firms each, every entry a link,
+// a place, and one line on what they do. Links were checked live when the round was built.
+check("inspirations: two resource groups with headings", /<h3 class="resources__group">Bell foundries and carillons<\/h3>/.test(read("/inspirations/")) && /<h3 class="resources__group">Pipe organ builders and restorers<\/h3>/.test(read("/inspirations/")));
+check("inspirations: eight to twelve firms per group, each with a place and a line", (() => { const h = read("/inspirations/"); const groups = h.split('<h3 class="resources__group">').slice(1); if (groups.length !== 2) return false; return groups.every((g) => { const list = g.match(/<ul class="resources">[\s\S]*?<\/ul>/); if (!list) return false; const n = count(list[0], /<li><a href="https?:\/\/[^"]+" rel="noopener">[^<]+<\/a><span class="resources__place">[^<]+<\/span><span class="resources__what">[^<]+<\/span><\/li>/g); return n >= 8 && n <= 12 && n === count(list[0], /<li>/g); }); })());
+check("inspirations: not-an-endorsement line stays", /Listing here is not an endorsement and is not a condition of any grant\./.test(read("/inspirations/")));
 check("inspirations: no 'bells are the story', no 'what we are for'", !/The bells are the story|What we are for/i.test(read("/inspirations/")));
 check("/story/ redirects to /inspirations/", (() => { const f = new URL("../_site/story/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/inspirations\/">/.test(readFileSync(f, "utf8")); })());
 check("prayer for the world: template exists but is not published until Judy sends the text", existsSync(new URL("../src/prayer-for-the-world.njk", import.meta.url)) && !existsSync(new URL("../_site/prayer-for-the-world/index.html", import.meta.url)) && !/Prayer for the World/.test(read("/")));
@@ -93,7 +97,7 @@ check("no /mission/ page is built and nothing links to it (Rogan, 2026-09-15)", 
 check("home: bell photo present", /uploads\/IMG_8851\.JPG/.test(read("/")));
 check("home: hero photo has figure--bell crop class", /class="hero-bleed__media figure figure--bell"/.test(read("/")));
 check("home: hero photo crop is in the stylesheet", /\.hero-bleed img \{[^}]*object-position:/.test(siteCss));
-check("home: four fund cards, three with reveal photos (client PDF, 2026-09-10)", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 4 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")));
+check("home: four fund cards, each with a reveal photo (client PDF, 2026-09-10; Rogan, 2026-09-17)", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 4 && count(read("/"), /<div class="card__photo" aria-hidden="true">/g) === 4 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")) && /uploads\/fund-artisan\.jpg/.test(read("/")));
 check("home: fund intro and card lines verbatim", (() => { const h = read("/"); return /Grants support the building, restoration, and preservation of sacred architecture and the elements that give a house of worship its voice and its light\. We also fund the training of the artisans this work depends on\. Grant amounts are determined case by case\./.test(h) && /Repair, rehanging, and new rings\. Electronic carillons for churches with no bells at all\./.test(h) && /Restoration, purchase, and the tuning that keeps them honest\./.test(h) && /Rose windows, stained glass, leadwork, and protective glazing\./.test(h) && /Apprenticeships and education in bell founding, organ building, and sacred glasswork\./.test(h); })());
 check("home: fund card titles in sentence case", (() => { const h = read("/"); return />Bells and towers</.test(h) && />Pipe organs</.test(h) && />Windows and glass</.test(h) && />Artisan training</.test(h); })());
 check("home: no tag pills on the fund cards", !/<span class="tag">/.test(read("/").match(/data-fund>[\s\S]*?<\/section>/)[0]));
@@ -106,8 +110,15 @@ check("guidelines: steps 2 and 3 verbatim", /We will read all submissions and re
 check("guidelines: carillon block reworded and placed before How it goes", (() => { const h = read("/guidelines/"); return /For churches without bells/.test(h) && /nothing to cast, nothing to build/.test(h) && /Call to Worship/.test(h) && /the Angelus/.test(h) && /Westminster chimes/.test(h) && /A grant can cover one\./.test(h) && h.indexOf("For churches without bells") < h.indexOf("How it goes"); })());
 check("guidelines: no fixed-amount section, no placeholder line, no 'No problem'", !/There is no fixed amount|Placeholder list|No bells\? No problem/.test(read("/guidelines/")));
 check("apply: carillon project type", /<option value="carillon">Electronic carillon<\/option>/.test(read("/apply/")));
-check("apply: story/media opt-out checkbox", /id="optout"[^>]*type="checkbox"/.test(read("/apply/")));
-check("apply: org name required", /id="org"[^>]*required/.test(read("/apply/")));
+// No choices (client, 2026-09-17): recipients do not opt out of being shown, applications
+// are online only, one inquiry per applicant.
+check("apply: no opt-out checkbox; funded projects are shared, stated once", !/id="optout"/.test(read("/apply/")) && /<p class="apply__shared">Funded projects are shared on this site: the church, the work, and the people who did it\.<\/p>/.test(read("/apply/")));
+check("apply: online only, no paper form and no mailing option", !/paper form|Prefer to mail it|Download the/i.test(read("/apply/")));
+check("apply: no second inquiry button", !/Send another inquiry/.test(read("/apply/")));
+check("apply: org name and email required", /id="org"[^>]*required/.test(read("/apply/")) && /id="email"[^>]*required/.test(read("/apply/")));
+check("apply: project type says Artisan training", /<option value="arts">Artisan training<\/option>/.test(read("/apply/")) && !/Sacred arts or apprenticeship/.test(read("/apply/")));
+check("questions: how-to-apply answer is online only", (() => { const h = read("/questions/"); const a = "Send a short inquiry through the form on this site. It takes a few minutes and asks for no documents. If it looks like a fit, we will write back and ask for photographs, drawings and estimates."; const ld = (h.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/) || [])[1] || ""; return h.includes(a) && !/paper form|post it/i.test(h) && ld.includes(a); })());
+check("donate: hero is Give. with no quiet option", /<h1 class="display">Give\.<\/h1>/.test(read("/donate/")) && !/quietly/.test(read("/donate/")));
 // Online giving is behind site.onlineGiving (src/_data/site.json). While it is false the page is
 // check donations only (client, 2026-09-01). When it flips to true, restore the v2 assertions
 // from git history (amount buttons, details form, Stripe hand-off, anonymity checkbox).
@@ -156,6 +167,7 @@ check(`every var(--x) in src/css/** resolves to a defined token` + (unresolved.l
 // Collapsing mobile header (client, 2026-08-31). The behaviour is CSS + JS with no markup of
 // its own, so assert both halves stay wired together.
 const siteJs = readFileSync(new URL("../src/js/site.js", import.meta.url), "utf8");
+check("apply: script refuses a submission without an email", /data-email-error/.test(siteJs) && /We need an email address to reply to\./.test(siteJs));
 // Questions list (client, 2026-09-07): the open question must not shift sideways (the list clips
 // horizontally, so a shifted bar loses its left edge). Hover previews an answer; a click pins
 // it, and hover must not move the panel while a question is pinned.

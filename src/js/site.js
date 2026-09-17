@@ -8,6 +8,12 @@
     var org = applyForm.querySelector("#org");
     var orgField = org.closest(".field");
     var orgError = applyForm.querySelector("[data-org-error]");
+    // Email is required too (client, 2026-09-17): applications are online only, so the reply
+    // has nowhere else to go.
+    var email = applyForm.querySelector("#email");
+    var emailField = email.closest(".field");
+    var emailError = applyForm.querySelector("[data-email-error]");
+    var emailOk = function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); };
 
     applyForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -20,6 +26,15 @@
       }
       orgField.classList.remove("field--error");
       orgError.hidden = true;
+      if (!emailOk(email.value.trim())) {
+        emailField.classList.add("field--error");
+        emailError.textContent = "We need an email address to reply to.";
+        emailError.hidden = false;
+        email.focus();
+        return;
+      }
+      emailField.classList.remove("field--error");
+      emailError.hidden = true;
       applyCard.hidden = true;
       applySuccess.hidden = false;
       window.scrollTo(0, 0);

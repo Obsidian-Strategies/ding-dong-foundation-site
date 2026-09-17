@@ -28,8 +28,10 @@ description: A short inquiry to start. If it looks like a fit, we will write bac
             <div><input class="field__control" id="contact" name="contact" type="text"></div>
           </div>
           <div class="field">
-            <label for="email">Email</label>
-            <div><input class="field__control" id="email" name="email" type="email"></div>
+            <label for="email">Email<span class="field__req" aria-hidden="true">*</span></label>
+            <span class="field__hint">Applications are online only, so our reply comes by email.</span>
+            <div><input class="field__control" id="email" name="email" type="email" required aria-describedby="email-error"></div>
+            <span class="field__error" id="email-error" data-email-error hidden></span>
           </div>
         </div>
         <div class="field">
@@ -40,7 +42,7 @@ description: A short inquiry to start. If it looks like a fit, we will write bac
               <option value="carillon">Electronic carillon</option>
               <option value="organ">Pipe organ</option>
               <option value="glass">Windows and glass</option>
-              <option value="arts">Sacred arts or apprenticeship</option>
+              <option value="arts">Artisan training</option>
               <option value="other">Something else</option>
             </select>
           </div>
@@ -50,16 +52,10 @@ description: A short inquiry to start. If it looks like a fit, we will write bac
           <span class="field__hint">A few sentences is plenty. What has gone quiet, and what would it take to fix?</span>
           <div><textarea class="field__control" id="need" name="need" rows="5"></textarea></div>
         </div>
-        <div class="checkbox">
-          <input id="optout" name="optout" type="checkbox">
-          <label for="optout">
-            <span class="checkbox__label">Please do not share our story, photographs or recordings.</span>
-            <span class="checkbox__hint">Leave this unchecked and we may share your project on this site. You can change your mind at any time.</span>
-          </label>
-        </div>
+        {#- No opt-out (client, 2026-09-17): funded projects are shown on the site, stated once. #}
+        <p class="apply__shared">Funded projects are shared on this site: the church, the work, and the people who did it.</p>
         <div class="actions">
           <button class="btn btn--lg" type="submit">Send our inquiry</button>
-          <button class="btn btn--ghost" type="button">Download the paper form</button>
         </div>
       </form>
     </div>
@@ -68,15 +64,7 @@ description: A short inquiry to start. If it looks like a fit, we will write bac
       <div class="stack stack--sm stack--start">
         <h2 class="title">Thank you. We have it.</h2>
         <p class="muted m0 prose">A person reads every inquiry, so give us a couple of weeks. If it looks like a fit we will write back and ask for photographs, drawings and estimates.</p>
-        <button class="btn btn--secondary" type="button" data-apply-reset>Send another inquiry</button>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section section--tight section--band">
-  <div class="content stack stack--sm stack--start">
-    <h2 class="title">Prefer to mail it?</h2>
-    <p class="m0 prose">Print the paper form and send it to the address in the footer. It asks for exactly the same things.</p>
   </div>
 </section>
