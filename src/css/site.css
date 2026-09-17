@@ -802,6 +802,11 @@ select.field__control { appearance: none; background-image: none; padding-right:
   z-index: 20;
   background: var(--surface-card);
   border-bottom: 1px solid var(--border-hairline);
+  /* Between 1024 and 1279px the Apply button sits at the viewport edge and its blurred
+     bloom (.btn::before, inset -14%, blur 18px) painted 12px past it, so the whole page could
+     scroll sideways. Clip the header's x axis only: clip is not a scroll container, so sticky
+     still works and the phone menu still grows downward. */
+  overflow-x: clip;
 }
 .site-header__inner {
   max-width: var(--page-max);

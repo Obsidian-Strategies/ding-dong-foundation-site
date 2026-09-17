@@ -181,6 +181,11 @@ check("phone header: script hides the bar on scroll", /data-hidden/.test(siteJs)
 const hiddenRule = siteCss.match(/\.site-header\[data-hidden\][^{]*\{([^}]*)\}/);
 check("phone header: hidden state moves the bar by transform only", !!hiddenRule && /transform:\s*translateY/.test(hiddenRule[1]));
 check("phone header: hidden state never animates height", !!hiddenRule && !/(^|[^-])height:|padding|max-height/.test(hiddenRule[1]));
+// The Apply button's bloom painted past the right edge at 1024 to 1279px and made the page
+// scroll sideways by 12px (backlog, 2026-09-09; fixed 2026-09-17). Only overflow-x may be
+// clipped: overflow-y must stay visible for the phone menu, and it must be clip, not hidden,
+// so the header never becomes a scroll container.
+check("header: x axis clipped so the button bloom cannot widen the page", /\.site-header \{[^}]*overflow-x: clip;/.test(siteCss) && !/\.site-header \{[^}]*overflow(-y)?: hidden/.test(siteCss));
 check("phone header: nav sits behind a Menu button below 900px", /@media \(max-width: 900px\)[\s\S]*?\[data-nav-open\] \.site-nav/.test(siteCss));
 check("phone header: toggle is a real disclosure button", /<button class="nav-toggle"[^>]*aria-expanded="false"[^>]*aria-controls="site-nav"/.test(read("/")));
 check("phone header: nav has the id the toggle points at", /<nav class="site-nav" id="site-nav"/.test(read("/")));
