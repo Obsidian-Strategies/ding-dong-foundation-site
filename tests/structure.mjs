@@ -45,6 +45,9 @@ for (const route of Object.keys(PAGES)) {
   check(tag("no 'Submit' / 'Learn more' buttons"), !/>(Submit|Learn more)</.test(html));
   check(tag("Phosphor icons stylesheet"), /@phosphor-icons\/web@2\.1\.1\/src\/regular\/style\.css/.test(html));
   check(tag("tokens + site css linked"), /css\/styles\.css/.test(html) && /css\/site\.css/.test(html));
+  // Cache busting (2026-09-23): every stylesheet and script link carries the build id, so a
+  // deploy never draws new HTML with a browser's cached old CSS.
+  check(tag("css and js links carry a build version"), count(html, /href="\/css\/(styles|site)\.css\?v=[a-z0-9]+"/g) === 2 && /src="\/js\/site\.js\?v=[a-z0-9]+"/.test(html));
   check(tag("intro gate script before first paint"), /<head>[\s\S]*ddf-intro-v1[\s\S]*prefers-reduced-motion[\s\S]*<\/head>/.test(html));
   check(tag("intro overlay is a labelled dialog before the header"), /<body>\s*<div class="intro" data-intro-overlay[^>]* role="dialog" aria-label="[^"]+">[\s\S]*intro__bell-clapper[\s\S]*<\/div>\s*<header/.test(html));
   check(tag("intro has a real 'Ring the bell' button"), /<button class="btn intro__ring" type="button" data-intro-ring>Ring the bell<\/button>/.test(html));
