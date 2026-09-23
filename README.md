@@ -53,7 +53,7 @@ node tests/structure.mjs       # per-page contract: nav, footer, verbatim texts,
 - Sentence case. No emoji. Buttons are verb phrases — never "Submit" or "Learn more".
 - The founder is anonymous: no name, no bio, no photo credits.
 - Verbatim texts are never rewritten: every Home text from Judy's 2026-09-10 PDF (hero paragraph, credibility line, Why we ring, What we fund) and the prayers on Home (the Lord's Prayer in full, Psalm 100:1). The filed purpose statement is not on the site.
-- Home hero is the bell photo full width with "Jubilate Deo" alone over a navy scrim (0.85 behind the text; `tests/contrast.mjs` models it over white). The motto pair lives on the entrance overlay.
+- Home hero is the bell photo full width with "Jubilate Deo" alone over a navy scrim (0.85 behind the text; `tests/contrast.mjs` models it over white). The English motto line alone lives on the entrance overlay; the two lines are never shown together (client, 2026-09-23). The header wordmark and the entrance name are small capitals, as on her business card.
 - No newsletter signup, events calendar, cookie bar or sticky donate ribbon. The header is the only sticky element.
 - The bell intro waits for the visitor to press "Ring the bell" — that click is the browser's permission for sound, so `audio/bell.mp3` (second strike pitched down a minor third) and the two swings always play together, then the curtain lifts. Esc lifts it quietly. It shows at most once per 24h (`localStorage` key `ddf-intro-v1`) and never under reduced motion. Add `?intro` to the URL to force it for review.
 - "Ave Maria" stays as the standing dedication in the footer.

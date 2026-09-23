@@ -132,10 +132,11 @@ main > section.section:last-of-type::after {
   color: var(--text-accent);
 }
 
-/* Motto pair (client, 2026-09-01): "Make a Joyful Noise to the Lord" over "Jubilate Deo", both in
-   the script face, English larger, Latin quieter. Used as the Home h1 and on the entrance
-   overlay. Sizes cap at display-sm so the English line fits the 760px content column on one
-   line at 1440 and wraps to two balanced lines on phones. */
+/* Motto (client, 2026-09-01, then 2026-09-23): "Make a Joyful Noise to the Lord" and "Jubilate
+   Deo" in the script face, one line per place, never together. The English line is the
+   entrance overlay's (as on her business card); the Latin alone is the Home h1. Sizes cap at
+   display-sm so the English line fits the 760px content column on one line at 1440 and wraps
+   to two balanced lines on phones. */
 .motto {
   margin: 0;
   display: flex;
@@ -823,24 +824,23 @@ select.field__control { appearance: none; background-image: none; padding-right:
   .site-header__inner { flex-wrap: nowrap; }
   .site-header__action { flex: none; }
 }
-/* Wordmark. The client found the italic, tight version cramped (2026-09-01): roman, medium
-   weight, a real gap between the lines, and calmer tracking on FOUNDATION. */
-.wordmark { display: inline-flex; flex-direction: column; gap: var(--space-2); line-height: 1; text-decoration: none; }
-.wordmark__ding {
+/* Wordmark (client, 2026-09-23): "The DingDong Foundation" in small capitals, as on her
+   business card. Times has no small-cap glyphs, so the browser draws them from the capitals;
+   the font-size itself stays on the token scale, never under the 16pt floor. The two words
+   are separate spans: stacked in two lines by default (the one-line mark is 384px at this
+   size, and six links plus the Apply button leave no room for it beside them), on one line
+   from 1280px up where the header has the width (see the media rule after .site-nav). The
+   mark never shrinks or wraps on its own; the breakpoints decide. */
+.wordmark { display: inline-flex; flex: none; flex-direction: column; row-gap: var(--space-1); line-height: 1.1; text-decoration: none; }
+.wordmark__line {
   font-family: var(--font-display);
+  font-variant-caps: small-caps;
   font-style: normal;
   font-weight: var(--weight-medium);
-  font-size: var(--font-size-title);
-  letter-spacing: 0.01em;
+  font-size: var(--font-size-title-sm);
+  letter-spacing: 0.04em;
   color: var(--accent-warm);
-}
-.wordmark__foundation {
-  font-family: var(--font-text);
-  font-size: var(--font-size-fine);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-heading);
+  white-space: nowrap;
 }
 .site-nav {
   display: flex;
@@ -899,6 +899,16 @@ select.field__control { appearance: none; background-image: none; padding-right:
 @media (min-width: 1024px) and (max-width: 1279px) {
   .site-header__inner { padding-inline: var(--space-4); gap: var(--space-3); }
   .site-nav { gap: var(--space-2); }
+}
+/* From 1280px up the wordmark sits on one line, as on the card, one size down (26px) with the
+   header's gaps trimmed one step: 333px of mark, 540px of links, 203px of button and two
+   16px gaps in the 1136px row leaves about 28px to spare, enough for Times on other systems
+   to run a little wider. Placed here so it wins over the base gaps at equal specificity. */
+@media (min-width: 1280px) {
+  .wordmark { flex-direction: row; align-items: baseline; column-gap: 0.3em; }
+  .wordmark__line { font-size: var(--font-size-body-lg); }
+  .site-header__inner { gap: var(--space-4); }
+  .site-nav { gap: var(--space-3); }
 }
 
 /* --- Footer (navy-950 — the darkest surface) ------------------------------
@@ -993,15 +1003,16 @@ html[data-intro="leaving"] .intro {
 }
 .intro__bell-swing { transform-origin: 60px 4px; transform-box: view-box; }
 .intro__bell-clapper { transform-origin: 60px 54px; transform-box: view-box; }
+/* Same small-capital treatment as the header wordmark (client card, 2026-09-23). */
 .intro__name {
   font-family: var(--font-display);
-  font-size: clamp(var(--font-size-fine), 3.4vw, var(--font-size-title-sm));
+  font-variant-caps: small-caps;
+  font-size: clamp(var(--font-size-title-sm), 4.2vw, var(--font-size-title-lg));
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   line-height: 1.2;
   color: var(--navy-950);
-  padding-left: var(--tracking-eyebrow);
+  text-wrap: balance;
 }
 .intro .motto { align-items: center; margin-top: var(--space-2); }
 /* On the light ground the glass pane would vanish, so the button is a solid navy pill. These
@@ -1121,14 +1132,11 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
     align-items: center;
     flex-wrap: wrap;
   }
-  .wordmark__ding { font-size: var(--font-size-title-sm); }
-  /* Narrow phones (360px and the like) cannot hold the full wordmark and the button on one
-     row. The FOUNDATION line is the wide one and it already sits on the 16pt floor, so it
-     gives up letter-spacing rather than size; the display line steps down once. Both stay
-     above the floor. */
+  /* The stacked mark one size down so it fits beside the Menu button. */
+  .wordmark__line { font-size: var(--font-size-body-lg); }
+  /* Narrow phones (360px and the like): one step down, still on the 16pt floor. */
   @media (max-width: 420px) {
-    .wordmark__ding { font-size: var(--font-size-body-lg); }
-    .wordmark__foundation { letter-spacing: 0.05em; }
+    .wordmark__line { font-size: var(--font-size-fine); }
   }
 
   .nav-toggle {

@@ -6,7 +6,7 @@ Public source for thedingdongfoundation.org. The full project brief, client fact
 - Nothing below 16pt (21.33px). Every text/background pair at or above 4.5:1.
 - Home copy is the client's verbatim text from her 2026-09-10 PDF; the Lord's Prayer in full and Psalm 100:1. The filed purpose statement is not on the site, and there is no Mission page or `/mission/` address.
 - No founder name, bio, or photo credits anywhere.
-- Times New Roman everywhere except the motto, set in Great Vibes through `--font-script`: the pair on the entrance overlay, "Jubilate Deo" alone as the Home h1. One dark theme, no toggle. The entrance overlay is the one light (ivory) surface. Sentence case, no emoji, verb-phrase buttons.
+- Times New Roman everywhere except the motto, set in Great Vibes through `--font-script`: "Make a Joyful Noise to the Lord" alone on the entrance overlay, "Jubilate Deo" alone as the Home h1, never both together (client, 2026-09-23). The wordmark and the entrance name are "The DingDong Foundation" in small capitals, as on her business card. One dark theme, no toggle. The entrance overlay is the one light (ivory) surface. Sentence case, no emoji, verb-phrase buttons.
 - "Apply for a grant" is the header button only. Applications are online only: no paper form, no mailing option. Funded projects are shared on the site; applicants do not opt out.
 - Banned strings in built HTML: February, Europe, Grounded, Judy, Peng, founder, Ding Dong, public charity.
 - Pages: Home, Inspirations, Guidelines, Apply, Grants, Questions, Give, plus `/story/` redirecting to `/inspirations/`.

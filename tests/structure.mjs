@@ -19,8 +19,8 @@ for (const route of Object.keys(PAGES)) {
   const tag = (s) => `${route} ${s}`;
   check(tag("doctype + lang"), /^<!DOCTYPE html>\s*<html lang="en">/i.test(html.trim()));
   check(tag("title ends with org name"), /<title>(.* · )?The DingDong Foundation<\/title>/.test(html));
-  check(tag("header wordmark includes The"), count(html, /wordmark__ding">The DingDong</g) === 1);
-  check(tag("intro overlay: name, then motto pair, then the button"), /intro__name">The DingDong Foundation<\/div>\s*<div class="motto motto--light">\s*<span class="motto__en">Make a Joyful Noise to the Lord<\/span>\s*<span class="motto__la">Jubilate Deo<\/span>\s*<\/div>\s*<button class="btn intro__ring"/.test(html));
+  check(tag("header wordmark: The DingDong, then Foundation, in small-capital lines"), count(html, /wordmark__line">The DingDong<\/span>\s*<span class="wordmark__line">Foundation</g) === 1 && !/wordmark__ding|wordmark__foundation/.test(html));
+  check(tag("intro overlay: name, then the English motto line alone, then the button (client, 2026-09-23)"), /intro__name">The DingDong Foundation<\/div>\s*<div class="motto motto--light">\s*<span class="motto__en">Make a Joyful Noise to the Lord<\/span>\s*<\/div>\s*<button class="btn intro__ring"/.test(html) && !/<div class="intro"[\s\S]*?motto__la[\s\S]*?intro__ring/.test(html));
   check(tag("exactly one h1"), count(html, /<h1[\s>]/g) === 1);
   check(tag("sticky header with 6 nav links"), count(html, /<nav class="site-nav"[\s\S]*?<\/nav>/) === 1 && count(html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0], /<a /g) === 6);
   check(tag("header nav: Inspirations in, Mission out"), (() => { const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0]; return />Inspirations</.test(nav) && !/>Mission</.test(nav) && !/>Our story</.test(nav); })());
@@ -75,10 +75,10 @@ check("home: Lord's Prayer verbatim", /Our Father, who art in heaven,<br>\s*hall
 check("home: Psalm 100 is verse 1 only, with its attribution (client PDF, 2026-09-10)", /<p class="prayer__verse">Make a joyful noise unto the Lord, all ye lands\.<\/p>\s*<p class="prayer__cite">— Psalm 100:1<\/p>/.test(read("/")) && !/prayer__num|Serve the Lord with gladness|endureth to all generations/.test(read("/")));
 check("home: prayer sub-headings are gone", !/title-sm">The Lord's Prayer<|title-sm">Psalm 100</.test(read("/")));
 check("home: prayer intro line and photo caption", /The work of this foundation is carried with prayer\./.test(read("/")) && /figure__caption">Church of the Holy Sepulchre, bell tower, Jerusalem</.test(read("/")));
-check("home: hero is the bell photo full width with the motto over it", /<section class="section section--hero hero-bleed">(?:(?!<\/section>)[\s\S])*uploads\/IMG_8851\.JPG(?:(?!<\/section>)[\s\S])*hero-bleed__scrim(?:(?!<\/section>)[\s\S])*<h1 class="motto motto--solo">/.test(read("/")));
+check("home: hero is the bell photo full width with the motto over it", /<section class="section section--hero hero-bleed">(?:(?!<\/section>)[\s\S])*uploads\/holy-sepulchre-bells\.jpg(?:(?!<\/section>)[\s\S])*hero-bleed__scrim(?:(?!<\/section>)[\s\S])*<h1 class="motto motto--solo">/.test(read("/")));
 check("home: hero scrim reaches 0.85 behind the text (matches contrast model)", /\.hero-bleed__scrim \{[^}]*rgba\(10, 18, 38, 0\.85\)/.test(siteCss));
-check("home: hero photo loads eagerly", /<img src="[^"]*IMG_8851\.JPG"[^>]*fetchpriority="high"/.test(read("/")) && !/<img src="[^"]*IMG_8851\.JPG"[^>]*loading="lazy"/.test(read("/")));
-check("home: prayer section no longer holds the bell photo", !/<section class="section section--band prayer">(?:(?!<\/section>)[\s\S])*uploads\/IMG_8851\.JPG/.test(read("/")));
+check("home: hero photo loads eagerly", /<img src="[^"]*holy-sepulchre-bells\.jpg"[^>]*fetchpriority="high"/.test(read("/")) && !/<img src="[^"]*holy-sepulchre-bells\.jpg"[^>]*loading="lazy"/.test(read("/")));
+check("home: prayer section no longer holds the bell photo", !/<section class="section section--band prayer">(?:(?!<\/section>)[\s\S])*uploads\/holy-sepulchre-bells\.jpg/.test(read("/")));
 check("inspirations: call to prayer — Angelus", /the Angelus is tolled at morning, noon, and evening/i.test(read("/inspirations/")));
 check("inspirations: serious undertaking", /a serious undertaking, not a pastime/i.test(read("/inspirations/")));
 check("inspirations: healing frequency mention", /frequencies long associated with healing/i.test(read("/inspirations/")));
@@ -94,7 +94,7 @@ check("inspirations: no 'bells are the story', no 'what we are for'", !/The bell
 check("/story/ redirects to /inspirations/", (() => { const f = new URL("../_site/story/index.html", import.meta.url); return existsSync(f) && /<meta http-equiv="refresh" content="0; url=\/inspirations\/">/.test(readFileSync(f, "utf8")); })());
 check("prayer for the world: template exists but is not published until Judy sends the text", existsSync(new URL("../src/prayer-for-the-world.njk", import.meta.url)) && !existsSync(new URL("../_site/prayer-for-the-world/index.html", import.meta.url)) && !/Prayer for the World/.test(read("/")));
 check("no /mission/ page is built and nothing links to it (Rogan, 2026-09-15)", !existsSync(new URL("../_site/mission/index.html", import.meta.url)) && !existsSync(new URL("../src/mission.njk", import.meta.url)));
-check("home: bell photo present", /uploads\/IMG_8851\.JPG/.test(read("/")));
+check("home: bell photo present, the retouched file (client, 2026-09-23)", /uploads\/holy-sepulchre-bells\.jpg/.test(read("/")));
 check("home: hero photo has figure--bell crop class", /class="hero-bleed__media figure figure--bell"/.test(read("/")));
 check("home: hero photo crop is in the stylesheet", /\.hero-bleed img \{[^}]*object-position:/.test(siteCss));
 check("home: four fund cards, each with a reveal photo (client PDF, 2026-09-10; Rogan, 2026-09-17)", count(read("/"), /<div class="card card--accent card--interactive fund__card" data-fund-card>/g) === 4 && count(read("/"), /<div class="card__photo" aria-hidden="true">/g) === 4 && /uploads\/fund-bells\.jpg/.test(read("/")) && /uploads\/fund-organ\.jpg/.test(read("/")) && /uploads\/fund-glass\.jpg/.test(read("/")) && /uploads\/fund-artisan\.jpg/.test(read("/")));
@@ -196,7 +196,7 @@ check("home: bell crop is centred on the bell (object-position <= 50%)", !!bellP
 
 check("intro: light ground, gold bell, navy name", /\.intro \{[^}]*background: var\(--ivory-50\)/.test(siteCss) && /\.intro__bell \{[^}]*color: var\(--gold-600\)/.test(siteCss) && /\.intro__name \{[^}]*color: var\(--navy-950\)/.test(siteCss));
 check("intro: button is a solid navy pane on the light ground", /\.intro__ring::after \{[^}]*background: var\(--navy-950\)/.test(siteCss));
-check("wordmark: roman, medium weight, breathing room", /\.wordmark__ding \{[^}]*font-style: normal/.test(siteCss) && /\.wordmark__ding \{[^}]*font-weight: var\(--weight-medium\)/.test(siteCss) && /\.wordmark \{[^}]*gap: var\(--space-2\)/.test(siteCss));
+check("wordmark: small capitals in the display face, one line (client card, 2026-09-23)", /\.wordmark__line \{[^}]*font-variant-caps: small-caps/.test(siteCss) && /\.wordmark__line \{[^}]*font-family: var\(--font-display\)/.test(siteCss) && /\.intro__name \{[^}]*font-variant-caps: small-caps/.test(siteCss) && !/\.wordmark__(ding|foundation)/.test(siteCss));
 check("type: one size for section h2s and the empty-state h2", /\.section-heading h2 \{[^}]*font-size: var\(--font-size-title-lg\)/.test(siteCss) && /\.empty h2 \{[^}]*font-size: var\(--font-size-title-lg\)/.test(siteCss));
 
 // .btn--ghost is a plain text link (see the Home hero "Read the purpose as filed..." link). If
