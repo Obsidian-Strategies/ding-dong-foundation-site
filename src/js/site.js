@@ -1,4 +1,5 @@
-// Apply and Donate page behaviour. Submissions are stubbed until a form service is chosen.
+// Apply and Give page behaviour. Form delivery and online giving are stubbed until a form
+// service and the Stripe Payment Link exist.
 (function () {
   // --- Apply -------------------------------------------------------------
   var applyForm = document.querySelector("[data-apply-form]");
@@ -37,8 +38,31 @@
       emailError.hidden = true;
       applyCard.hidden = true;
       applySuccess.hidden = false;
-      window.scrollTo(0, 0);
+      // The form sits at the end of Resources, so the thank-you takes its place rather than
+      // sending the reader back to the top of the page.
+      applySuccess.scrollIntoView({ block: "start" });
     });
+
+    // Character count under the 5,000-character box (Ken, 2026-09-29) and the names of the
+    // files chosen for upload. Delivery of both is stubbed until a form service is chosen.
+    var need = applyForm.querySelector("#need");
+    var needCount = applyForm.querySelector("[data-need-count]");
+    if (need && needCount && need.maxLength > 0) {
+      var updateCount = function () {
+        var left = need.maxLength - need.value.length;
+        needCount.textContent = left.toLocaleString("en-US") + (left === 1 ? " character left" : " characters left");
+      };
+      need.addEventListener("input", updateCount);
+      updateCount();
+    }
+    var files = applyForm.querySelector("#files");
+    var fileList = applyForm.querySelector("[data-file-list]");
+    if (files && fileList) {
+      files.addEventListener("change", function () {
+        var names = Array.prototype.map.call(files.files, function (f) { return f.name; });
+        fileList.textContent = names.length ? "Attached: " + names.join(", ") : "";
+      });
+    }
 
     var applyReset = document.querySelector("[data-apply-reset]");
     if (applyReset) {
@@ -50,146 +74,17 @@
     }
   }
 
-  // --- Donate ------------------------------------------------------------
-  // This markup only renders when site.onlineGiving is true (src/_data/site.json); until then
-  // there is no [data-donate] element in the page and this whole block is inert.
-  var donate = document.querySelector("[data-donate]");
-  if (donate) {
-    var amount = 100;
-    var buttons = donate.querySelectorAll(".amount");
-    var customWrap = donate.querySelector("[data-custom]");
-    var customInput = donate.querySelector("#custom");
-    var give = donate.querySelector("[data-give]");
-    var anon = donate.querySelector("#anon");
-    var donateSuccess = document.querySelector("[data-donate-success]");
-    var thanks = donateSuccess.querySelector("[data-thanks]");
-
-    function chosen() {
-      if (amount === "other") return customInput.value ? Number(customInput.value) : null;
-      return amount;
-    }
-    function updateLabel() {
-      var c = chosen();
-      give.textContent = c ? "Give $" + c : "Give";
-    }
-
-    buttons.forEach(function (b) {
-      b.addEventListener("click", function () {
-        amount = b.dataset.amount === "other" ? "other" : Number(b.dataset.amount);
-        buttons.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-        customWrap.hidden = amount !== "other";
-        if (amount === "other") customInput.focus();
-        updateLabel();
-      });
+  // --- Give ---------------------------------------------------------------
+  // Online giving is a Stripe Payment Link set in src/_data/site.json. While the link is
+  // empty the page renders a stub button; a click shows the note under it (client, 2026-09-29).
+  var giveStub = document.querySelector("[data-give-stub]");
+  var giveNote = document.querySelector("[data-give-note]");
+  if (giveStub && giveNote) {
+    giveStub.addEventListener("click", function () {
+      giveNote.hidden = false;
+      giveStub.setAttribute("aria-expanded", "true");
     });
-    customInput.addEventListener("input", updateLabel);
-
-    // Step 2: who is giving, and how. Payment is stubbed until a processor is chosen;
-    // real card entry must go through the processor's own fields, never this form.
-    var details = document.querySelector("[data-donate-details]");
-    var detailsForm = details.querySelector("[data-donate-form]");
-    var summary = details.querySelector("[data-summary]");
-    var submitBtn = details.querySelector("[data-donate-submit]");
-    var chargeNote = details.querySelector("[data-charge-note]");
-    var submitNote = details.querySelector("[data-submit-note]");
-    var anonNote = details.querySelector("[data-anon-note]");
-    var freqButtons = details.querySelectorAll("[data-freq]");
-    var freq = "once";
-
-    function money(c) { return "$" + c; }
-    function updateStep2() {
-      var c = chosen() || 0;
-      summary.textContent = money(c) + (freq === "monthly" ? " every month" : ", once");
-      submitNote.textContent = summary.textContent;
-      chargeNote.textContent = freq === "monthly"
-        ? "Charged today, then on this date each month. Stop any time by email."
-        : "Charged once, today.";
-    }
-
-    give.addEventListener("click", function () {
-      if (!chosen()) { customInput.focus(); return; }
-      anonNote.hidden = !anon.checked;
-      updateStep2();
-      donate.hidden = true;
-      details.hidden = false;
-      window.scrollTo(0, 0);
-      details.querySelector("#dname").focus({ preventScroll: true });
-    });
-
-    freqButtons.forEach(function (b) {
-      b.addEventListener("click", function () {
-        freq = b.dataset.freq;
-        freqButtons.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-        updateStep2();
-      });
-    });
-
-    details.querySelector("[data-donate-back]").addEventListener("click", function () {
-      details.hidden = true;
-      donate.hidden = false;
-      window.scrollTo(0, 0);
-    });
-
-    var MESSAGES = {
-      dname: "We need a name for the receipt.",
-      demail: "We need an email address for the receipt.",
-      dphone: "We need a phone number, in case there is a problem with the gift."
-    };
-    function valid(id, v) {
-      v = v.trim();
-      if (id === "demail") return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
-      if (id === "dphone") return v.replace(/\D/g, "").length >= 7;
-      return v.length > 0;
-    }
-
-    detailsForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var first = null;
-      Object.keys(MESSAGES).forEach(function (id) {
-        var input = detailsForm.querySelector("#" + id);
-        var err = detailsForm.querySelector("[data-error-for=" + id + "]");
-        var ok = valid(id, input.value);
-        input.closest(".field").classList.toggle("field--error", !ok);
-        err.textContent = ok ? "" : MESSAGES[id];
-        err.hidden = ok;
-        if (!ok && !first) first = input;
-      });
-      if (first) { first.focus(); return; }
-      // Mock hand-off. The real version sends name, email, phone, amount and cadence to
-      // Stripe Checkout and lands back here on Stripe's success URL.
-      var c = chosen();
-      var when = freq === "monthly" ? money(c) + " every month" : money(c) + ", once";
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Opening Stripe\u2026";
-      setTimeout(function () {
-        thanks.textContent = (anon.checked
-          ? "Your gift of " + when + " is recorded without your name. "
-          : "Your gift of " + when + " is recorded. ")
-          + "Stripe is sending a receipt to " + detailsForm.querySelector("#demail").value.trim() + "."
-          + (freq === "monthly" ? " Write to us whenever you want to change or stop it." : " We will let you know where the money went.");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Continue to Stripe";
-        details.hidden = true;
-        donateSuccess.hidden = false;
-        window.scrollTo(0, 0);
-      }, 900);
-    });
-
-    var donateReset = document.querySelector("[data-donate-reset]");
-    if (donateReset) {
-      donateReset.addEventListener("click", function () {
-        detailsForm.reset();
-        detailsForm.querySelectorAll(".field--error").forEach(function (f) { f.classList.remove("field--error"); });
-        detailsForm.querySelectorAll("[data-error-for]").forEach(function (s) { s.hidden = true; });
-        freq = "once";
-        freqButtons.forEach(function (x) { x.setAttribute("aria-pressed", String(x.dataset.freq === "once")); });
-        donateSuccess.hidden = true;
-        donate.hidden = false;
-        window.scrollTo(0, 0);
-      });
-    }
   }
-
 
   // --- Questions (hover to preview, click to pin) ------------------------------
   // Without this script every answer is visible beneath its question. With it, the answers
@@ -206,17 +101,9 @@
     var faqPinned = -1;
     var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
 
-    function faqBusy() {
-      // someone is writing in the ask form: leave the panel alone until they are done
-      var form = faqPanel.querySelector("[data-ask-form]");
-      if (!form) return false;
-      if (form.contains(document.activeElement)) return true;
-      return [].slice.call(form.querySelectorAll("input, textarea")).some(function (f) { return f.value.trim(); });
-    }
-
     function faqOpen(i, soft) {
       if (i === faqActive) return;
-      if (soft && (faqPinned !== -1 || faqBusy())) return;
+      if (soft && faqPinned !== -1) return;
       faqActive = i;
       faqItems.forEach(function (item, j) {
         item.querySelector("[data-faq-bar]").setAttribute("aria-expanded", String(j === i));
@@ -250,32 +137,6 @@
       });
       bar.addEventListener("focus", function () { faqOpen(i); });
       if (canHover) bar.addEventListener("mouseenter", function () { faqOpen(i, true); });
-    });
-
-    // Ask-your-own form. The panel holds a clone of it, so listen on the whole block.
-    // Submission is stubbed until a form service is chosen.
-    faq.addEventListener("submit", function (e) {
-      var form = e.target;
-      if (!form.matches("[data-ask-form]")) return;
-      e.preventDefault();
-      var email = form.querySelector("[name=email]");
-      var q = form.querySelector("[name=question]");
-      var err = form.querySelector("[data-ask-error]");
-      var msg = "";
-      if (!q.value.trim()) msg = "Write your question first.";
-      else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) msg = "We need an email address to reply to.";
-      if (msg) {
-        err.textContent = msg;
-        err.hidden = false;
-        q.closest(".field").classList.toggle("field--error", !q.value.trim());
-        email.closest(".field").classList.toggle("field--error", !!q.value.trim());
-        (q.value.trim() ? email : q).focus();
-        return;
-      }
-      var thanks = document.createElement("p");
-      thanks.className = "faq__thanks";
-      thanks.textContent = "Thank you. Your question is on its way, and a person will write back to " + email.value.trim() + ".";
-      form.replaceWith(thanks);
     });
 
     faq.setAttribute("data-faq", "enhanced");
@@ -467,7 +328,7 @@
         navToggle.setAttribute("aria-expanded", String(open));
       });
       // Following a link ends the panel's job; so does Escape, or a tap outside it.
-      header.querySelectorAll(".site-nav a, .site-header__action a").forEach(function (a) {
+      header.querySelectorAll(".site-nav a").forEach(function (a) {
         a.addEventListener("click", closeNav);
       });
       document.addEventListener("keydown", function (e) {

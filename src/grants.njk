@@ -1,34 +1,35 @@
 ---
 layout: base.njk
 title: Grants
-permalink: /grants/
+# Hidden (Rogan, 2026-09-29): nothing to show until the first grant. permalink false builds
+# nothing and the nav link is gone. To publish: set permalink to /grants/, add
+# { url: "/grants/", label: "Grants" } back to navItems in _includes/base.njk, and update the
+# nav-count and PAGES entries in tests/structure.mjs.
+permalink: false
 description: This page will show projects funded in whole or in part by The DingDong Foundation.
 ---
+{#- Inner-page hero (polish, 2026-09-29): the same shape as every section on the site, a plain
+    h1 and one white paragraph in the 1200px column. No eyebrow, no italic word. #}
 <section class="section section--hero">
-  <div class="content stack">
-    <span class="eyebrow">Grants</span>
-    <h1 class="display">Projects we have <em>funded</em>.</h1>
-    <p class="lede">This page will show projects funded in whole or in part by The DingDong Foundation.</p>
+  <div class="wrap stack">
+    <h1 class="display">Projects we have funded.</h1>
+    <p class="section-p">This page will show projects funded in whole or in part by The DingDong Foundation.</p>
   </div>
 </section>
 
 <section class="section section--page">
-  <div class="content stack stack--start">
+  <div class="wrap stack">
     <div class="empty">
-      <span class="empty__icon"><i class="ph ph-bell-simple icon icon--lg" aria-hidden="true"></i></span>
       <h2>The first grant is still ahead of us</h2>
-      <p>When a tower rings again, you will hear about it here — the church, the work, and the people who did it.</p>
+      <p>When a tower rings again, you will hear about it here: the church, the work, and the people who did it.</p>
     </div>
-    <a class="btn btn--secondary" href="{{ '/guidelines/' | url }}">See the guidelines</a>
+    <p class="section-p">If you have a project in mind, <a href="{{ '/guidelines/' | url }}">read the grant guidelines</a>.</p>
   </div>
 </section>
 
-<section class="section section--band">
-  <div class="wrap">
-    <header class="section-heading">
-      <span class="eyebrow">What will live here</span>
-      <h2>Pictures of the work, before and after</h2>
-      <p class="lede">Each finished project gets a short page: what was broken, what was done, and who did it. Recordings of the bells and organs will follow in a later phase.</p>
-    </header>
+<section class="section section--page">
+  <div class="wrap stack">
+    <h2 class="m0">What will live here</h2>
+    <p class="section-p">Pictures of the work, before and after. Each finished project gets a short page: what was broken, what was done, and who did it. Recordings of the bells and organs will follow in a later phase.</p>
   </div>
 </section>

@@ -61,9 +61,8 @@ main > section.section:last-of-type::after {
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
 /* Fund cards: four across on wide screens, two by two on tablets, one column on phones. */
-.grid--fund { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
+.grid--fund { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); align-items: stretch; }
 .grid--story { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-8); }
-.grid--steps { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--space-8); }
 .grid--form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
 
 .mt-7 { margin-top: var(--space-7); }
@@ -72,14 +71,8 @@ main > section.section:last-of-type::after {
 .mb-5 { margin: 0 0 var(--space-5); }
 
 /* --- Type ---------------------------------------------------------------- */
-.eyebrow {
-  font-family: var(--font-text);
-  font-size: var(--font-size-fine);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--text-accent);
-}
+/* No eyebrow style: the uppercase gold kicker above headings left the site in the 2026-09-29
+   polish. A heading and a white paragraph carry each section. */
 .display {
   margin: 0;
   font-family: var(--font-display);
@@ -90,7 +83,6 @@ main > section.section:last-of-type::after {
   color: var(--text-heading);
 }
 .display--lg { font-size: var(--font-size-display); }
-.display em { font-style: italic; color: var(--accent-rose); }
 .lede {
   margin: 0;
   font-size: var(--font-size-body-lg);
@@ -173,14 +165,13 @@ main > section.section:last-of-type::after {
   background: linear-gradient(to top, rgba(10, 18, 38, 0.85) 0%, rgba(10, 18, 38, 0.85) 52%, rgba(10, 18, 38, 0.35) 78%, rgba(10, 18, 38, 0.15) 100%);
   pointer-events: none;
 }
-.hero-bleed figcaption { max-width: none; }
-.hero-bleed .figure__caption { color: var(--ivory-300); }
-.hero-bleed__text { position: relative; display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-8) var(--space-6); }
-.hero-bleed__lede { color: var(--ivory-50); }
+/* Same column as the sections below: the padding sits outside the 1200px, so "Jubilate Deo"
+   and the section headings share one left edge (Rogan, 2026-09-27). */
+.hero-bleed__text { position: relative; display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-8) var(--space-6); max-width: calc(var(--page-max) + 2 * var(--space-6)); }
+.hero-bleed__lede { color: var(--text-body); }
 @media (min-width: 901px) {
   .hero-bleed { min-height: clamp(560px, 82vh, 860px); display: flex; flex-direction: column; justify-content: flex-end; }
   .hero-bleed__media, .hero-bleed__frame { position: absolute; inset: 0; }
-  .hero-bleed figcaption { position: absolute; right: var(--space-6); bottom: var(--space-5); text-align: right; }
   .hero-bleed__text { width: 100%; padding: var(--space-9) var(--space-6) var(--space-8); }
   .hero-bleed__lede { max-width: var(--measure-prose); }
 }
@@ -189,19 +180,13 @@ main > section.section:last-of-type::after {
   .hero-bleed img { position: absolute; inset: 0; }
   /* No text over the photo here, so only the bottom edge softens into the page navy. */
   .hero-bleed__scrim { background: linear-gradient(to top, rgba(10, 18, 38, 0.6) 0%, rgba(10, 18, 38, 0) 40%); }
-  .hero-bleed figcaption { padding: var(--space-3) var(--space-5) 0; }
   .hero-bleed__text { padding: var(--space-6) var(--space-5) var(--space-8); }
 }
 
-/* Credibility bar (client PDF, 2026-09-10): one centred line at the floor size. */
-.credibility__line { margin: 0; max-width: none; text-align: center; font-size: var(--font-size-fine); color: var(--text-muted); text-wrap: balance; }
-.credibility__dot { color: var(--text-accent); padding-inline: var(--space-2); }
-
-/* Why we ring (client PDF, 2026-09-10): a heading and two short paragraphs at prose width. */
-.why__p { margin: 0; font-family: var(--font-display); font-size: var(--font-size-body-lg); line-height: var(--leading-loose); color: var(--text-body); }
-
-/* Closing button (Home): one centred button, the last thing before the footer. */
-.cta__inner { display: flex; justify-content: center; }
+/* Section paragraph (Rogan, 2026-09-27; every page from 2026-09-29): the one white paragraph
+   style under every heading on the site, at prose width. No eyebrows, no muted ledes, no gold
+   headlines; the heading and white text carry each section. */
+.section-p { margin: 0; font-family: var(--font-display); font-size: var(--font-size-body-lg); line-height: var(--leading-loose); color: var(--text-body); }
 
 /* --- Buttons (glass) --------------------------------------------------------
    iOS material. Glass is read at its edge: the same soft colour continues outside the pane and
@@ -210,7 +195,7 @@ main > section.section:last-of-type::after {
    navy, heavy backdrop blur, 1px hairline of gold). The label sits on top. No gloss, no glow
    spot, no borders. Hierarchy comes from the label, not the bloom: warm/primary
    (.btn, .btn--warm) pushes its pane to near-opaque gold and reads navy-on-gold; everything
-   else (.btn--secondary, the intro's "Ring the bell", the Give amounts) stays light-on-navy
+   else (.btn--secondary, the intro's "Ring the bell") stays light-on-navy
    glass. Ghost stays a text link. Label contrast: tests/contrast.mjs. */
 :root {
   --glass-radius: 16px;
@@ -452,10 +437,14 @@ main > section.section:last-of-type::after {
 .resources__more a { color: var(--text-link); text-decoration: underline; text-underline-offset: 5px; }
 .resources__more a:hover { color: var(--text-link-hover); }
 /* Apply (client, 2026-09-17): the one sentence that replaced the opt-out checkbox. */
-.apply__shared { margin: 0; color: var(--text-muted); max-width: var(--measure-prose); }
+.apply__shared { margin: 0; color: var(--text-body); max-width: var(--measure-prose); }
+/* The inquiry form and its thank-you sit on the page, not in a card (polish, 2026-09-29). */
+.apply-form { max-width: var(--content-max); }
+.apply__thanks { margin: 0; font-family: var(--font-display); font-size: var(--font-size-title); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); color: var(--text-heading); }
 
-/* Prayer (Home): the Lord's Prayer in full and Psalm 100:1 (client PDF, 2026-09-10). Plenty of
-   space, no decoration. The citation is ivory-400 on the band, an already-checked pair. */
+/* Prayer (Inspirations since 2026-09-29, Home before that): the Lord's Prayer in full. On the
+   page navy, white text, no band and no gold (client, 2026-09-29). Plenty of space, no
+   decoration. */
 .prayer__text { display: flex; flex-direction: column; gap: var(--space-4); }
 .prayer__lines {
   margin: 0;
@@ -466,7 +455,7 @@ main > section.section:last-of-type::after {
 }
 .prayer__text--verse { gap: var(--space-2); }
 .prayer__verse { margin: 0; font-family: var(--font-display); font-style: italic; font-size: var(--font-size-title-sm); line-height: var(--leading-snug); color: var(--text-heading); }
-.prayer__cite { margin: 0; font-size: var(--font-size-fine); color: var(--text-faint); }
+.prayer__cite { margin: 0; font-size: var(--font-size-fine); color: var(--text-body); }
 .prayer__lines--pre { white-space: pre-line; }
 
 /* --- Section heading ----------------------------------------------------- */
@@ -518,50 +507,13 @@ main > section.section:last-of-type::after {
   color: var(--text-faint);
 }
 
-/* --- Step list ----------------------------------------------------------- */
-.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-6); }
-.steps li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-5); align-items: start; }
-.steps__num {
-  width: 48px; height: 48px; flex: none;
-  border-radius: var(--radius-pill);
-  display: grid; place-items: center;
-  background: var(--navy-600);
-  border: 1px solid var(--gold-300);
-  font-family: var(--font-display);
-  font-size: var(--font-size-title-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--gold-300);
-}
-.steps h3 {
-  margin: 6px 0 var(--space-2);
-  font-family: var(--font-display);
-  font-size: var(--font-size-title-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-display);
-  color: var(--text-heading);
-}
-.steps p { margin: 0; max-width: var(--measure-prose); color: var(--text-muted); }
-
-/* --- Empty state --------------------------------------------------------- */
+/* --- Empty state (Grants) ------------------------------------------------
+   Plain text on the page, left aligned like every other section (polish, 2026-09-29). */
 .empty {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--space-4);
-  padding: var(--space-8) var(--space-6);
-  background: var(--surface-sunk);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-lg);
-}
-.empty__icon {
-  width: 72px; height: 72px;
-  border-radius: var(--radius-pill);
-  display: grid; place-items: center;
-  background: var(--surface-card);
-  border: 1px solid var(--gold-300);
-  color: var(--gold-400);
+  gap: var(--space-3);
+  max-width: var(--measure-wide);
 }
 .empty h2 {
   margin: 0;
@@ -572,7 +524,7 @@ main > section.section:last-of-type::after {
   letter-spacing: var(--tracking-display);
   color: var(--text-heading);
 }
-.empty p { margin: 0; max-width: var(--measure-narrow); color: var(--text-muted); }
+.empty p { margin: 0; font-family: var(--font-display); font-size: var(--font-size-body-lg); line-height: var(--leading-loose); max-width: var(--measure-prose); color: var(--text-body); }
 
 /* --- Figure & photo grid ------------------------------------------------- */
 .figure { margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
@@ -587,6 +539,8 @@ main > section.section:last-of-type::after {
   position: relative;
 }
 .figure--square .figure__frame { aspect-ratio: 1 / 1; border-radius: 0; }
+/* Inspirations: her tower photograph is landscape (client, 2026-09-29). */
+.figure--landscape .figure__frame { aspect-ratio: 4 / 3; }
 .figure__frame img { width: 100%; height: 100%; object-fit: cover; }
 /* The bell photo itself is styled under "Home hero" above. The great bell's centre sits at
    ~48.5% of the source image's width, so every crop of it stays at object-position 47% or the
@@ -638,6 +592,23 @@ main > section.section:last-of-type::after {
 }
 textarea.field__control { resize: vertical; }
 select.field__control { appearance: none; background-image: none; padding-right: var(--space-6); }
+/* Apply (client, 2026-09-29): the proposal box is tall, the count sits under it, and the file
+   picker is a plain control with a small navy button inside it. */
+.field__count { font-variant-numeric: tabular-nums; }
+.field__file { padding: 10px 14px; cursor: pointer; }
+.field__file::file-selector-button {
+  margin-right: var(--space-3);
+  padding: 8px 16px;
+  font: inherit;
+  font-size: var(--font-size-fine);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  background: var(--navy-700);
+  border: 1px solid var(--gold-400);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+.field__file:hover::file-selector-button { background: var(--navy-600); }
 .field--error .field__control { border-color: var(--status-error); }
 .field__error { font-weight: var(--weight-semibold); color: var(--status-error); }
 
@@ -648,39 +619,6 @@ select.field__control { appearance: none; background-image: none; padding-right:
   font-size: var(--font-size-title-sm); letter-spacing: var(--tracking-display); color: var(--text-heading);
 }
 .fieldset > .field__hint { margin-top: calc(-1 * var(--space-2)); }
-.handoff {
-  display: flex; flex-direction: column; gap: var(--space-3);
-  padding: var(--space-5);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
-  background: var(--surface-sunk);
-}
-.handoff__row { display: flex; gap: var(--space-3); align-items: flex-start; }
-.handoff__row p { color: var(--text-muted); max-width: var(--measure-prose); }
-.handoff__row--meta { justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-5); padding-left: calc(24px + var(--space-3)); }
-.checkbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start; }
-.checkbox input { width: 28px; height: 28px; margin: 2px 0 0; flex: none; accent-color: var(--accent-primary); cursor: pointer; }
-.checkbox label { cursor: pointer; }
-.checkbox__label { display: block; font-size: var(--font-size-body); color: var(--text-body); }
-.checkbox__hint { display: block; margin-top: var(--space-1); color: var(--text-muted); max-width: var(--measure-prose); }
-
-.amounts { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-.amount {
-  font-family: var(--font-text);
-  font-size: var(--font-size-body);
-  font-weight: var(--weight-semibold);
-  padding: var(--space-3) var(--space-5);
-  color: var(--text-body);
-  cursor: pointer;
-  white-space: nowrap;
-}
-.amount::before { background: var(--glass-bloom); }
-.amount[aria-pressed="true"] { color: var(--text-body); }
-.amount[aria-pressed="true"]::before { background: var(--glass-bloom); }
-/* Selected amount: the pane itself takes a gentle gold tint so the choice is legible. */
-.amount[aria-pressed="true"]::after { background: rgba(217, 189, 120, 0.3); }
-.amount[aria-pressed="true"]:hover::after { background: rgba(217, 189, 120, 0.4); }
-
 [hidden] { display: none !important; }
 
 
@@ -690,6 +628,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
    forward from a slight zoom while its text turns pale over a warm scrim. Held until the
    pointer leaves the whole grid. Keyboard focus does the same. */
 .fund .card { min-height: 21rem; }
+.fund .card p { color: var(--text-body); }
 .fund .card > * { position: relative; z-index: 1; }
 .fund .card--accent::before { z-index: 2; }
 .fund .card__photo {
@@ -710,8 +649,8 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .fund[data-focus] .card[data-engaged] { transform: translateY(-5px); border-color: var(--gold-300); box-shadow: var(--shadow-lg); }
 .fund[data-focus] .card[data-engaged] .card__photo { opacity: 1; transform: scale(1); }
 .fund[data-focus] .card[data-engaged] .icon { color: var(--gold-200); transform: translateY(-3px) scale(1.08); }
-.fund[data-focus] .card[data-engaged] .card__title { color: var(--ivory-50); }
-.fund[data-focus] .card[data-engaged] p { color: rgba(247, 243, 232, 0.9); }
+.fund[data-focus] .card[data-engaged] .card__title { color: var(--text-heading); }
+.fund[data-focus] .card[data-engaged] p { color: var(--text-body); }
 .fund[data-focus] .card[data-engaged]::before { background-position: 0 0; transition: background-position 900ms var(--ease-hover); }
 /* the others step back */
 .fund[data-focus] .card:not([data-engaged]) { opacity: 0.38; transform: translateY(4px) scale(0.985); box-shadow: none; }
@@ -781,9 +720,6 @@ select.field__control { appearance: none; background-image: none; padding-right:
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.faq__ask { display: flex; flex-direction: column; gap: var(--space-5); margin-top: var(--space-4); }
-.faq__answer .faq__ask p, .faq__ask .field__hint { max-width: none; }
-.faq__thanks { margin: 0; color: var(--text-muted); }
 /* enhanced (JS): answers live in the panel; bodies hide on wide screens */
 .faq[data-faq="enhanced"] .faq__body { display: none; }
 @media (max-width: 900px) {
@@ -803,15 +739,16 @@ select.field__control { appearance: none; background-image: none; padding-right:
   z-index: 20;
   background: var(--surface-card);
   border-bottom: 1px solid var(--border-hairline);
-  /* Between 1024 and 1279px the Apply button sits at the viewport edge and its blurred
-     bloom (.btn::before, inset -14%, blur 18px) painted 12px past it, so the whole page could
-     scroll sideways. Clip the header's x axis only: clip is not a scroll container, so sticky
-     still works and the phone menu still grows downward. */
+  /* The nav links' hover bloom (.site-nav a::before, blur 10px) can paint past the last link
+     at the viewport edge, so the whole page could scroll sideways. Clip the header's x axis
+     only: clip is not a scroll container, so sticky still works and the phone menu still
+     grows downward. */
   overflow-x: clip;
 }
 .site-header__inner {
-  max-width: var(--page-max);
-  margin: 0 auto;
+  /* No column: the header spans the screen, wordmark at the left edge and links at the right,
+     with only the side padding between them and the edge (Rogan, 2026-09-27). */
+  margin: 0;
   padding: var(--space-4) var(--space-6);
   display: flex;
   align-items: center;
@@ -819,18 +756,19 @@ select.field__control { appearance: none; background-image: none; padding-right:
   gap: var(--space-5);
   flex-wrap: wrap;
 }
-/* Six links plus the button fit on one line from 1024px up; the button never wraps under. */
+/* Header (Rogan, 2026-09-27): the wordmark flush left, the links flush right, nothing else
+   (seven links since Resources became a page, 2026-09-29). space-between on the row does the
+   pushing; the nav's own flex-end keeps the links on the right edge when they wrap. The links
+   fit on one line from 1024px up. */
 @media (min-width: 1024px) {
   .site-header__inner { flex-wrap: nowrap; }
-  .site-header__action { flex: none; }
 }
 /* Wordmark (client, 2026-09-23): "The DingDong Foundation" in small capitals, as on her
    business card. Times has no small-cap glyphs, so the browser draws them from the capitals;
    the font-size itself stays on the token scale, never under the 16pt floor. The two words
    are separate spans: stacked in two lines by default (the one-line mark is 384px at this
-   size, and six links plus the Apply button leave no room for it beside them), on one line
-   from 1280px up where the header has the width (see the media rule after .site-nav). The
-   mark never shrinks or wraps on its own; the breakpoints decide. */
+   size), on one line from 1280px up (see the media rule after .site-nav). The mark never
+   shrinks or wraps on its own; the breakpoints decide. */
 .wordmark { display: inline-flex; flex: none; flex-direction: column; row-gap: var(--space-1); line-height: 1.1; text-decoration: none; }
 .wordmark__line {
   font-family: var(--font-display);
@@ -890,20 +828,18 @@ select.field__control { appearance: none; background-image: none; padding-right:
 }
 .site-nav a[aria-current="page"] { color: var(--text-accent); }
 .site-nav a[aria-current="page"] span { background: var(--accent-warm); }
-.site-header__action { display: flex; align-items: center; flex: none; white-space: nowrap; }
-/* The wordmark's new roman weight plus six links leaves the header tightest between 1024 and
+/* The wordmark's roman weight plus six links leaves the header tightest between 1024 and
    1279px; from 1280px up there is room to spare. Only in that band, trim the header's own
-   padding and gaps — never font sizes, which already sit at the 16pt floor — so the nav and
-   the Apply button share one row without wrapping. Placed after both .site-header__inner and
-   .site-nav's base rules so these overrides win the cascade at equal specificity. */
+   padding and gaps — never font sizes, which already sit at the 16pt floor — so the links
+   share one row without wrapping. Placed after both .site-header__inner and .site-nav's base
+   rules so these overrides win the cascade at equal specificity. */
 @media (min-width: 1024px) and (max-width: 1279px) {
-  .site-header__inner { padding-inline: var(--space-4); gap: var(--space-3); }
+  .site-header__inner { gap: var(--space-3); }
   .site-nav { gap: var(--space-2); }
 }
 /* From 1280px up the wordmark sits on one line, as on the card, one size down (26px) with the
-   header's gaps trimmed one step: 333px of mark, 540px of links, 203px of button and two
-   16px gaps in the 1136px row leaves about 28px to spare, enough for Times on other systems
-   to run a little wider. Placed here so it wins over the base gaps at equal specificity. */
+   header's gaps trimmed one step: 333px of mark and 540px of links in the 1136px row leaves
+   room to spare. Placed here so it wins over the base gaps at equal specificity. */
 @media (min-width: 1280px) {
   .wordmark { flex-direction: row; align-items: baseline; column-gap: 0.3em; }
   .wordmark__line { font-size: var(--font-size-body-lg); }
@@ -921,7 +857,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .site-footer {
   position: relative;
   background: var(--surface-footer);
-  color: var(--ivory-50);
+  color: var(--text-body);
 }
 .site-footer__inner {
   max-width: none;
@@ -939,34 +875,19 @@ select.field__control { appearance: none; background-image: none; padding-right:
 }
 .site-footer__contact a {
   font-family: var(--font-text);
-  color: var(--ivory-50);
+  color: var(--text-body);
   text-decoration: none;
   transition: color var(--dur-quick) var(--ease-standard);
 }
 .site-footer__contact a:hover { color: var(--text-link-hover); }
-.site-footer__legal {
-  max-width: none;
-  margin: 0;
-  padding: var(--space-3) var(--space-7);
-  border-top: 1px solid rgba(240, 233, 217, 0.14);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-5);
-  flex-wrap: wrap;
-  font-size: var(--font-size-fine);
-  line-height: var(--leading-snug);
-  color: var(--ivory-400);
-}
-.site-footer__legal em { font-family: var(--font-display); font-style: italic; color: var(--gold-300); white-space: nowrap; }
 .site-footer a:focus-visible { outline-color: var(--focus-ring-color); }
 
 /* --- Intro (the bell rings twice) ----------------------------------------
    Light ground (client, 2026-09-01: "a lighter background so the bell outline pops"); the
-   pages behind it stay navy. Order on screen: bell, name, motto pair, button. */
+   pages behind it stay navy. Order on screen: bell, motto, button (no name, client 2026-09-29). */
 /* Visibility is decided before first paint by the inline script in base.njk, which sets
    data-intro="active" on <html> at most once per 24h and never under reduced motion.
-   States: active (glow, bell, wordmark and the "Ring the bell" button enter, then wait) →
+   States: active (glow, bell, motto and the "Ring the bell" button enter, then wait) →
    ringing (the click: two swings with the clapper striking the lip, sound plays) →
    leaving (curtain lifts). site.js drives the state and the sound. */
 .intro {
@@ -1003,37 +924,39 @@ html[data-intro="leaving"] .intro {
 }
 .intro__bell-swing { transform-origin: 60px 4px; transform-box: view-box; }
 .intro__bell-clapper { transform-origin: 60px 54px; transform-box: view-box; }
-/* Same small-capital treatment as the header wordmark (client card, 2026-09-23). */
-.intro__name {
-  font-family: var(--font-display);
-  font-variant-caps: small-caps;
-  font-size: clamp(var(--font-size-title-sm), 4.2vw, var(--font-size-title-lg));
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+/* No name on the overlay (client, 2026-09-29): the bell, then the motto, then the button.
+   The motto is a small line in the script face (client asked for smaller and more elegant),
+   body size, 22px from about 1200px up, never below the 16px floor. */
+.intro .motto { align-items: center; margin-top: var(--space-3); }
+.intro .motto__en { font-size: clamp(var(--font-size-body), 1.8vw, var(--font-size-body-lg)); }
+/* On the light ground the glass pane would vanish. The button is a small hairline pill
+   (client, 2026-09-29: smaller and more elegant): navy text at the floor size, a 1px navy line,
+   no fill and no shadow at rest; hover and press fill it navy with white text. These rules come
+   after .btn--secondary/.intro__ring above and win at equal specificity. */
+.intro__ring {
+  margin-top: var(--space-6);
+  padding: 10px 26px;
+  font-size: var(--font-size-fine);
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.06em;
   color: var(--navy-950);
-  text-wrap: balance;
 }
-.intro .motto { align-items: center; margin-top: var(--space-2); }
-/* On the light ground the glass pane would vanish, so the button is a solid navy pill. These
-   rules come after .btn--secondary/.intro__ring above and win at equal specificity. */
-.intro__ring { margin-top: var(--space-5); padding: 16px 36px; color: var(--ivory-50); }
 .intro__ring::before { content: none; }
 .intro__ring::after {
-  background: var(--navy-950);
+  background: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  box-shadow: inset 0 0 0 1px var(--gold-500), var(--glass-shadow);
+  box-shadow: inset 0 0 0 1px var(--navy-950);
 }
-.intro__ring:hover { color: var(--ivory-50); }
-.intro__ring:hover::after { background: var(--navy-800); box-shadow: inset 0 0 0 1px var(--gold-400), var(--glass-shadow-hover); }
-.intro__ring:active::after { background: var(--navy-900); box-shadow: inset 0 0 0 1px var(--gold-500), var(--glass-shadow-active); }
+.intro__ring:hover { color: var(--white); }
+.intro__ring:hover::after { background: var(--navy-950); box-shadow: inset 0 0 0 1px var(--navy-950); }
+.intro__ring:active::after { background: var(--navy-900); box-shadow: inset 0 0 0 1px var(--navy-900); }
+.intro__ring:focus-visible::after { box-shadow: inset 0 0 0 1px var(--navy-950), var(--glass-focus); }
 
 html[data-intro] .intro__glow { animation: introGlow 1600ms var(--ease-bell) both; }
 html[data-intro] .intro__bell { animation: introDrop 700ms var(--ease-bell) both; }
-html[data-intro] .intro__name { animation: introRise 850ms var(--ease-bell) 500ms both; }
-html[data-intro] .intro .motto { animation: introRise 850ms var(--ease-bell) 650ms both; }
-html[data-intro] .intro__ring { animation: introRise 850ms var(--ease-bell) 900ms both; }
+html[data-intro] .intro .motto { animation: introRise 850ms var(--ease-bell) 500ms both; }
+html[data-intro] .intro__ring { animation: introRise 850ms var(--ease-bell) 750ms both; }
 html[data-intro="ringing"] .intro__bell-swing { animation: introSwing 2400ms linear both; }
 html[data-intro="ringing"] .intro__bell-clapper { animation: introClapper 2400ms linear both; }
 /* The button's entrance animation holds opacity at 1, so the fade-out is its own animation. */
@@ -1079,15 +1002,11 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
 }
 
 /* --- Responsive ---------------------------------------------------------- */
-@media (max-width: 1279px) {
-  .grid--fund { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (max-width: 900px) {
-  .grid--2, .grid--3, .grid--fund, .grid--story, .grid--steps, .grid--form { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .grid--2, .grid--3, .grid--fund, .grid--story, .grid--form { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
   .photo-grid { grid-template-columns: minmax(0, 1fr); }
-  .site-footer__inner, .site-footer__legal { padding-inline: var(--space-6); }
+  .site-footer__inner { padding-inline: var(--space-6); }
   .site-nav { order: 3; flex-basis: 100%; justify-content: flex-start; }
-  .site-header__action { order: 2; }
 }
 @media (max-width: 600px) {
   .section { padding: var(--space-8) var(--space-5); }
@@ -1182,9 +1101,8 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
   .nav-toggle[aria-expanded="true"] .nav-toggle__bars::before { transform: translateY(6px) rotate(45deg); }
   .nav-toggle[aria-expanded="true"] .nav-toggle__bars::after { transform: translateY(-6px) rotate(-45deg); }
 
-  /* The panel: nav links and Apply, revealed together by the button. */
-  .site-nav,
-  .site-header__action { display: none; }
+  /* The panel: the nav links, revealed by the button. */
+  .site-nav { display: none; }
   .site-header[data-nav-open] .site-nav {
     display: flex;
     order: 2;
@@ -1193,13 +1111,6 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
     align-items: flex-start;
     gap: var(--space-4);
     padding-top: var(--space-5);
-  }
-  .site-header[data-nav-open] .site-header__action {
-    display: flex;
-    order: 3;
-    flex-basis: 100%;
-    padding-top: var(--space-2, 8px);
-    padding-bottom: var(--space-3);
   }
 }
 @media (prefers-reduced-motion: reduce) {

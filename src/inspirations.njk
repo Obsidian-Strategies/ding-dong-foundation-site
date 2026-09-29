@@ -4,11 +4,12 @@ title: Inspirations
 permalink: /inspirations/
 description: Church bells are the Christian call to prayer. Across America many towers have fallen silent. The foundation exists to help them ring again.
 ---
+{#- Inner-page hero (polish, 2026-09-29): the same shape as every section on the site, a plain
+    h1 and one white paragraph in the 1200px column. No eyebrow, no italic word. #}
 <section class="section section--hero">
-  <div class="content stack">
-    <span class="eyebrow">Inspirations</span>
-    <h1 class="display">The oldest <em>call to prayer</em>.</h1>
-    <p class="lede">Before clocks and telephones, the church bell kept the hours and called the faithful to worship. Across America many towers have fallen silent. The foundation exists to help them ring again.</p>
+  <div class="wrap stack">
+    <h1 class="display">The oldest call to prayer.</h1>
+    <p class="section-p">Before clocks and telephones, the church bell kept the hours and called the faithful to worship. Across America many towers have fallen silent. The foundation exists to help them ring again.</p>
   </div>
 </section>
 
@@ -16,63 +17,43 @@ description: Church bells are the Christian call to prayer. Across America many 
   <div class="wrap grid grid--story">
     <div class="stack prose">
       <p class="m0">For centuries the church bell has been the Christian call to prayer. A swinging bell gathers the congregation for Sunday worship; the Angelus is tolled at morning, noon, and evening; bells peal for weddings and toll in remembrance. A ringing bell tells a town, every day, that the church is alive and open.</p>
-      <p class="m0">This is a serious undertaking, not a pastime. The DingDong Foundation, Inc. was certified by the IRS on July 28, 2026 as a 501(c)(3) private foundation. It supports the work of ringing: bells and their towers, pipe organs, rose windows and stained glass, and the training of the artisans who keep them.</p>
-      <p class="m0">There is more in a bell than announcement. Cast bronze rings at frequencies long associated with healing, a sound that brings calm to a street, a room, and the people in them. The foundation's filed purpose includes grants to those who work with sound, color, and frequency for healing, and it honors that purpose.</p>
+      {#- The certification and filed-purpose sentences left on 2026-09-29 (client: no
+          legal-sounding wording; copy is being edited separately). #}
+      <p class="m0">This is a serious undertaking, not a pastime. The foundation supports the work of ringing: bells and their towers, pipe organs, rose windows and stained glass, and the training of the artisans who keep them.</p>
+      <p class="m0">There is more in a bell than announcement. Cast bronze rings at frequencies long associated with healing, a sound that brings calm to a street, a room, and the people in them. The foundation also makes grants to those who work with sound, color, and frequency for healing.</p>
     </div>
-    <figure class="figure">
+    {#- Her own photograph of the tower, the original file behind the retouched Home hero, cropped
+        above the visitors (client, 2026-09-29). #}
+    <figure class="figure figure--landscape">
       <div class="figure__frame">
-        <img src="{{ '/uploads/ringing-chamber.jpg' | url }}" alt="Bell ropes with striped sallies hanging in a ring inside a stone ringing chamber, a narrow arched window beyond and the bell wheels showing above the wooden ceiling" width="1600" height="2000" loading="lazy">
+        <img src="{{ '/uploads/holy-sepulchre-tower.jpg' | url }}" alt="Inside the bell tower of the Church of the Holy Sepulchre in Jerusalem: the great bell hangs from timber beams under the roof, with smaller bells in the arched stone windows behind it" width="1600" height="1200" loading="lazy">
       </div>
-      <figcaption><span class="figure__caption">The room under the bells.</span></figcaption>
     </figure>
   </div>
 </section>
 
-<section class="section section--band">
-  <div class="content">
-    <div class="card card--lg card--accent card--accent-rose card--interactive">
-      <h3 class="card__title card__title--top">Carried with a song</h3>
-      <p class="m0">Every project our foundation touches carries the same song with it: <em class="dedication">Ave Maria</em>.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section section--page">
-  <div class="content stack">
+{#- The Lord's Prayer (client, 2026-09-29): moved here from Home, on the page navy with white
+    text, no band and no gold. Verbatim from her Prayers email. Last section, so it carries the
+    fade into the footer. Resources moved to their own page the same day. #}
+<section class="section section--page prayer">
+  <div class="wrap stack">
     <header class="section-heading">
-      <span class="eyebrow">Resources</span>
-      <h2>Bell foundries and organ specialists</h2>
-      <p class="lede">Firms whose work we admire, in the United States and abroad. Listing here is not an endorsement and is not a condition of any grant.</p>
+      <h2>Carried with prayer</h2>
+      <p class="section-p">The work of this foundation is carried with prayer.</p>
     </header>
-    {#- Expanded 2026-09-17 (client). Every link answered when this was built; Meeks Watson and
-        Paul Fritts were left out because their sites did not. Dobson answers on http only. #}
-    <h3 class="resources__group">Bell foundries and carillons</h3>
-    <ul class="resources">
-      <li><a href="https://www.verdin.com/" rel="noopener">The Verdin Company</a><span class="resources__place">Cincinnati, Ohio</span><span class="resources__what">Cast bronze bells, electronic carillons, and tower clocks since 1842.</span></li>
-      <li><a href="https://mcshanebell.com/" rel="noopener">McShane Bell Company</a><span class="resources__place">Glen Burnie, Maryland</span><span class="resources__what">Cast bells and bell restoration; casting in Baltimore since 1856.</span></li>
-      <li><a href="https://sunderlinfoundry.com/" rel="noopener">B.A. Sunderlin Bellfoundry</a><span class="resources__place">Ruther Glen, Virginia</span><span class="resources__what">Casts new bells and restores old ones, including rings for change ringing.</span></li>
-      <li><a href="https://www.chimemaster.com/" rel="noopener">Chime Master</a><span class="resources__place">Lancaster, Ohio</span><span class="resources__what">Electronic carillons and bell control systems for churches.</span></li>
-      <li><a href="https://schulmerichbells.com/" rel="noopener">Schulmerich Bells</a><span class="resources__place">Hatfield, Pennsylvania</span><span class="resources__what">Electronic carillons and handbells.</span></li>
-      <li><a href="https://www.bellfoundrychristoph.com/" rel="noopener">Christoph Paccard Bellfoundries</a><span class="resources__place">Charleston, South Carolina</span><span class="resources__what">Bells, carillons, and tower clocks; the American partner of Paccard.</span></li>
-      <li><a href="https://paccard.com/" rel="noopener">Fonderie Paccard</a><span class="resources__place">Sévrier, France</span><span class="resources__what">Bell foundry since 1796; casts bells and carillons for churches worldwide.</span></li>
-      <li><a href="https://taylorbells.co.uk/" rel="noopener">John Taylor and Co</a><span class="resources__place">Loughborough, England</span><span class="resources__what">Bell foundry since 1839; new bells, rehanging, and tower work.</span></li>
-      <li><a href="https://eijsbouts.nl/" rel="noopener">Royal Eijsbouts</a><span class="resources__place">Asten, Netherlands</span><span class="resources__what">Bells and carillons; casting, restoration, and tuning.</span></li>
-    </ul>
-    <h3 class="resources__group">Pipe organ builders and restorers</h3>
-    <ul class="resources">
-      <li><a href="https://www.schoenstein.com/" rel="noopener">Schoenstein and Co</a><span class="resources__place">Benicia, California</span><span class="resources__what">New pipe organs and restoration since 1877.</span></li>
-      <li><a href="https://cbfisk.com/" rel="noopener">C.B. Fisk</a><span class="resources__place">Gloucester, Massachusetts</span><span class="resources__what">Mechanical-action pipe organs for churches and concert halls.</span></li>
-      <li><a href="https://www.taylorandboody.com/" rel="noopener">Taylor and Boody Organbuilders</a><span class="resources__place">Staunton, Virginia</span><span class="resources__what">Handmade mechanical-action organs and restoration.</span></li>
-      <li><a href="http://dobsonorgan.com/" rel="noopener">Dobson Pipe Organ Builders</a><span class="resources__place">Lake City, Iowa</span><span class="resources__what">New organs and restoration.</span></li>
-      <li><a href="https://www.schantzorgan.com/" rel="noopener">Schantz Organ Company</a><span class="resources__place">Orrville, Ohio</span><span class="resources__what">New organs, rebuilding, and service since 1873.</span></li>
-      <li><a href="https://www.reuterorgan.com/" rel="noopener">Reuter Organ Company</a><span class="resources__place">Lawrence, Kansas</span><span class="resources__what">New organs, rebuilding, and restoration.</span></li>
-      <li><a href="https://wicksorgan.com/" rel="noopener">Wicks Organ Company</a><span class="resources__place">Highland, Illinois</span><span class="resources__what">Pipe organs built and restored since 1906.</span></li>
-      <li><a href="https://buzardorgans.com/" rel="noopener">Buzard Pipe Organ Builders</a><span class="resources__place">Champaign, Illinois</span><span class="resources__what">New organs, restoration, and tuning.</span></li>
-      <li><a href="https://www.casavant.ca/" rel="noopener">Casavant Frères</a><span class="resources__place">Saint-Hyacinthe, Quebec</span><span class="resources__what">Pipe organ builder since 1879; new instruments and restoration.</span></li>
-      <li><a href="https://www.letourneauorgans.com/" rel="noopener">Orgues Létourneau</a><span class="resources__place">Saint-Hyacinthe, Quebec</span><span class="resources__what">New organs and restoration across North America.</span></li>
-      <li><a href="https://www.organclearinghouse.com/" rel="noopener">Organ Clearing House</a><span class="resources__place">Stockbridge, Massachusetts</span><span class="resources__what">Finds new homes for existing pipe organs and moves them.</span></li>
-      <li><a href="https://stephenlemery.com/" rel="noopener">Stephen L. Emery Organ Service</a><span class="resources__place">Pennsylvania and New Jersey</span><span class="resources__what">Tuning, repair, and restoration.</span></li>
-    </ul>
-    <p class="resources__more">The member directories of the <a href="https://apoba.com/" rel="noopener">Associated Pipe Organ Builders of America</a> and the <a href="https://pipeorgan.org/" rel="noopener">American Institute of Organbuilders</a> list many more.</p>
+    <div class="prayer__text">
+      <p class="prayer__lines">Our Father, who art in heaven,<br>
+hallowed be thy name.<br>
+Thy kingdom come,<br>
+thy will be done,<br>
+on earth as it is in heaven.<br>
+Give us this day our daily bread,<br>
+and forgive us our trespasses,<br>
+as we forgive those who trespass against us.<br>
+And lead us not into temptation,<br>
+but deliver us from evil.<br>
+For thine is the kingdom, and the power, and the glory,<br>
+for ever and ever. Amen.</p>
+    </div>
   </div>
 </section>

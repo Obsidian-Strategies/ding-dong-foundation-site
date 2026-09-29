@@ -29,7 +29,8 @@ function ratio(a, b) {
 const PAIRS = [];
 for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
   PAIRS.push(
-    ["ivory-50", bg, "body text, headings"],
+    ["white", bg, "body text, headings"],
+    ["ivory-50", bg, "engaged fund card text (legacy pair, still approved)"],
     ["ivory-300", bg, "muted text, nav"],
     ["ivory-400", bg, "faint text, attributions, placeholders"],
     ["gold-300", bg, "eyebrows, links, wordmark, headline emphasis"],
@@ -39,10 +40,11 @@ for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
   );
 }
 PAIRS.push(
-  ["navy-950", "gold-400", "primary/warm button label, active nav, selected amount"],
+  ["navy-950", "gold-400", "primary/warm button label, active nav"],
   ["navy-950", "gold-300", "primary/warm button hover label"],
   ["gold-200", "navy-600", "tag label"],
   ["rose-200", "navy-600", "rose tag label"],
+  ["white", "navy-950", "footer name and email"],
   ["ivory-50", "navy-950", "footer wordmark"],
   ["ivory-300", "navy-950", "footer links, contact"],
   ["ivory-400", "navy-950", "footer legal line, Ave Maria"],
@@ -50,19 +52,20 @@ PAIRS.push(
   ["gold-200", "navy-950", "footer link hover"],
 );
 PAIRS.push(
-  ["navy-950", "ivory-50", "entrance name"],
+  ["navy-950", "ivory-50", "entrance button label (hairline pill)"],
   ["gold-700", "ivory-50", "entrance motto (script)"],
   ["gold-300", "navy-wash-peak", "motto on the hero wash"],
-  ["ivory-50", "navy-wash-peak", "lede on the hero wash"],
+  ["white", "navy-wash-peak", "lede on the hero wash"],
+  ["ivory-50", "navy-wash-peak", "lede on the hero wash (legacy pair)"],
 );
-// The entrance overlay is not flat ivory-50: .intro__glow sits behind the name and motto (a
+// The entrance overlay is not flat ivory-50: .intro__glow sits behind the motto and button (a
 // gold-300 -> gold-400 radial, opacity 0.7 once introGlow finishes), so their real background
 // is that glow composited on the ivory ground. Model it the same way the glass buttons are
 // modelled above, with the shared over() helper.
 tokens["intro glow on ivory"] = over(tokens["gold-400"], 0.7, tokens["ivory-50"]);
 PAIRS.push(
   ["gold-700", "intro glow on ivory", "entrance motto over the glow"],
-  ["navy-950", "intro glow on ivory", "entrance name over the glow"],
+  ["navy-950", "intro glow on ivory", "entrance button label over the glow"],
 );
 // Home hero (client PDF, 2026-09-10): text sits over the bell photo on a navy-950 scrim that
 // reaches 0.85 alpha behind the text block (.hero-bleed__scrim in site.css). The photo pixel
@@ -70,7 +73,8 @@ PAIRS.push(
 tokens["hero scrim on white"] = over(tokens["navy-950"], 0.85, "#ffffff");
 PAIRS.push(
   ["gold-300", "hero scrim on white", "Jubilate Deo over the hero photo"],
-  ["ivory-50", "hero scrim on white", "hero lede over the photo"],
+  ["white", "hero scrim on white", "hero lede over the photo"],
+  ["ivory-50", "hero scrim on white", "hero lede over the photo (legacy pair)"],
   ["ivory-300", "hero scrim on white", "hero caption over the photo"],
 );
 
@@ -78,7 +82,7 @@ for (const [name, [tint, alpha]] of Object.entries(GLASS)) {
   for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
     const key = `${name} on ${bg}`;
     tokens[key] = over(tokens[tint], alpha, tokens[bg]);
-    PAIRS.push(["ivory-50", key, "glass button label"], ["gold-300", key, "glass button accent"]);
+    PAIRS.push(["white", key, "glass button label"], ["ivory-50", key, "glass button label (legacy pair)"], ["gold-300", key, "glass button accent"]);
   }
 }
 
@@ -99,18 +103,17 @@ for (const [name, [tint, alpha]] of Object.entries(WARM_GLASS)) {
   }
 }
 
-// Selected amount / open FAQ bar: the pane takes a gentle gold tint but keeps the light label
-// (see .amount[aria-pressed="true"]::after and .faq__bar[aria-expanded="true"]::after, both
-// rgba(217, 189, 120, 0.3) at rest — the FAQ bar has no distinct hover tint, the amount does).
+// Open FAQ bar: the pane takes a gentle gold tint but keeps the light label (see
+// .faq__bar[aria-expanded="true"]::after, rgba(217, 189, 120, 0.3)). The Give amount buttons
+// that shared this tint left with the mock donate flow on 2026-09-29.
 const TINTED_GLASS = {
-  "selected/open rest": ["gold-400", 0.3],
-  "selected amount hover": ["gold-400", 0.4],
+  "open rest": ["gold-400", 0.3],
 };
 for (const [name, [tint, alpha]] of Object.entries(TINTED_GLASS)) {
   for (const bg of ["navy-900", "navy-925", "navy-800", "navy-700"]) {
     const key = `${name} on ${bg}`;
     tokens[key] = over(tokens[tint], alpha, tokens[bg]);
-    PAIRS.push(["ivory-50", key, "selected amount / open FAQ bar label"]);
+    PAIRS.push(["white", key, "open FAQ bar label"], ["ivory-50", key, "open FAQ bar label (legacy pair)"]);
   }
 }
 

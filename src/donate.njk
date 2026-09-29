@@ -2,138 +2,40 @@
 layout: base.njk
 title: Give
 permalink: /donate/
-description: Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass. Gifts by check are welcome.
+description: Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass. Give by check, or by card through Stripe.
 ---
+{#- Inner-page hero (polish, 2026-09-29): the same shape as every section on the site, a plain
+    h1 and one white paragraph in the 1200px column. The paragraph is the client's, verbatim. #}
 <section class="section section--hero">
-  <div class="content stack">
-    <span class="eyebrow">Give</span>
+  <div class="wrap stack">
     <h1 class="display">Give.</h1>
-    <p class="lede">Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass.</p>
+    <p class="section-p">Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass.</p>
   </div>
 </section>
 
-{% if site.onlineGiving %}
+{#- Online giving (client, 2026-09-29): Stripe plus check, the foundation absorbs the fee,
+    receipts go out automatically. The card button is a Stripe Payment Link (Stripe's hosted
+    page, nothing entered on this site). Until the link exists in src/_data/site.json the button
+    is a stub that explains itself. The old amount-and-details mock is gone (git history, v2). #}
 <section class="section section--page">
-  <div class="content">
-    <div class="card card--lg card--accent" data-donate>
-      <div class="stack stack--lg">
-        <h2 class="title">Choose an amount</h2>
-        <div class="amounts" role="group" aria-label="Amount">
-          <button class="amount" type="button" data-amount="50" aria-pressed="false">$50</button>
-          <button class="amount" type="button" data-amount="100" aria-pressed="true">$100</button>
-          <button class="amount" type="button" data-amount="250" aria-pressed="false">$250</button>
-          <button class="amount" type="button" data-amount="1000" aria-pressed="false">$1000</button>
-          <button class="amount" type="button" data-amount="other" aria-pressed="false">Another amount</button>
-        </div>
-        <div class="field" data-custom hidden>
-          <label for="custom">How much would you like to give?</label>
-          <div><input class="field__control" id="custom" name="custom" type="number" min="1" inputmode="numeric"></div>
-        </div>
-        <div class="checkbox">
-          <input id="anon" name="anon" type="checkbox">
-          <label for="anon">
-            <span class="checkbox__label">Keep my gift anonymous.</span>
-            <span class="checkbox__hint">We will not print your name anywhere, and we will not pass it on.</span>
-          </label>
-        </div>
-        <div class="actions">
-          <button class="btn btn--lg btn--warm" type="button" data-give>Give $100</button>
-          <span class="fine faint">No account needed. Once or monthly, your choice on the next step.</span>
-        </div>
-      </div>
+  <div class="wrap stack stack--lg">
+    <div class="stack stack--sm">
+      <h2 class="m0">By check</h2>
+      <p class="section-p">To give by check, please make it payable to The DingDong Foundation, Inc. and mail it to the address in the footer. A receipt will be sent.</p>
     </div>
-
-    <div class="card card--lg card--accent" data-donate-details hidden>
-      <form class="stack stack--lg" data-donate-form novalidate>
-        <div class="stack stack--xs stack--start">
-          <h2 class="title">Your gift</h2>
-          <p class="muted m0"><strong data-summary>$100, once</strong> <button class="btn btn--ghost" type="button" data-donate-back>Change the amount</button></p>
-        </div>
-
-        <fieldset class="fieldset">
-          <legend class="fieldset__legend">How often?</legend>
-          <div class="amounts" role="group" aria-label="How often">
-            <button class="amount amount--freq" type="button" data-freq="once" aria-pressed="true">One time</button>
-            <button class="amount amount--freq" type="button" data-freq="monthly" aria-pressed="false">Every month</button>
-          </div>
-          <span class="field__hint">A monthly gift can be stopped at any time with one email.</span>
-        </fieldset>
-
-        <fieldset class="fieldset">
-          <legend class="fieldset__legend">About you</legend>
-          <p class="muted m0 prose" data-anon-note hidden>You asked to stay anonymous. We still need a name and email for the receipt; neither will be published or passed on.</p>
-          <div class="grid grid--form">
-        <div class="field">
-          <label for="dname">Full name<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="dname" name="dname" type="text" autocomplete="name" required aria-describedby="dname-error"></div>
-          <span class="field__error" id="dname-error" data-error-for="dname" hidden></span>
-        </div>
-        <div class="field">
-          <label for="demail">Email<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="demail" name="demail" type="email" autocomplete="email" required aria-describedby="demail-error"></div>
-          <span class="field__error" id="demail-error" data-error-for="demail" hidden></span>
-        </div>
-          </div>
-        <div class="field">
-          <label for="dphone">Phone<span class="field__req" aria-hidden="true">*</span></label>
-          <span class="field__hint">Only used if there is a problem with the gift.</span>
-          <div><input class="field__control" id="dphone" name="dphone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="dphone-error"></div>
-          <span class="field__error" id="dphone-error" data-error-for="dphone" hidden></span>
-        </div>
-        <div class="field">
-          <label for="daddress">Mailing address</label>
-          <span class="field__hint">Only if you would like a paper receipt as well.</span>
-          <div><input class="field__control" id="daddress" name="daddress" type="text" autocomplete="street-address" aria-describedby="daddress-error"></div>
-        </div>
-        </fieldset>
-
-        <fieldset class="fieldset">
-          <legend class="fieldset__legend">Payment</legend>
-          <div class="handoff" data-stripe-mock>
-            <div class="handoff__row">
-              <i class="ph ph-lock-simple icon icon--brass" aria-hidden="true"></i>
-              <p class="m0">Card details are entered on Stripe's secure page, never on this site. When the payment is done, Stripe brings you back here.</p>
-            </div>
-            <div class="handoff__row handoff__row--meta">
-              <span class="fine faint">Powered by Stripe</span>
-              <span class="fine faint" data-charge-note>Charged once, today.</span>
-            </div>
-          </div>
-        </fieldset>
-
-        <div class="actions">
-          <button class="btn btn--lg btn--warm" type="submit" data-donate-submit>Continue to Stripe</button>
-          <span class="fine faint" data-submit-note>$100, once</span>
-        </div>
-      </form>
+    {#- Quiet on purpose (Rogan, 2026-09-29): an underlined line of text, not a bright button.
+        The page should feel humble. #}
+    <div class="stack stack--sm">
+      <h2 class="m0">Online</h2>
+      <p class="section-p">Gifts by card go through Stripe's secure page. The foundation covers the processing fee, so the whole of your gift goes to the work, and a receipt is emailed to you as soon as the gift goes through.</p>
+      <p class="section-p">
+        {%- if site.stripePaymentLink %}
+        <a class="btn btn--ghost" href="{{ site.stripePaymentLink }}" rel="noopener">Give by card on Stripe</a>
+        {%- else %}
+        <button class="btn btn--ghost" type="button" data-give-stub aria-describedby="give-note">Give by card on Stripe</button>
+        {%- endif %}
+      </p>
+      <p class="section-p" id="give-note" data-give-note hidden>Online giving opens as soon as the Stripe account is connected.</p>
     </div>
-
-    <div class="card card--lg card--accent card--accent-rose" data-donate-success hidden>
-      <div class="stack stack--sm stack--start">
-        <h2 class="title">Thank you.</h2>
-        <p class="muted m0 prose" data-thanks></p>
-        <button class="btn btn--secondary" type="button" data-donate-reset>Give again</button>
-      </div>
-    </div>
-  </div>
-</section>
-{% endif %}
-
-<section class="section section--page">
-  <div class="wrap grid grid--2">
-    <div class="card card--lg card--accent card--interactive">
-      <h3 class="card__title card__title--top">By check</h3>
-      <p class="muted m0">To give by check, please make it payable to The DingDong Foundation, Inc. and mail it to the address in the footer. A receipt will be sent.</p>
-    </div>
-    <div class="card card--lg card--interactive">
-      <h3 class="card__title card__title--top">Matching gifts, stock, and bequests</h3>
-      <p class="muted m0">Matching gifts, stock, and bequests can be arranged by <a href="mailto:hello@thedingdongfoundation.org">email</a>.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section section--tight section--sunk">
-  <div class="content">
-    <p class="m0">Gifts are tax-deductible to the extent allowed by law.</p>
   </div>
 </section>

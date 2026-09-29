@@ -1,25 +1,23 @@
-/* Type — Times New Roman everywhere (display and text), served by the OS, per the client's
-   direction (2026-08-27 call). No webfont, no display/text family split.
-   Hard client requirement, revised upward: nothing below 16pt. CSS defines 1pt = 1/72in and
-   1px = 1/96in, so 16pt = 21.333px exactly — that is --font-size-fine, the floor of the scale,
-   and there is no smaller token.
-   The audience is older readers; the whole scale is set for them, not scaled down for density.
+/* Type tokens. Times New Roman everywhere; Great Vibes for the motto only (fonts.css).
+   Scale reset on 2026-09-29 (client: the first site was too small, the 21.33px scale too big).
+   The floor is now 16px, which is 12pt (1px = 1/96in), the minimum the client set in the
+   design questionnaire. Body is 20px. Nothing on the site may be set below the floor; the
+   scale has no smaller token, and tests/structure.mjs checks the stylesheet for px sizes.
    Size tokens are --font-size-*; --text-* names belong to colors.css (semantic ink colors). */
 :root {
   --font-display: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
   --font-text: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* Scale — 21.33px (16pt) floor */
-  --font-size-fine: 1.3333rem;     /* 21.33px — exactly 16pt, smallest permitted anywhere */
-  --font-size-body: 1.4375rem;     /* 23px — default body */
-  --font-size-body-lg: 1.625rem;   /* 26px — lede */
-  --font-size-title-sm: 1.875rem;  /* 30px */
-  --font-size-title: 2.25rem;      /* 36px */
-  --font-size-title-lg: 2.75rem;   /* 44px */
-  --font-size-display-sm: 3.375rem;/* 54px */
-  --font-size-display: 4rem;       /* 64px */
-  --font-size-display-lg: 5rem;    /* 80px */
+  --font-size-fine: 1rem;          /* 16px, exactly 12pt: the floor, smallest permitted anywhere */
+  --font-size-body: 1.25rem;       /* 20px, default body (18px read as slightly small, 2026-09-29) */
+  --font-size-body-lg: 1.375rem;   /* 22px, section paragraphs */
+  --font-size-title-sm: 1.5rem;    /* 24px */
+  --font-size-title: 1.75rem;      /* 28px */
+  --font-size-title-lg: 2.125rem;  /* 34px, h2 */
+  --font-size-display-sm: 2.625rem;/* 42px, h1 */
+  --font-size-display: 3.125rem;   /* 50px */
+  --font-size-display-lg: 4rem;    /* 64px, the Latin motto on Home at its widest */
 
   --leading-tight: 1.08;  /* @kind other */
   --leading-snug: 1.25;   /* @kind other */

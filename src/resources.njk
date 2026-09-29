@@ -1,0 +1,104 @@
+---
+layout: base.njk
+title: Resources
+permalink: /resources/
+description: Bell foundries and pipe organ builders whose work we admire, in the United States and abroad.
+---
+{#- Resources (client, 2026-09-29): its own page, last in the site, ten makers spread across
+    regions. Cut from the 21 firms she approved on 2026-09-17; every link answered then. Same
+    shape as every page: a plain h1 and one paragraph, then h2 and paragraphs. #}
+<section class="section section--hero">
+  <div class="wrap stack">
+    <h1 class="display">Bell foundries and organ builders.</h1>
+    <p class="section-p">Firms whose work we admire, in the United States and abroad. Listing here is not an endorsement and is not a condition of any grant.</p>
+  </div>
+</section>
+
+<section class="section section--page">
+  <div class="wrap stack">
+    <header class="section-heading">
+      <h2>Ten makers, by region</h2>
+      <p class="section-p">Bells and organs are heavy, and the people who make and mend them travel. Start with the nearest, then look further.</p>
+    </header>
+    <h3 class="resources__group">Northeast</h3>
+    <ul class="resources">
+      <li><a href="https://cbfisk.com/" rel="noopener">C.B. Fisk</a><span class="resources__place">Gloucester, Massachusetts</span><span class="resources__what">Mechanical-action pipe organs for churches and concert halls.</span></li>
+      <li><a href="https://mcshanebell.com/" rel="noopener">McShane Bell Company</a><span class="resources__place">Glen Burnie, Maryland</span><span class="resources__what">Cast bells and bell restoration; casting in Baltimore since 1856.</span></li>
+    </ul>
+    <h3 class="resources__group">South</h3>
+    <ul class="resources">
+      <li><a href="https://sunderlinfoundry.com/" rel="noopener">B.A. Sunderlin Bellfoundry</a><span class="resources__place">Ruther Glen, Virginia</span><span class="resources__what">Casts new bells and restores old ones, including rings for change ringing.</span></li>
+      <li><a href="https://www.taylorandboody.com/" rel="noopener">Taylor and Boody Organbuilders</a><span class="resources__place">Staunton, Virginia</span><span class="resources__what">Handmade mechanical-action organs and restoration.</span></li>
+    </ul>
+    <h3 class="resources__group">Midwest</h3>
+    <ul class="resources">
+      <li><a href="https://www.verdin.com/" rel="noopener">The Verdin Company</a><span class="resources__place">Cincinnati, Ohio</span><span class="resources__what">Cast bronze bells, electronic carillons, and tower clocks since 1842.</span></li>
+      <li><a href="https://www.schantzorgan.com/" rel="noopener">Schantz Organ Company</a><span class="resources__place">Orrville, Ohio</span><span class="resources__what">New organs, rebuilding, and service since 1873.</span></li>
+    </ul>
+    <h3 class="resources__group">West</h3>
+    <ul class="resources">
+      <li><a href="https://www.schoenstein.com/" rel="noopener">Schoenstein and Co</a><span class="resources__place">Benicia, California</span><span class="resources__what">New pipe organs and restoration since 1877.</span></li>
+    </ul>
+    <h3 class="resources__group">Abroad</h3>
+    <ul class="resources">
+      <li><a href="https://paccard.com/" rel="noopener">Fonderie Paccard</a><span class="resources__place">Sévrier, France</span><span class="resources__what">Bell foundry since 1796; casts bells and carillons for churches worldwide.</span></li>
+      <li><a href="https://taylorbells.co.uk/" rel="noopener">John Taylor and Co</a><span class="resources__place">Loughborough, England</span><span class="resources__what">Bell foundry since 1839; new bells, rehanging, and tower work.</span></li>
+      <li><a href="https://www.casavant.ca/" rel="noopener">Casavant Frères</a><span class="resources__place">Saint-Hyacinthe, Quebec</span><span class="resources__what">Pipe organ builder since 1879; new instruments and restoration.</span></li>
+    </ul>
+    <p class="resources__more">The member directories of the <a href="https://apoba.com/" rel="noopener">Associated Pipe Organ Builders of America</a> and the <a href="https://pipeorgan.org/" rel="noopener">American Institute of Organbuilders</a> list many more.</p>
+  </div>
+</section>
+
+{#- The proposal form (Rogan, 2026-09-29): at the end of Resources, the last page in the nav, so
+    an applicant reads the site and meets the makers before writing. /apply/ redirects here.
+    Same shape as every section: h2 and one paragraph, then the form on the page, no card.
+    Rebuilt 2026-09-29 (client): a proposal, not an inquiry. No contact-name or project-type
+    intake, a 5,000-character box (Ken), and document upload. Delivery and upload are stubbed
+    until a form service is chosen. #}
+<section class="section section--page" id="send-your-proposal">
+  <div class="wrap stack stack--lg">
+    <header class="section-heading">
+      <h2>Send your proposal</h2>
+      <p class="section-p">Have the quote from the bell foundry, organ builder, or glass studio in hand, then tell us what you need and attach it here with your timeline and photographs. Everything is submitted on this page. There is nothing to print and nothing to mail.</p>
+    </header>
+    <div class="apply-form" data-apply-card>
+      <form class="stack stack--lg" data-apply-form novalidate>
+        <div class="field">
+          <label for="org">Church or organization<span class="field__req" aria-hidden="true">*</span></label>
+          <div><input class="field__control" id="org" name="org" type="text" required aria-describedby="org-error"></div>
+          <span class="field__error" id="org-error" data-org-error hidden></span>
+        </div>
+        <div class="field">
+          <label for="email">Email<span class="field__req" aria-hidden="true">*</span></label>
+          <span class="field__hint">Everything about the grant comes by email.</span>
+          <div><input class="field__control" id="email" name="email" type="email" required aria-describedby="email-error"></div>
+          <span class="field__error" id="email-error" data-email-error hidden></span>
+        </div>
+        <div class="field">
+          <label for="need">Tell us what you need</label>
+          <span class="field__hint" id="need-hint">The project, the timeline with any phases, the total cost and the share you are asking us to cover, and how the parish and community are involved.</span>
+          <div><textarea class="field__control" id="need" name="need" rows="12" maxlength="5000" aria-describedby="need-hint need-count"></textarea></div>
+          <span class="field__hint field__count" id="need-count" data-need-count aria-live="polite"></span>
+        </div>
+        <div class="field">
+          <label for="files">Attach your proposal and photographs</label>
+          <span class="field__hint" id="files-hint">The quote or proposal from the maker, and photographs of the bells, organ, or windows as they are now. PDF or images.</span>
+          <div><input class="field__control field__file" id="files" name="files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx,application/pdf,image/*" aria-describedby="files-hint files-list"></div>
+          <span class="field__hint" id="files-list" data-file-list aria-live="polite"></span>
+        </div>
+        {#- No opt-out (client, 2026-09-17): funded projects are shown on the site, stated once. #}
+        <p class="apply__shared">Funded projects are shared on this site: the church, the work, and the people who did it.</p>
+        <div class="actions">
+          <button class="btn btn--lg" type="submit">Send our proposal</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="apply-form" data-apply-success hidden>
+      <div class="stack stack--sm stack--start">
+        <h3 class="apply__thanks">Thank you. We have your proposal.</h3>
+        <p class="section-p">A person reads every proposal. Everything about the grant comes to the email address you gave.</p>
+      </div>
+    </div>
+  </div>
+</section>

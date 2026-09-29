@@ -10,12 +10,14 @@
     var K='ddf-intro-v1',D=864e5,n=Date.now(),last=parseInt(localStorage.getItem(K)||'0',10);
     var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var force=/[?&]intro\b/.test(location.search)||location.hash==='#intro';
-    if(!r&&(force||n-last>D)){document.documentElement.setAttribute('data-intro','active');if(!force)localStorage.setItem(K,String(n));}
+    if(!r&&(force||n-last>D)){document.documentElement.setAttribute('data-intro','active');if(!force)localStorage.setItem(K,String(n));
+      // Only a visit that will ring the bell fetches the sound ahead of time.
+      var l=document.createElement('link');l.rel='preload';l.as='fetch';l.crossOrigin='anonymous';l.href='{{ '/audio/bell.mp3' | url }}';document.head.appendChild(l);}
   }catch(e){}})();
   </script>
   <title>{% if title %}{{ title }} · {% endif %}The DingDong Foundation</title>
-  <meta name="description" content="{{ description or 'Grants for church bells, electronic carillons, pipe organs, rose windows and the sacred arts. A 501(c)(3) private foundation, certified by the IRS on July 28, 2026.' }}">
-  <link rel="preload" href="{{ '/audio/bell.mp3' | url }}" as="fetch" crossorigin>
+  <meta name="description" content="{{ description or 'Grants for church bells, electronic carillons, pipe organs, rose windows and the sacred arts.' }}">
+  <link rel="icon" href="{{ '/favicon.svg' | url }}" type="image/svg+xml">
   <link rel="preload" href="{{ '/fonts/great-vibes-latin.woff2' | url }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ '/css/styles.css' | url }}?v={{ build.id }}">
   <link rel="stylesheet" href="{{ '/css/site.css' | url }}?v={{ build.id }}">
@@ -25,25 +27,28 @@
   <div class="intro" data-intro-overlay data-intro-audio="{{ '/audio/bell.mp3' | url }}" role="dialog" aria-label="Welcome to The DingDong Foundation">
     <div class="intro__glow"></div>
     <div class="intro__stage">
-      <svg class="intro__bell" viewBox="0 0 120 130" width="150" height="163" aria-hidden="true" focusable="false">
-        <!-- Minimal outline bell: one stroke weight, gold ink, no fill. -->
+      <svg class="intro__bell" viewBox="0 0 120 114" width="150" height="143" aria-hidden="true" focusable="false">
+        <!-- Minimal outline bell: one stroke weight, gold ink, no fill. Proportions follow the
+             Holy Sepulchre bell in the Home hero photo: a rounded shoulder, a short nearly
+             straight waist, and a wide flared lip about a third wider than the bell is tall. -->
         <g class="intro__bell-swing" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <!-- headstock pin and crown loop -->
           <circle cx="60" cy="4" r="2.5" fill="currentColor" stroke="none"/>
           <path d="M60 6.5 V 10"/>
           <path d="M54 16 a6 6 0 0 1 12 0"/>
           <!-- body -->
-          <path d="M60 16 C 44 16, 38 28, 37 50 C 36 72, 30 86, 20 98 C 17 101.5, 19 105, 24 105 L 96 105 C 101 105, 103 101.5, 100 98 C 90 86, 84 72, 83 50 C 82 28, 76 16, 60 16 Z"/>
-          <!-- clapper (lags behind the body, strikes the lip) -->
+          <path d="M60 16 C 46 16, 36 21, 34 33 C 33 46, 33 56, 31 65 C 29 76, 22 84, 14 88 C 10 90.5, 12 94, 17 94 L 103 94 C 108 94, 110 90.5, 106 88 C 98 84, 91 76, 89 65 C 87 56, 87 46, 86 33 C 84 21, 74 16, 60 16 Z"/>
+          <!-- clapper (lags behind the body, strikes the lip). Only the part that hangs below
+               the lip is drawn; the shaft inside the bell is hidden by the wall. -->
           <g class="intro__bell-clapper">
-            <path d="M60 54 V 102"/>
-            <circle cx="60" cy="110" r="7"/>
+            <path d="M60 94 V 97"/>
+            <circle cx="60" cy="103" r="6"/>
           </g>
         </g>
       </svg>
-      <div class="intro__name">The DingDong Foundation</div>
-      {#- One motto line per place (client, 2026-09-23): the English line here, as on her
-          business card; "Jubilate Deo" alone on the Home hero. Never both together. #}
+      {#- No name on the overlay (client, 2026-09-29): the bell, the motto, the button. One motto
+          line per place (client, 2026-09-23): the English line here, as on her business card;
+          "Jubilate Deo" alone on the Home hero. Never both together. #}
       <div class="motto motto--light">
         <span class="motto__en">Make a Joyful Noise to the Lord</span>
       </div>
@@ -54,9 +59,9 @@
     { url: "/", label: "Home" },
     { url: "/inspirations/", label: "Inspirations" },
     { url: "/guidelines/", label: "Guidelines" },
-    { url: "/grants/", label: "Grants" },
     { url: "/questions/", label: "Questions" },
-    { url: "/donate/", label: "Donate" }
+    { url: "/donate/", label: "Donate" },
+    { url: "/resources/", label: "Resources" }
   ] -%}
   <header class="site-header">
     <div class="site-header__inner">
@@ -75,9 +80,6 @@
         <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}<span aria-hidden="true"></span></a>
         {%- endfor %}
       </nav>
-      <div class="site-header__action">
-        <a class="btn btn--sm btn--warm" href="{{ '/apply/' | url }}">Apply for a grant</a>
-      </div>
     </div>
   </header>
 
@@ -85,24 +87,15 @@
     {{ content | safe }}
   </main>
 
-  {#- Footer: the client's list only, in her order (2026-09-01): legal name, EIN, mailing
-      address, email, legal sentence, plus the Ave Maria dedication. No second wordmark and no
-      second set of page links: she asked (text, 2026-09-06) not to repeat at the bottom what
-      is already at the top, and to keep the only "Apply for a grant" button in the header.
-      EIN from the discovery questionnaire. #}
+  {#- Footer (client, 2026-09-29): the legal name and the town. No EIN, no street address,
+      no email, no legal sentence, no Ave Maria. A PO Box line goes in when she has the number.
+      The footer repeats nothing from the header (her text, 2026-09-06). #}
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__contact">
         <span>The DingDong Foundation, Inc.</span>
-        <span>EIN 41-4593395</span>
-        <span>1111 Ritz Carlton Drive, Suite 1008</span>
-        <span>Sarasota, FL 34236, USA</span>
-        <a href="mailto:hello@thedingdongfoundation.org">hello@thedingdongfoundation.org</a>
+        <span>Sarasota, Florida</span>
       </div>
-    </div>
-    <div class="site-footer__legal">
-      <span>A Florida nonprofit corporation recognized by the IRS as a 501(c)(3) private foundation.</span>
-      <em>Ave Maria</em>
     </div>
   </footer>
 

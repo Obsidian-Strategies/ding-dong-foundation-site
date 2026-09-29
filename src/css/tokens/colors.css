@@ -14,7 +14,10 @@
   --navy-500: #3d5378;  /* strong borders */
   --navy-wash-peak: #24365c;  /* top of the hero wash; text sits on it, so it is a token */
 
-  /* Ivory — warm near-white text on navy */
+  /* White — all body text and headings (Rogan, 2026-09-29: "actually white") */
+  --white: #ffffff;
+
+  /* Ivory — warm near-white; the entrance overlay ground and the secondary text steps */
   --ivory-50: #f7f3e8;
   --ivory-100: #efe9d9;
   --ivory-300: #d8d0ba;
@@ -37,8 +40,8 @@
   --sage-300: #a8c3aa;
 
   /* --- Semantic aliases (names unchanged from v1 so component CSS keeps working) --- */
-  --text-body: var(--ivory-50);
-  --text-heading: var(--ivory-50);
+  --text-body: var(--white);
+  --text-heading: var(--white);
   --text-muted: var(--ivory-300);
   --text-faint: var(--ivory-400);
   --text-accent: var(--gold-300);
