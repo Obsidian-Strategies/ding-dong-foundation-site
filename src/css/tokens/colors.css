@@ -42,8 +42,8 @@
   /* --- Semantic aliases (names unchanged from v1 so component CSS keeps working) --- */
   --text-body: var(--white);
   --text-heading: var(--white);
-  --text-muted: var(--ivory-300);
-  --text-faint: var(--ivory-400);
+  --text-muted: var(--white);   /* one text colour (client, 2026-09-23): white. The muted and faint steps are retired */
+  --text-faint: var(--white);
   --text-accent: var(--gold-300);
   --text-link: var(--gold-300);
   --text-link-hover: var(--gold-200);
@@ -62,10 +62,10 @@
   --accent-warm: var(--gold-400);
   --accent-warm-hover: var(--gold-300);
   --accent-warm-ink: var(--navy-950);
-  --accent-rose: var(--rose-300);
+  --accent-rose: var(--gold-300); /* no pink on the site (client, 2026-09-23); the rose steps stay defined but unused */
 
   --focus-ring-color: var(--gold-400);
-  --status-error: var(--rose-300);
+  --status-error: var(--gold-300);
   --status-ok: var(--sage-300);
 
   /* The only gradient in the system: light falling from above. Hero frames only. */

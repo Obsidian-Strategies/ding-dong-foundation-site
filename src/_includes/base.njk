@@ -59,10 +59,12 @@
     { url: "/", label: "Home" },
     { url: "/inspirations/", label: "Inspirations" },
     { url: "/guidelines/", label: "Guidelines" },
-    { url: "/questions/", label: "Questions" },
     { url: "/donate/", label: "Donate" },
-    { url: "/resources/", label: "Resources" }
+    { url: "/resources/", label: "Resources" },
+    { url: "/apply/", label: "Apply for a grant" }
   ] -%}
+  {#- "Apply for a grant" is a plain nav link, last, and lives nowhere else on the site
+      (client, 2026-09-06 and 2026-09-29: top navigation only). It is not a button. #}
   <header class="site-header">
     <div class="site-header__inner">
       <a class="wordmark" href="{{ '/' | url }}" aria-label="The DingDong Foundation — home">
@@ -94,6 +96,7 @@
     <div class="site-footer__inner">
       <div class="site-footer__contact">
         <span>The DingDong Foundation, Inc.</span>
+        <span>A 501(c)(3) private foundation</span>
         <span>Sarasota, Florida</span>
       </div>
     </div>

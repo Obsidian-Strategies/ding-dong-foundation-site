@@ -2,76 +2,78 @@
 // service and the Stripe Payment Link exist.
 (function () {
   // --- Apply -------------------------------------------------------------
+  // The first-inquiry form (client, 2026-09-29): her seventeen fields, the date filled in here,
+  // every required field checked before the thank-you. Delivery is stubbed until a form
+  // service is chosen.
   var applyForm = document.querySelector("[data-apply-form]");
   if (applyForm) {
     var applyCard = document.querySelector("[data-apply-card]");
     var applySuccess = document.querySelector("[data-apply-success]");
-    var org = applyForm.querySelector("#org");
-    var orgField = org.closest(".field");
-    var orgError = applyForm.querySelector("[data-org-error]");
-    // Email is required too (client, 2026-09-17): applications are online only, so the reply
-    // has nowhere else to go.
-    var email = applyForm.querySelector("#email");
-    var emailField = email.closest(".field");
-    var emailError = applyForm.querySelector("[data-email-error]");
+    var dateField = applyForm.querySelector("[data-apply-date]");
+    if (dateField) dateField.value = new Date().toISOString().slice(0, 10);
     var emailOk = function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); };
+
+    // A field is complete when its text control has a value (and, for email, a plausible
+    // one), or when at least one of its radios or checkboxes is ticked.
+    var fieldOk = function (field) {
+      var boxes = field.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+      if (boxes.length) return Array.prototype.some.call(boxes, function (b) { return b.checked; });
+      var control = field.querySelector("input, textarea");
+      if (!control) return true;
+      // Documents (Rogan, 2026-10-12): optional, at most data-max-files of them.
+      if (control.type === "file") {
+        var max = parseInt(field.getAttribute("data-max-files") || "0", 10);
+        return !(max > 0 && control.files.length > max) && (!field.hasAttribute("data-required") || control.files.length > 0);
+      }
+      var v = control.value.trim();
+      if (control.type === "email") return emailOk(v);
+      return v.length > 0;
+    };
+    var showError = function (field, msg) {
+      var err = field.querySelector(".field__error");
+      field.classList.add("field--error");
+      if (err) { err.textContent = msg; err.hidden = false; }
+    };
+    var clearError = function (field) {
+      var err = field.querySelector(".field__error");
+      field.classList.remove("field--error");
+      if (err) err.hidden = true;
+    };
 
     applyForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!org.value.trim()) {
-        orgField.classList.add("field--error");
-        orgError.textContent = "We need the name of the organization.";
-        orgError.hidden = false;
-        org.focus();
+      var fields = applyForm.querySelectorAll("[data-required], [data-max-files]");
+      var first = null;
+      Array.prototype.forEach.call(fields, function (field) {
+        if (fieldOk(field)) { clearError(field); return; }
+        showError(field, field.getAttribute("data-error") || "This is needed.");
+        if (!first) first = field;
+      });
+      if (first) {
+        var control = first.querySelector("input, textarea");
+        if (control) control.focus();
         return;
       }
-      orgField.classList.remove("field--error");
-      orgError.hidden = true;
-      if (!emailOk(email.value.trim())) {
-        emailField.classList.add("field--error");
-        emailError.textContent = "We need an email address to reply to.";
-        emailError.hidden = false;
-        email.focus();
-        return;
-      }
-      emailField.classList.remove("field--error");
-      emailError.hidden = true;
       applyCard.hidden = true;
       applySuccess.hidden = false;
-      // The form sits at the end of Resources, so the thank-you takes its place rather than
-      // sending the reader back to the top of the page.
       applySuccess.scrollIntoView({ block: "start" });
     });
 
-    // Character count under the 5,000-character box (Ken, 2026-09-29) and the names of the
-    // files chosen for upload. Delivery of both is stubbed until a form service is chosen.
-    var need = applyForm.querySelector("#need");
-    var needCount = applyForm.querySelector("[data-need-count]");
-    if (need && needCount && need.maxLength > 0) {
-      var updateCount = function () {
-        var left = need.maxLength - need.value.length;
-        needCount.textContent = left.toLocaleString("en-US") + (left === 1 ? " character left" : " characters left");
-      };
-      need.addEventListener("input", updateCount);
-      updateCount();
-    }
-    var files = applyForm.querySelector("#files");
-    var fileList = applyForm.querySelector("[data-file-list]");
-    if (files && fileList) {
-      files.addEventListener("change", function () {
-        var names = Array.prototype.map.call(files.files, function (f) { return f.name; });
-        fileList.textContent = names.length ? "Attached: " + names.join(", ") : "";
-      });
-    }
-
-    var applyReset = document.querySelector("[data-apply-reset]");
-    if (applyReset) {
-      applyReset.addEventListener("click", function () {
-        applyForm.reset();
-        applySuccess.hidden = true;
-        applyCard.hidden = false;
-      });
-    }
+    // Clear a field's error as soon as it is completed.
+    applyForm.addEventListener("input", function (e) {
+      var field = e.target.closest && e.target.closest("[data-required]");
+      if (field && fieldOk(field)) clearError(field);
+    });
+    applyForm.addEventListener("change", function (e) {
+      var field = e.target.closest && e.target.closest("[data-required], [data-max-files]");
+      if (!field) return;
+      if (fieldOk(field)) clearError(field); else showError(field, field.getAttribute("data-error") || "This is needed.");
+      if (e.target.type === "file") {
+        var list = field.querySelector("[data-file-list]");
+        var names = Array.prototype.map.call(e.target.files, function (f) { return f.name; });
+        if (list) list.textContent = names.length ? "Attached: " + names.join(", ") : "";
+      }
+    });
   }
 
   // --- Give ---------------------------------------------------------------
@@ -84,6 +86,27 @@
       giveNote.hidden = false;
       giveStub.setAttribute("aria-expanded", "true");
     });
+  }
+
+  // --- Prayer (Give) --------------------------------------------------------
+  // The Lord's Prayer drifts upward through a short window, slowly, in a seamless loop: the
+  // lines are followed by a second copy (hidden from screen readers) and the track moves by
+  // exactly one copy plus the gap. Never under reduced motion; then the page keeps the plain
+  // full text. The line under it pauses and resumes; hovering pauses too.
+  var prayer = document.querySelector("[data-prayer]");
+  var prayerCalm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prayer && !prayerCalm) {
+    var prayerWindow = prayer.querySelector("[data-prayer-window]");
+    var prayerLines = prayerWindow.querySelector(".prayer__lines");
+    var prayerTrack = document.createElement("div");
+    prayerTrack.className = "prayer__track";
+    var prayerCopy = prayerLines.cloneNode(true);
+    prayerCopy.setAttribute("aria-hidden", "true");
+    prayerWindow.appendChild(prayerTrack);
+    prayerTrack.appendChild(prayerLines);
+    prayerTrack.appendChild(prayerCopy);
+    // Hovering the window pauses the drift (CSS). The pause button left on 2026-10-12 (Rogan).
+    prayer.setAttribute("data-prayer-scroll", "running");
   }
 
   // --- Questions (hover to preview, click to pin) ------------------------------

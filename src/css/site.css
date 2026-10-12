@@ -213,11 +213,11 @@ main > section.section:last-of-type::after {
   --glass-shadow-active: 0 1px 2px rgba(4, 8, 18, 0.18);
   --glass-focus: 0 0 0 3px var(--focus-ring-color);
   /* Bloom: pale and desaturated — barely-there on dark glass. Primary and secondary panes
-     now share the same subdued gold/rose/navy tint; hierarchy comes from the
+     now share the same subdued gold/navy tint; hierarchy comes from the
      label colour instead (see .btn--warm). */
   --glass-bloom:
     radial-gradient(55% 70% at 28% 40%, rgba(217, 189, 120, 0.16) 0%, rgba(217, 189, 120, 0) 70%),
-    radial-gradient(50% 65% at 78% 65%, rgba(227, 191, 182, 0.10) 0%, rgba(227, 191, 182, 0) 70%),
+    radial-gradient(50% 65% at 78% 65%, rgba(217, 189, 120, 0.10) 0%, rgba(217, 189, 120, 0) 70%),
     radial-gradient(70% 70% at 55% 20%, rgba(36, 54, 92, 0.6) 0%, rgba(36, 54, 92, 0) 70%);
 }
 
@@ -317,7 +317,7 @@ main > section.section:last-of-type::after {
   display: inline;
 }
 .btn--ghost::before, .btn--ghost::after { content: none; }
-.btn--ghost:hover { background: transparent; color: var(--rose-300); }
+.btn--ghost:hover { background: transparent; color: var(--text-link-hover); }
 .btn--ghost:active { transform: none; }
 .btn--ghost:focus-visible { border-radius: var(--radius-sm); box-shadow: var(--glass-focus); }
 
@@ -350,12 +350,11 @@ main > section.section:last-of-type::after {
   background-size: 300% 100%;
   background-position: 100% 0;
 }
-.card--accent-rose::before { background: var(--rose-300); }
 
 /* Interactive card hover (Opal-style: lift, deepen, glint, nudge — all on one soft ease).
    1. the card lifts 5px and its shadow deepens
    2. a glint travels along the gold rule
-   3. the icon rises a touch and the title warms to rose, like a link
+   3. the icon rises a touch and the title warms to gold, like a link
    4. the tag's glass brightens as if it caught the light */
 .card--interactive { cursor: pointer; }
 .card--interactive .icon { transition: transform 450ms var(--ease-hover), color 450ms var(--ease-hover); }
@@ -412,9 +411,14 @@ main > section.section:last-of-type::after {
 .icon--lg { font-size: 36px; }
 .icon--xl { font-size: 48px; }
 .icon--brass { color: var(--accent-warm); }
-.icon--rose { color: var(--rose-300); }
 
 .checklist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-4); }
+/* Guidelines "How it goes" (client, 2026-09-29): her three steps as a plain numbered list in
+   the section-paragraph style, the numbers in gold. */
+.steps { margin: 0; padding: 0 0 0 1.5em; display: flex; flex-direction: column; gap: var(--space-3); max-width: var(--measure-prose); font-family: var(--font-display); font-size: var(--font-size-body-lg); line-height: var(--leading-loose); color: var(--text-body); }
+.steps li { padding-left: var(--space-2); }
+.steps li::marker { color: var(--text-accent); }
+.guidelines__note { margin-top: var(--space-4); }
 .checklist li { display: flex; gap: var(--space-3); align-items: flex-start; color: var(--text-body); }
 
 /* Resources (Inspirations): a plain list of names, nothing that reads as advertising. */
@@ -438,18 +442,49 @@ main > section.section:last-of-type::after {
 .resources__more a:hover { color: var(--text-link-hover); }
 /* Apply (client, 2026-09-17): the one sentence that replaced the opt-out checkbox. */
 .apply__shared { margin: 0; color: var(--text-body); max-width: var(--measure-prose); }
+/* Her line under the inquiry form (client, 2026-09-29). */
+.apply__note { margin-top: var(--space-6); max-width: var(--measure-prose); }
 /* The inquiry form and its thank-you sit on the page, not in a card (polish, 2026-09-29). */
 .apply-form { max-width: var(--content-max); }
 .apply__thanks { margin: 0; font-family: var(--font-display); font-size: var(--font-size-title); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); color: var(--text-heading); }
 
-/* Prayer (Inspirations since 2026-09-29, Home before that): the Lord's Prayer in full. On the
-   page navy, white text, no band and no gold (client, 2026-09-29). Plenty of space, no
+/* Prayer (Give since 2026-10-05; Inspirations before that, Home before that): the Lord's
+   Prayer in full. On the page navy, white text, no band and no gold (client, 2026-09-29). Plenty of space, no
    decoration. */
-.prayer__text { display: flex; flex-direction: column; gap: var(--space-4); }
+/* One size up and a ten-line window (Rogan, 2026-10-12: bigger, more of it at once). */
+.prayer__text { display: flex; flex-direction: column; gap: var(--space-4); --prayer-line: calc(var(--font-size-title-sm) * var(--leading-loose)); --prayer-gap: calc(var(--prayer-line) * 2); }
+/* Slow drift (Give, 2026-10-05). Only when site.js has set data-prayer-scroll, which it never
+   does under reduced motion; otherwise the whole prayer shows, still. The window is seven
+   lines tall with soft edges; the track holds the prayer twice and moves by one copy plus the
+   gap, so the loop has no seam. About 9px a second: slower than reading. */
+[data-prayer-scroll] .prayer__window {
+  height: calc(var(--prayer-line) * 10);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
+}
+[data-prayer-scroll] .prayer__track {
+  display: flex;
+  flex-direction: column;
+  gap: var(--prayer-gap);
+  animation: prayerDrift 60s linear infinite;
+  will-change: transform;
+}
+[data-prayer-scroll="paused"] .prayer__track,
+[data-prayer-scroll] .prayer__window:hover .prayer__track { animation-play-state: paused; }
+@keyframes prayerDrift {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-50% - var(--prayer-gap) / 2)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-prayer-scroll] .prayer__window { height: auto; -webkit-mask-image: none; mask-image: none; }
+  [data-prayer-scroll] .prayer__track { animation: none; }
+  [data-prayer-scroll] .prayer__lines[aria-hidden="true"] { display: none; }
+}
 .prayer__lines {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--font-size-body-lg);
+  font-size: var(--font-size-title-sm);
   line-height: var(--leading-loose);
   color: var(--text-body);
 }
@@ -541,6 +576,10 @@ main > section.section:last-of-type::after {
 .figure--square .figure__frame { aspect-ratio: 1 / 1; border-radius: 0; }
 /* Inspirations: her tower photograph is landscape (client, 2026-09-29). */
 .figure--landscape .figure__frame { aspect-ratio: 4 / 3; }
+/* Inspirations (Rogan, 2026-10-12): the frame fills the story column's height from 901px up. */
+.grid--story { align-items: stretch; }
+.figure--fill { min-height: 0; }
+@media (min-width: 901px) { .figure--fill .figure__frame { aspect-ratio: auto; height: 100%; min-height: 420px; } }
 .figure__frame img { width: 100%; height: 100%; object-fit: cover; }
 /* The bell photo itself is styled under "Home hero" above. The great bell's centre sits at
    ~48.5% of the source image's width, so every crop of it stays at object-position 47% or the
@@ -575,7 +614,7 @@ main > section.section:last-of-type::after {
   letter-spacing: 0.01em;
   color: var(--text-heading);
 }
-.field__req { color: var(--accent-rose); margin-left: 4px; }
+.field__req { color: var(--text-accent); margin-left: 4px; }
 .field__hint { color: var(--text-muted); max-width: var(--measure-prose); }
 .field__control {
   width: 100%;
@@ -619,6 +658,14 @@ select.field__control { appearance: none; background-image: none; padding-right:
   font-size: var(--font-size-title-sm); letter-spacing: var(--tracking-display); color: var(--text-heading);
 }
 .fieldset > .field__hint { margin-top: calc(-1 * var(--space-2)); }
+/* Yes/no and project-type choices on the inquiry form (client, 2026-09-29): plain native
+   controls in gold, one per line, the yes/no pair on one row. */
+.apply-form .fieldset__legend { font-family: var(--font-text); font-size: var(--font-size-body); font-weight: var(--weight-bold); letter-spacing: 0.01em; margin: 0; }
+.apply-form .fieldset { gap: var(--space-2); }
+.choices { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.choices--row { flex-direction: row; flex-wrap: wrap; gap: var(--space-6); }
+.choice { display: inline-flex; align-items: center; gap: var(--space-3); font-size: var(--font-size-body); color: var(--text-body); cursor: pointer; }
+.choice input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--gold-400); cursor: pointer; }
 [hidden] { display: none !important; }
 
 
@@ -799,12 +846,12 @@ select.field__control { appearance: none; background-image: none; padding-right:
   flex-direction: column;
   gap: 5px;
   white-space: nowrap;
-  color: var(--text-muted);
+  color: var(--text-body); /* white: the name is gold, the links are white (client, 2026-09-23) */
   transition: color var(--dur-quick) var(--ease-standard);
 }
 .site-nav a span { height: 2px; background: transparent; border-radius: 1px; transition: background var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard); }
-/* Hover: a soft ombre bloom, gold into rose, fades in behind the word and the underline
-   picks up the same gradient with a faint glow. Nothing moves. */
+/* Hover: a soft gold bloom fades in behind the word and the underline turns gold with a
+   faint glow. One colour, no pink (client, 2026-09-23). Nothing moves. */
 .site-nav a { position: relative; isolation: isolate; }
 .site-nav a::before {
   content: "";
@@ -813,7 +860,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   inset: -8px -12px;
   border-radius: 999px;
   background: radial-gradient(60% 80% at 30% 50%, rgba(217, 189, 120, 0.14) 0%, rgba(217, 189, 120, 0) 70%),
-              radial-gradient(60% 80% at 72% 55%, rgba(227, 191, 182, 0.08) 0%, rgba(227, 191, 182, 0) 70%);
+              radial-gradient(60% 80% at 72% 55%, rgba(217, 189, 120, 0.08) 0%, rgba(217, 189, 120, 0) 70%);
   filter: blur(10px);
   opacity: 0;
   transform: scale(0.9);
@@ -823,7 +870,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
 .site-nav a:hover { color: var(--text-accent); }
 .site-nav a:hover::before { opacity: 1; transform: scale(1); }
 .site-nav a:hover span {
-  background: linear-gradient(90deg, var(--gold-300), var(--rose-300));
+  background: var(--gold-300);
   box-shadow: 0 0 6px rgba(217, 189, 120, 0.35);
 }
 .site-nav a[aria-current="page"] { color: var(--text-accent); }
@@ -870,7 +917,7 @@ select.field__control { appearance: none; background-image: none; padding-right:
   gap: var(--space-1);
   font-size: var(--font-size-fine);
   line-height: var(--leading-snug);
-  color: var(--ivory-300);
+  color: var(--text-body);
   overflow-wrap: anywhere;
 }
 .site-footer__contact a {
@@ -925,20 +972,21 @@ html[data-intro="leaving"] .intro {
 .intro__bell-swing { transform-origin: 60px 4px; transform-box: view-box; }
 .intro__bell-clapper { transform-origin: 60px 54px; transform-box: view-box; }
 /* No name on the overlay (client, 2026-09-29): the bell, then the motto, then the button.
-   The motto is a small line in the script face (client asked for smaller and more elegant),
-   body size, 22px from about 1200px up, never below the 16px floor. */
+   The motto is a small line in the script face (client asked for smaller and more elegant).
+   It went one step too small on 2026-09-29, so it is back to 22px, 24px from about 1000px up
+   (Rogan, 2026-10-05). */
 .intro .motto { align-items: center; margin-top: var(--space-3); }
-.intro .motto__en { font-size: clamp(var(--font-size-body), 1.8vw, var(--font-size-body-lg)); }
+.intro .motto__en { font-size: clamp(var(--font-size-body-lg), 2.4vw, var(--font-size-title-sm)); }
 /* On the light ground the glass pane would vanish. The button is a small hairline pill
-   (client, 2026-09-29: smaller and more elegant): navy text at the floor size, a 1px navy line,
+   (client, 2026-09-29: smaller and more elegant): navy text at body size, a 1px navy line,
    no fill and no shadow at rest; hover and press fill it navy with white text. These rules come
    after .btn--secondary/.intro__ring above and win at equal specificity. */
 .intro__ring {
   margin-top: var(--space-6);
-  padding: 10px 26px;
-  font-size: var(--font-size-fine);
+  padding: 12px 30px;
+  font-size: var(--font-size-body);
   font-weight: var(--weight-regular);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--navy-950);
 }
 .intro__ring::before { content: none; }

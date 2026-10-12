@@ -16,11 +16,11 @@ src/
   inspirations.njk           Inspirations    /inspirations/
   story.njk                  redirect        /story/ → /inspirations/
   guidelines.njk             Guidelines      /guidelines/
-  apply.njk                  redirect        /apply/ → /resources/#send-your-proposal (the form moved there 2026-09-29)
+  apply.njk                  Apply           /apply/       (her seventeen-field first-inquiry form plus up to ten documents; delivery stubbed; last nav link, 2026-10-10)
   grants.njk                 held, permalink false (hidden until the first grant, 2026-09-29)
-  questions.njk              Questions       /questions/   (answers live in front matter; hover previews an answer, click pins it)
+  questions.njk              redirect        /questions/ → /resources/#questions (folded into Resources 2026-10-05)
   donate.njk                 Give            /donate/      (Stripe Payment Link button plus check; fee absorbed, receipts automatic)
-  resources.njk              Resources       /resources/   (ten makers by region, then the proposal form: org, email, 5,000-character box, file upload; delivery stubbed; last nav link, 2026-09-29)
+  resources.njk              Resources       /resources/   (her maker lists of 2026-09-29 in three trades, then the questions)
   prayer-for-the-world.njk   held, permalink false
   _data/site.json            stripePaymentLink (empty until the Stripe account is connected; then the Give button links to it)
   css/tokens/*.css           design tokens, ported verbatim from the design system
@@ -66,5 +66,5 @@ The full design system (palette, type scale, spacing, components, and how to cha
 - The public name is The DingDong Foundation, one word; `Ding Dong` and `public charity` are banned strings.
 - Times New Roman everywhere except the motto, set in Great Vibes through `--font-script`.
 - The entrance overlay is the one light surface (ivory); every page behind it is navy.
-- No "Apply for a grant" button anywhere (header button removed 2026-09-27). The header is the wordmark on the left and the six links on the right. Apply is never in a page body or the footer.
+- "Apply for a grant" is a plain nav link, last of six, and appears nowhere else (client: top navigation only). No Apply button anywhere. Apply is never in a page body or the footer.
 - Applications are online only: no paper form, no mailing option, email required. Funded projects are shared on the site and applicants do not opt out (client, 2026-09-17).

@@ -1,70 +1,19 @@
 ---
-layout: base.njk
-title: Questions
 permalink: /questions/
-description: Who can apply, what a grant can pay for, and how the process goes. Plain answers.
-items:
-  - id: who
-    q: Who can apply?
-    a: Eligible applicants are 501(c)(3) organizations seeking support for church bells and bell towers, pipe organs, rose windows, stained glass, related sacred architecture, artisan training, and, in some cases, spiritual work with sound, color, and frequency. Grants are made case by case. We focus on Christian sacred spaces, with room for related work.
-  - id: where
-    q: Do you fund projects outside the United States?
-    a: Not yet. For now we are concentrating on projects in the United States. International work may follow later, through other 501(c)(3) organizations.
-  - id: size
-    q: How large is a grant?
-    a: A grant covers up to 80 percent of a project's cost, never all of it. There is no fixed amount. Every project is different, so every grant is set case by case, from the proposal and the funds we have available.
-  - id: what
-    q: What can a grant pay for, and what can it not?
-    a: Bells and their towers, pipe organs, rose windows and stained glass, and the training of the artisans who keep them. It cannot pay salaries, operating costs or debt, general building work unrelated to bells, organs or glass, or anything political. The full lists are on the guidelines page.
-  - id: nobells
-    q: Our church has no bells. Can we still apply?
-    a: Yes. An electronic carillon brings the true sound of cast bronze bells through speakers in a steeple or on an exterior wall — nothing to cast, nothing to build. It rings the Call to Worship and the Angelus, peals for weddings and tolls for funerals, and its library holds thousands of hymns, Ave Maria and Gregorian chant among them. Ask for one in your proposal.
-  - id: how
-    q: How do I apply?
-    a: Get a quote or proposal from the bell foundry, organ builder, or glass studio first. Then send it through the form at the end of the Resources page with your timeline, photographs, the total cost, and the share you are asking us to cover. Everything is submitted online. There is nothing to print or mail.
-  - id: decides
-    q: Who decides, and how long does it take?
-    a: The board reviews requests as they are received. If a request proceeds past the first review, we will ask for additional materials. Timing varies.
-  - id: deadline
-    q: Is there a deadline?
-    a: No. Proposals are welcome at any time of year, and we read them as they arrive.
+eleventyExcludeFromCollections: true
 ---
-{#- Inner-page hero (polish, 2026-09-29): the same shape as every section on the site, a plain
-    h1 and one white paragraph in the 1200px column. No eyebrow, no italic word. #}
-<section class="section section--hero">
-  <div class="wrap stack">
-    <h1 class="display">Questions</h1>
-    <p class="section-p">Plain answers.</p>
-  </div>
-</section>
-<section class="section section--page">
-  <div class="wrap faq" data-faq>
-    <div class="faq__list" role="list">
-      {%- for item in items %}
-      <div class="faq__item" role="listitem" data-faq-item>
-        <h2 class="faq__q">
-          <button class="faq__bar" type="button" id="faq-{{ item.id }}" aria-expanded="false" aria-controls="faq-{{ item.id }}-body" data-faq-bar>
-            <span>{{ item.q }}</span>
-            <i class="ph ph-arrow-right icon icon--sm faq__arrow" aria-hidden="true"></i>
-          </button>
-        </h2>
-        <div class="faq__body" id="faq-{{ item.id }}-body" role="region" aria-labelledby="faq-{{ item.id }}" data-faq-body>
-          <p>{{ item.a }}</p>
-        </div>
-      </div>
-      {%- endfor %}
-    </div>
-    <div class="faq__detail" data-faq-panel aria-live="polite" aria-atomic="true"></div>
-  </div>
-</section>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {%- for item in items %}
-    { "@type": "Question", "name": {{ item.q | dump | safe }}, "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | dump | safe }} } }{% if not loop.last %},{% endif %}
-    {%- endfor %}
-  ]
-}
-</script>
+{#- The questions live on the Resources page (client, meeting of 2026-09-23; done 2026-10-05).
+    This address was in the header until then, so it forwards. #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The DingDong Foundation</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url={{ '/resources/' | url }}#questions">
+  <link rel="canonical" href="{{ '/resources/' | url }}">
+</head>
+<body>
+  <p>The questions have moved to the <a href="{{ '/resources/' | url }}#questions">Resources</a> page.</p>
+</body>
+</html>
