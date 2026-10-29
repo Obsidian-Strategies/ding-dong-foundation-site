@@ -516,7 +516,7 @@ section[id] { scroll-margin-top: 120px; }
 /* Slow drift (2026-10-05). Only when site.js has set data-prayer-scroll, which it never
    does under reduced motion; otherwise the whole prayer shows, still. The window is seven
    lines tall with soft edges; the track holds the prayer twice and moves by one copy plus the
-   gap, so the loop has no seam. About 9px a second: slower than reading. */
+   gap, so the loop has no seam. About 9px a second: slower than reading. It never pauses. */
 [data-prayer-scroll] .prayer__window {
   height: calc(var(--prayer-line) * 10);
   overflow: hidden;
@@ -530,8 +530,8 @@ section[id] { scroll-margin-top: 120px; }
   animation: prayerDrift 60s linear infinite;
   will-change: transform;
 }
-[data-prayer-scroll="paused"] .prayer__track,
-[data-prayer-scroll] .prayer__window:hover .prayer__track { animation-play-state: paused; }
+/* Nothing pauses the drift (Rogan, 2026-10-29 hotfix: hovering used to pause it, and the pause
+   button left on 2026-10-12). Reduced motion still shows the prayer whole and still. */
 @keyframes prayerDrift {
   from { transform: translateY(0); }
   to { transform: translateY(calc(-50% - var(--prayer-gap) / 2)); }

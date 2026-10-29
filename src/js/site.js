@@ -92,7 +92,7 @@
   // The Lord's Prayer drifts upward through a short window, slowly, in a seamless loop: the
   // lines are followed by a second copy (hidden from screen readers) and the track moves by
   // exactly one copy plus the gap. Never under reduced motion; then the page keeps the plain
-  // full text. The line under it pauses and resumes; hovering pauses too.
+  // full text. Nothing pauses it (the button left on 2026-10-12, the hover pause on 2026-10-29).
   var prayer = document.querySelector("[data-prayer]");
   var prayerCalm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (prayer && !prayerCalm) {
@@ -105,7 +105,6 @@
     prayerWindow.appendChild(prayerTrack);
     prayerTrack.appendChild(prayerLines);
     prayerTrack.appendChild(prayerCopy);
-    // Hovering the window pauses the drift (CSS). The pause button left on 2026-10-12 (Rogan).
     prayer.setAttribute("data-prayer-scroll", "running");
   }
 
