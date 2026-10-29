@@ -1,8 +1,8 @@
 ---
 layout: base.njk
-title: Apply for a grant
+title: Apply for a Grant
 permalink: /apply/
-description: A short first inquiry to start. Tell us who you are and what you hope to do.
+description: Begin with a short inquiry. Tell us about your organization and your project, and we will be in touch.
 ---
 {#- Apply (client email, 2026-09-29, "Apply page - first-inquiry form fields"): a short
     first-inquiry form only, her seventeen fields in her order, no proposals or photographs on
@@ -11,8 +11,8 @@ description: A short first inquiry to start. Tell us who you are and what you ho
     Delivery is stubbed until a form service is chosen. #}
 <section class="section section--hero">
   <div class="wrap stack">
-    <h1 class="display">Apply for a grant.</h1>
-    <p class="section-p">Start with a short inquiry. Tell us who you are and what you hope to do, and we will reply.</p>
+    <h1 class="display">Apply for a Grant</h1>
+    <p class="section-p">Begin with a short inquiry. Tell us about your organization and your project, and we will be in touch.</p>
   </div>
 </section>
 
@@ -38,7 +38,7 @@ description: A short first inquiry to start. Tell us who you are and what you ho
         </div>
 
         <fieldset class="fieldset field" data-required data-error="Please choose yes or no.">
-          <legend class="fieldset__legend">501(c)(3) organization?<span class="field__req" aria-hidden="true">*</span></legend>
+          <legend class="fieldset__legend">Is your organization a registered 501(c)(3)?<span class="field__req" aria-hidden="true">*</span></legend>
           <span class="field__hint" id="c3-hint">Grants go only to 501(c)(3) organizations.</span>
           <ul class="choices choices--row" aria-describedby="c3-hint c3-error">
             <li><label class="choice"><input type="radio" name="c3" value="yes" required>Yes</label></li>
@@ -124,10 +124,10 @@ description: A short first inquiry to start. Tell us who you are and what you ho
           <span class="field__error" id="raised-error" hidden></span>
         </div>
 
-        <div class="field" data-required data-error="We need the grant amount requested.">
-          <label for="requested">Grant amount requested<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="requested" name="requested" type="text" inputmode="decimal" required aria-describedby="requested-error"></div>
-          <span class="field__error" id="requested-error" hidden></span>
+        {#- Optional (client, 2026-10-16): grant amounts are discussed after the first review. #}
+        <div class="field">
+          <label for="requested">Grant amount requested</label>
+          <div><input class="field__control" id="requested" name="requested" type="text" inputmode="decimal"></div>
         </div>
 
         <div class="field">
@@ -148,7 +148,7 @@ description: A short first inquiry to start. Tell us who you are and what you ho
         </div>
 
         {#- No opt-out (client, 2026-09-17): funded projects are shown on the site, stated once. #}
-        <p class="apply__shared">Funded projects are shared on this site: the church, the work, and the people who did it.</p>
+        <p class="apply__shared">Funded projects may be featured on this site, including the church, the work, and the artisans who carried it out.</p>
         <div class="actions">
           <button class="btn btn--lg" type="submit">Send our inquiry</button>
         </div>

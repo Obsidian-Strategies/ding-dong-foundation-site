@@ -125,8 +125,9 @@ main > section.section:last-of-type::after {
 }
 
 /* Motto (client, 2026-09-01, then 2026-09-23): "Make a Joyful Noise to the Lord" and "Jubilate
-   Deo" in the script face, one line per place, never together. The English line is the
-   entrance overlay's (as on her business card); the Latin alone is the Home h1. Sizes cap at
+   Deo" in the script face. The English line is the entrance overlay's (as on her business
+   card); the Latin is the Home h1, and since round 7 (client, 2026-10-12 and 2026-10-16) the
+   English line and "Psalm 100:1" sit under it on Home too (.motto--verse). Sizes cap at
    display-sm so the English line fits the 760px content column on one line at 1440 and wraps
    to two balanced lines on phones. */
 .motto {
@@ -148,32 +149,71 @@ main > section.section:last-of-type::after {
 /* Latin alone (Home hero, client PDF 2026-09-10): with no English line above it the Latin
    takes the display size. */
 .motto--solo .motto__la { font-size: clamp(var(--font-size-display-sm), 7vw, var(--font-size-display-lg)); }
+/* English line under the Latin on Home (round 7): one step down from the Latin, same script and
+   gold. The block shrinks to the line's width so the citation, in Times New Roman and white,
+   sits right-aligned beneath its end, as she set it. */
+.motto--verse { width: fit-content; max-width: 100%; margin-inline: auto; align-items: flex-end; gap: 0; }
+.motto--verse .motto__en { align-self: stretch; text-align: center; font-size: clamp(var(--font-size-title), 3.4vw, var(--font-size-display-sm)); }
+.motto__cite {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: var(--font-size-body);
+  letter-spacing: 0.04em;
+  line-height: var(--leading-snug);
+  color: var(--text-body);
+}
 
 /* --- Home hero: full-width bell photo ---------------------------------------
    The photo is the first thing seen after the entrance bell (client, 2026-09-10). Desktop:
-   the picture fills the section and the text sits at the bottom left over a navy scrim that
-   is 0.85 opaque behind the text (tests/contrast.mjs models gold-300 / ivory-50 / ivory-300 on
-   that scrim over pure white, the worst possible photo pixel). Phones: the photo stacks on
-   top at 4:3 and the text sits on the page navy below it, so nothing is ever read over a
-   bright part of the picture on a small screen. */
-.section.hero-bleed { padding: 0; background: var(--surface-page); overflow: hidden; }
+   the picture fills the section and the text sits at the bottom over a navy scrim that is
+   0.85 opaque behind the text (tests/contrast.mjs models gold-300 / white on that scrim over
+   pure white, the worst possible photo pixel). Phones: the photo stacks on top at 4:3 and the
+   text sits on the page navy below it, so nothing is ever read over a bright part of the
+   picture on a small screen.
+   Round 7 (client, 2026-10-12 and 2026-10-16): the opening group is centred: "Jubilate Deo",
+   the English motto with "Psalm 100:1" right-aligned under it, then her paragraph larger and
+   semi-bold as the mission statement. Every section below keeps the one left edge. The gold
+   notes (_includes/home-notes.njk) drift up the right side; the text column is held clear of
+   them on desktop. */
+.section.hero-bleed {
+  --hero-notes-w: clamp(84px, 12vw, 176px);
+  --hero-notes-right: clamp(16px, 5vw, 96px);
+  padding: 0; background: var(--surface-page); overflow: hidden;
+}
 .hero-bleed__media { position: relative; margin: 0; display: block; }
 .hero-bleed__frame { position: relative; }
 .hero-bleed img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 47% 50%; }
+/* The 0.85 band is measured in pixels from the bottom, not as a share of the hero, so it still
+   covers the taller round 7 text block on short desktop screens (hero 560px). */
 .hero-bleed__scrim {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(10, 18, 38, 0.85) 0%, rgba(10, 18, 38, 0.85) 52%, rgba(10, 18, 38, 0.35) 78%, rgba(10, 18, 38, 0.15) 100%);
+  background: linear-gradient(to top, rgba(10, 18, 38, 0.85) 0px, rgba(10, 18, 38, 0.85) 480px, rgba(10, 18, 38, 0.35) 660px, rgba(10, 18, 38, 0.15) 100%);
   pointer-events: none;
 }
-/* Same column as the sections below: the padding sits outside the 1200px, so "Jubilate Deo"
-   and the section headings share one left edge (Rogan, 2026-09-27). */
-.hero-bleed__text { position: relative; display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-8) var(--space-6); max-width: calc(var(--page-max) + 2 * var(--space-6)); }
-.hero-bleed__lede { color: var(--text-body); }
+/* Same 1200px column as the sections below; the opening group is centred inside it. z-index
+   lifts the text above the next section's fade (.section--page::before reaches 160px up into
+   the hero), so the last line of the paragraph is never dimmed. */
+.hero-bleed__text { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-5); padding: var(--space-8) var(--space-6); max-width: calc(var(--page-max) + 2 * var(--space-6)); text-align: center; }
+.hero-bleed__motto { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); max-width: 100%; }
+/* Her opening paragraph as the mission statement: Times New Roman has regular and bold only,
+   so 600 renders as its bold. */
+.hero-bleed__lede {
+  margin: 0;
+  max-width: 60ch;
+  font-family: var(--font-display);
+  font-size: clamp(var(--font-size-title-sm), 2vw, var(--font-size-title));
+  font-weight: var(--weight-semibold);
+  line-height: 1.45;
+  color: var(--text-body);
+  text-align: center;
+  text-wrap: balance;
+}
 @media (min-width: 901px) {
   .hero-bleed { min-height: clamp(560px, 82vh, 860px); display: flex; flex-direction: column; justify-content: flex-end; }
   .hero-bleed__media, .hero-bleed__frame { position: absolute; inset: 0; }
   .hero-bleed__text { width: 100%; padding: var(--space-9) var(--space-6) var(--space-8); }
-  .hero-bleed__lede { max-width: var(--measure-prose); }
+  /* Keep the centred text clear of the notes column on both sides. */
+  .hero-bleed__motto, .hero-bleed__lede { max-width: min(60ch, calc(100vw - 2 * (var(--hero-notes-w) + var(--hero-notes-right) + var(--space-5)))); }
 }
 @media (max-width: 900px) {
   .hero-bleed__frame { aspect-ratio: 4 / 3; }
@@ -181,6 +221,45 @@ main > section.section:last-of-type::after {
   /* No text over the photo here, so only the bottom edge softens into the page navy. */
   .hero-bleed__scrim { background: linear-gradient(to top, rgba(10, 18, 38, 0.6) 0%, rgba(10, 18, 38, 0) 40%); }
   .hero-bleed__text { padding: var(--space-6) var(--space-5) var(--space-8); }
+}
+
+/* Home hero notes (client, 2026-10-12 and 2026-10-16): a few gold notes on a rising diagonal at
+   the right of the photo, each drifting slowly up and fading, staggered, long and calm. No
+   sound. Decorative only. Desktop: the right edge of the full hero, beside the centred text.
+   Phones: the right side of the stacked photo, smaller, never over text. Reduced motion: still. */
+.hero-notes {
+  position: absolute;
+  right: var(--hero-notes-right);
+  top: 46%;
+  translate: 0 -50%;
+  width: var(--hero-notes-w);
+  height: auto;
+  aspect-ratio: 2 / 5;
+  overflow: visible;
+  color: var(--gold-400);
+  fill: currentColor;
+  opacity: 0.9;
+  filter: drop-shadow(0 1px 3px rgba(10, 18, 38, 0.6));
+  pointer-events: none;
+}
+.hero-notes__note { animation: heroNoteDrift 16s ease-in-out infinite both; }
+.hero-notes > g:nth-of-type(1) .hero-notes__note { animation-duration: 16s; animation-delay: -1s; }
+.hero-notes > g:nth-of-type(2) .hero-notes__note { animation-duration: 18s; animation-delay: -5s; }
+.hero-notes > g:nth-of-type(3) .hero-notes__note { animation-duration: 17s; animation-delay: -9s; }
+.hero-notes > g:nth-of-type(4) .hero-notes__note { animation-duration: 19s; animation-delay: -3s; }
+.hero-notes > g:nth-of-type(5) .hero-notes__note { animation-duration: 16.5s; animation-delay: -12s; }
+.hero-notes > g:nth-of-type(6) .hero-notes__note { animation-duration: 18.5s; animation-delay: -7s; }
+@keyframes heroNoteDrift {
+  0% { transform: translate(0, 16px); opacity: 0; }
+  22% { opacity: 1; }
+  68% { opacity: 0.85; }
+  100% { transform: translate(5px, -44px); opacity: 0; }
+}
+@media (max-width: 900px) {
+  .hero-notes { --hero-notes-w: clamp(84px, 22vw, 140px); --hero-notes-right: clamp(10px, 3vw, 28px); top: 48%; opacity: 1; filter: drop-shadow(0 1px 2px rgba(10, 18, 38, 0.85)) drop-shadow(0 0 6px rgba(10, 18, 38, 0.5)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-notes__note, .hero-notes > g .hero-notes__note { animation: none; opacity: 1; transform: none; }
 }
 
 /* Section paragraph (Rogan, 2026-09-27; every page from 2026-09-29): the one white paragraph
@@ -413,7 +492,7 @@ main > section.section:last-of-type::after {
 .icon--brass { color: var(--accent-warm); }
 
 .checklist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-4); }
-/* Guidelines "How it goes" (client, 2026-09-29): her three steps as a plain numbered list in
+/* Guidelines "How to apply" (client, 2026-09-29; heading renamed 2026-10-16): her three steps as a plain numbered list in
    the section-paragraph style, the numbers in gold. */
 .steps { margin: 0; padding: 0 0 0 1.5em; display: flex; flex-direction: column; gap: var(--space-3); max-width: var(--measure-prose); font-family: var(--font-display); font-size: var(--font-size-body-lg); line-height: var(--leading-loose); color: var(--text-body); }
 .steps li { padding-left: var(--space-2); }
@@ -434,9 +513,10 @@ main > section.section:last-of-type::after {
 .resources a:hover { color: var(--text-link-hover); }
 /* Expanded list (client, 2026-09-17): two groups; each firm is a link, a place, and one line. */
 .resources__group { margin: var(--space-6) 0 0; font-family: var(--font-display); font-size: var(--font-size-title-sm); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); color: var(--text-heading); }
+/* Each listing (client, 2026-10-16): the name in bold on its own line, then place · what they do. */
 .resources li { display: flex; flex-direction: column; gap: var(--space-1); }
-.resources__place { font-size: var(--font-size-fine); color: var(--text-faint); }
-.resources__what { color: var(--text-muted); max-width: var(--measure-prose); }
+.resources__name { font-weight: var(--weight-bold); }
+.resources__detail { margin: 0; color: var(--text-body); max-width: var(--measure-prose); }
 .resources__more { margin: var(--space-5) 0 0; color: var(--text-muted); max-width: var(--measure-prose); }
 .resources__more a { color: var(--text-link); text-decoration: underline; text-underline-offset: 5px; }
 .resources__more a:hover { color: var(--text-link-hover); }
@@ -448,12 +528,16 @@ main > section.section:last-of-type::after {
 .apply-form { max-width: var(--content-max); }
 .apply__thanks { margin: 0; font-family: var(--font-display); font-size: var(--font-size-title); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); color: var(--text-heading); }
 
-/* Prayer (Give since 2026-10-05; Inspirations before that, Home before that): the Lord's
-   Prayer in full. On the page navy, white text, no band and no gold (client, 2026-09-29). Plenty of space, no
+/* Give, By check (client, 2026-10-16): the mailing address as plain lines at the section
+   paragraph size, white, upright (the browser sets <address> in italic). */
+.give__address { font-style: normal; }
+
+/* Prayer (end of Inspirations since 2026-10-16; Give from 2026-10-05; Inspirations before
+   that, Home before that): the Lord's Prayer in full. On the page navy, white text, no band and no gold (client, 2026-09-29). Plenty of space, no
    decoration. */
 /* One size up and a ten-line window (Rogan, 2026-10-12: bigger, more of it at once). */
 .prayer__text { display: flex; flex-direction: column; gap: var(--space-4); --prayer-line: calc(var(--font-size-title-sm) * var(--leading-loose)); --prayer-gap: calc(var(--prayer-line) * 2); }
-/* Slow drift (Give, 2026-10-05). Only when site.js has set data-prayer-scroll, which it never
+/* Slow drift (2026-10-05). Only when site.js has set data-prayer-scroll, which it never
    does under reduced motion; otherwise the whole prayer shows, still. The window is seven
    lines tall with soft edges; the track holds the prayer twice and moves by one copy plus the
    gap, so the loop has no seam. About 9px a second: slower than reading. */
@@ -576,10 +660,17 @@ main > section.section:last-of-type::after {
 .figure--square .figure__frame { aspect-ratio: 1 / 1; border-radius: 0; }
 /* Inspirations: her tower photograph is landscape (client, 2026-09-29). */
 .figure--landscape .figure__frame { aspect-ratio: 4 / 3; }
-/* Inspirations (Rogan, 2026-10-12): the frame fills the story column's height from 901px up. */
+/* Inspirations (Rogan, 2026-10-12): the frame fills the story column's height from 901px up.
+   Round 7 (2026-10-16): with the story down to two paragraphs the text is often shorter than
+   the photo, so the frame keeps its 4:3 shape as a floor and only grows (flex) when the text
+   column is taller. It never shrinks to a short strip or turns into a tall sliver, and the
+   caption sits under it. */
 .grid--story { align-items: stretch; }
 .figure--fill { min-height: 0; }
-@media (min-width: 901px) { .figure--fill .figure__frame { aspect-ratio: auto; height: 100%; min-height: 420px; } }
+@media (min-width: 901px) { .figure--fill .figure__frame { flex: 1 0 auto; } }
+/* Thin gold outline on the tower photo, to match the round photo on her business card
+   (client, 2026-10-16). The frame keeps its shape; only the line turns gold. */
+.figure--gold .figure__frame { border: var(--border-thick) solid var(--accent-primary); }
 .figure__frame img { width: 100%; height: 100%; object-fit: cover; }
 /* The bell photo itself is styled under "Home hero" above. The great bell's centre sits at
    ~48.5% of the source image's width, so every crop of it stays at object-position 47% or the
@@ -595,11 +686,13 @@ main > section.section:last-of-type::after {
   color: var(--text-faint);
 }
 .figure figcaption { max-width: var(--measure-prose); }
+/* The one caption on the site, under the Inspirations tower photo (client, 2026-10-12):
+   white, upright, body size. */
 .figure__caption {
   display: block;
   font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--font-size-fine);
+  font-style: normal;
+  font-size: var(--font-size-body);
   line-height: var(--leading-body);
   color: var(--text-body);
 }
@@ -813,19 +906,34 @@ select.field__control { appearance: none; background-image: none; padding-right:
 /* Wordmark (client, 2026-09-23): "The DingDong Foundation" in small capitals, as on her
    business card. Times has no small-cap glyphs, so the browser draws them from the capitals;
    the font-size itself stays on the token scale, never under the 16pt floor. The two words
-   are separate spans: stacked in two lines by default (the one-line mark is 384px at this
-   size), on one line from 1280px up (see the media rule after .site-nav). The mark never
-   shrinks or wraps on its own; the breakpoints decide. */
-.wordmark { display: inline-flex; flex: none; flex-direction: column; row-gap: var(--space-1); line-height: 1.1; text-decoration: none; }
+   are separate spans: stacked in two lines by default, on one line from 1280px up (see the
+   media rule after .site-nav). The mark never shrinks or wraps on its own; the breakpoints
+   decide.
+   Round 7 (client, 2026-10-16: "too small and light", "line up the top and bottom lines
+   evenly", "a larger font for the word FOUNDATION"): bold, one token step larger, and the
+   stacked FOUNDATION line one step larger again (34px under a 28px top line). Its letters are
+   spaced a little wider (200px of ink against 198px) so it ends just past "The DingDong"; the
+   top line is then justified to the same width, so both lines share a left and a right edge.
+   The negative end margin
+   cancels the trailing letter-space so the right edges meet on the ink, not on the gap. */
+.wordmark { display: inline-flex; flex: none; flex-direction: column; row-gap: 2px; line-height: 1; text-decoration: none; }
 .wordmark__line {
   font-family: var(--font-display);
   font-variant-caps: small-caps;
   font-style: normal;
-  font-weight: var(--weight-medium);
-  font-size: var(--font-size-title-sm);
+  font-weight: var(--weight-bold);
+  font-size: var(--font-size-title);
   letter-spacing: 0.04em;
+  margin-inline-end: -0.04em;
+  text-align: justify;
+  text-align-last: justify;
   color: var(--accent-warm);
   white-space: nowrap;
+}
+.wordmark__line + .wordmark__line {
+  font-size: var(--font-size-title-lg);
+  letter-spacing: 0.06em;
+  margin-inline-end: -0.06em;
 }
 .site-nav {
   display: flex;
@@ -884,12 +992,13 @@ select.field__control { appearance: none; background-image: none; padding-right:
   .site-header__inner { gap: var(--space-3); }
   .site-nav { gap: var(--space-2); }
 }
-/* From 1280px up the wordmark sits on one line, as on the card, one size down (26px) with the
-   header's gaps trimmed one step: 333px of mark and 540px of links in the 1136px row leaves
-   room to spare. Placed here so it wins over the base gaps at equal specificity. */
+/* From 1280px up the wordmark sits on one line, as on the card: both words the same 28px bold,
+   no justifying, with the header's gaps trimmed one step so the mark and the six links share
+   the row with room to spare. Placed here so it wins over the base gaps at equal specificity. */
 @media (min-width: 1280px) {
   .wordmark { flex-direction: row; align-items: baseline; column-gap: 0.3em; }
-  .wordmark__line { font-size: var(--font-size-body-lg); }
+  .wordmark__line,
+  .wordmark__line + .wordmark__line { font-size: var(--font-size-title); letter-spacing: 0.04em; margin-inline-end: 0; text-align: start; text-align-last: auto; }
   .site-header__inner { gap: var(--space-4); }
   .site-nav { gap: var(--space-3); }
 }
@@ -910,6 +1019,23 @@ select.field__control { appearance: none; background-image: none; padding-right:
   max-width: none;
   margin: 0;
   padding: var(--space-6) var(--space-7) var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+/* The round bell photo from her business card (client, 2026-10-16), beside the text, with a
+   thin gold ring as on the card. The file is 240px square for sharp 2x screens. */
+.site-footer__bell {
+  flex: none;
+  display: block;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-warm);
+  object-fit: cover;
+}
+@media (max-width: 600px) {
+  .site-footer__inner { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
 }
 .site-footer__contact {
   display: flex;
@@ -1099,11 +1225,19 @@ html[data-intro="leaving"] .intro__ring { animation: introFade var(--dur-slow) v
     align-items: center;
     flex-wrap: wrap;
   }
-  /* The stacked mark one size down so it fits beside the Menu button. */
-  .wordmark__line { font-size: var(--font-size-body-lg); }
-  /* Narrow phones (360px and the like): one step down, still on the 16pt floor. */
+  /* The stacked mark keeps its desktop sizes (28px over 34px) beside the Menu button down to
+     421px. Narrow phones (390px, 360px and the like): one step down, 22px over 28px, which
+     are nearly the same width as set (156px and 159px of ink), so FOUNDATION takes the base
+     letter-spacing. */
   @media (max-width: 420px) {
-    .wordmark__line { font-size: var(--font-size-fine); }
+    .wordmark__line { font-size: var(--font-size-body-lg); }
+    .wordmark__line + .wordmark__line { font-size: var(--font-size-title); letter-spacing: 0.04em; margin-inline-end: -0.04em; }
+  }
+  /* The narrowest phones (320px): 20px over 24px, FOUNDATION spaced out to the top line's
+     width, so the Menu button stays on the same row. */
+  @media (max-width: 340px) {
+    .wordmark__line { font-size: var(--font-size-body); }
+    .wordmark__line + .wordmark__line { font-size: var(--font-size-title-sm); letter-spacing: 0.065em; margin-inline-end: -0.065em; }
   }
 
   .nav-toggle {

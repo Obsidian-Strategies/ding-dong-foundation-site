@@ -1,0 +1,33 @@
+{#- Gold music notes on the right of the Home hero (client, 2026-10-12 and 2026-10-16: "the
+    gold musical-notes image or animation on the right side of the homepage", drifting gently
+    upward, no sound, the quieter version). Her own graphic was sent by text and is not in the
+    repo yet, so this is our drawing: six notes on a rising diagonal in the site gold. To use
+    her file instead, replace this whole include with
+      <img class="hero-notes" src="{{ '/uploads/<her file>' | url }}" alt="" aria-hidden="true">
+    and keep the .hero-notes placement rules in site.css (drop the per-note animation rules).
+    Motion is CSS only (site.css, "Home hero notes"); the notes sit still under reduced motion.
+    Decorative: hidden from screen readers, never clickable, no audio. #}
+<svg class="hero-notes" viewBox="0 0 160 400" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="hero-note-quarter">
+      <ellipse rx="7.2" ry="5.2" transform="rotate(-22)"/>
+      <rect x="5.4" y="-36" width="1.9" height="36" rx="0.9"/>
+    </g>
+    <g id="hero-note-eighth">
+      <use href="#hero-note-quarter"/>
+      <path d="M7.3 -36 C7.6 -28 17.5 -25.5 15.2 -12 C14.6 -19.5 11 -23.5 7.3 -25 Z"/>
+    </g>
+  </defs>
+  <g transform="translate(22 368)"><g class="hero-notes__note"><use href="#hero-note-quarter"/></g></g>
+  <g transform="translate(46 306)"><g class="hero-notes__note"><use href="#hero-note-eighth"/></g></g>
+  <g transform="translate(62 244)"><g class="hero-notes__note">
+    <ellipse rx="7.2" ry="5.2" transform="rotate(-22)"/>
+    <rect x="5.4" y="-36" width="1.9" height="36" rx="0.9"/>
+    <ellipse cx="22" cy="-5" rx="7.2" ry="5.2" transform="rotate(-22 22 -5)"/>
+    <rect x="27.4" y="-41.5" width="1.9" height="36.5" rx="0.9"/>
+    <path d="M5.4 -36 L29.3 -41.5 L29.3 -35.5 L5.4 -30 Z"/>
+  </g></g>
+  <g transform="translate(100 186)"><g class="hero-notes__note"><use href="#hero-note-quarter"/></g></g>
+  <g transform="translate(114 124)"><g class="hero-notes__note"><use href="#hero-note-eighth"/></g></g>
+  <g transform="translate(136 66) scale(0.85)"><g class="hero-notes__note"><use href="#hero-note-quarter"/></g></g>
+</svg>

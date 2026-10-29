@@ -5,10 +5,11 @@ permalink: /donate/
 description: Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass. Give by check, or by card through Stripe.
 ---
 {#- Inner-page hero (polish, 2026-09-29): the same shape as every section on the site, a plain
-    h1 and one white paragraph in the 1200px column. The paragraph is the client's, verbatim. #}
+    h1 and one white paragraph in the 1200px column. The paragraph is the client's, verbatim.
+    No period after the h1 (round 7, 2026-10-16). #}
 <section class="section section--hero">
   <div class="wrap stack">
-    <h1 class="display">Give.</h1>
+    <h1 class="display">Give</h1>
     <p class="section-p">Gifts help restore church bells and towers, pipe organs, rose windows, and stained glass.</p>
   </div>
 </section>
@@ -21,7 +22,12 @@ description: Gifts help restore church bells and towers, pipe organs, rose windo
   <div class="wrap stack stack--lg">
     <div class="stack stack--sm">
       <h2 class="m0">By check</h2>
-      <p class="section-p">To give by check, please make it payable to The DingDong Foundation, Inc. and mail it to the address in the footer. A receipt will be sent.</p>
+      {#- Her wording and address, 2026-10-16: a sentence, the address, then the receipt line. #}
+      <p class="section-p">To give by check, please make it payable to The DingDong Foundation, Inc. and mail it to:</p>
+      <address class="section-p give__address">The DingDong Foundation, Inc.<br>
+        P.O. Box 1414<br>
+        Sarasota, FL 34230</address>
+      <p class="section-p">A receipt will be sent.</p>
     </div>
     {#- Quiet on purpose (Rogan, 2026-09-29): an underlined line of text, not a bright button.
         The page should feel humble. #}
@@ -36,36 +42,6 @@ description: Gifts help restore church bells and towers, pipe organs, rose windo
         {%- endif %}
       </p>
       <p class="section-p" id="give-note" data-give-note hidden>Online giving opens as soon as the Stripe account is connected.</p>
-    </div>
-  </div>
-</section>
-
-{#- The Lord's Prayer (client, meeting of 2026-09-23: "we can probably put the Lord's Prayer
-    here", and she liked it scrolling slowly). Moved from Inspirations on 2026-10-05. The words
-    are hers, verbatim, white on the page navy. Without script, or with reduced motion, the
-    whole prayer simply shows. With script it drifts upward through a short window, very
-    slowly; hovering it pauses it. The pause button left on 2026-10-12 (Rogan). #}
-<section class="section section--page prayer">
-  <div class="wrap stack">
-    <header class="section-heading">
-      <h2>Carried with prayer</h2>
-      <p class="section-p">The work of this foundation is carried with prayer.</p>
-    </header>
-    <div class="prayer__text" data-prayer>
-      <div class="prayer__window" data-prayer-window>
-        <p class="prayer__lines">Our Father, who art in heaven,<br>
-hallowed be thy name.<br>
-Thy kingdom come,<br>
-thy will be done,<br>
-on earth as it is in heaven.<br>
-Give us this day our daily bread,<br>
-and forgive us our trespasses,<br>
-as we forgive those who trespass against us.<br>
-And lead us not into temptation,<br>
-but deliver us from evil.<br>
-For thine is the kingdom, and the power, and the glory,<br>
-for ever and ever. Amen.</p>
-      </div>
     </div>
   </div>
 </section>

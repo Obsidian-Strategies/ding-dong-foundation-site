@@ -49,6 +49,7 @@ PAIRS.push(
   ["ivory-300", "navy-950", "footer links, contact"],
   ["ivory-400", "navy-950", "footer legal line, Ave Maria"],
   ["gold-400", "navy-950", "footer Ding Dong"],
+  ["gold-400", "navy-700", "header wordmark (accent-warm on surface-card)"],
   ["gold-200", "navy-950", "footer link hover"],
 );
 PAIRS.push(
@@ -73,6 +74,8 @@ PAIRS.push(
 tokens["hero scrim on white"] = over(tokens["navy-950"], 0.85, "#ffffff");
 PAIRS.push(
   ["gold-300", "hero scrim on white", "Jubilate Deo over the hero photo"],
+  ["gold-300", "hero scrim on white", "English motto under it (round 7)"],
+  ["white", "hero scrim on white", "Psalm 100:1 citation (round 7)"],
   ["white", "hero scrim on white", "hero lede over the photo"],
   ["ivory-50", "hero scrim on white", "hero lede over the photo (legacy pair)"],
   ["ivory-300", "hero scrim on white", "hero caption over the photo"],

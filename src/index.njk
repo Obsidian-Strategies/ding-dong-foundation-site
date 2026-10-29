@@ -1,23 +1,30 @@
 ---
 layout: base.njk
-description: The DingDong Foundation restores the voice and light of the church — bells, towers, pipe organs, rose windows, and stained glass. We fund the artisans who carry these crafts forward, and the organizations that employ sacred sound and light in the service of worship and healing.
+description: The DingDong Foundation restores the voice and light of the church — bells, towers, pipe organs, rose windows, and stained glass. We support the artisans who carry these crafts forward and the organizations that use sacred sound and light in the service of worship and healing.
 ---
 {#- Home hero (client PDF, 2026-09-10): the Holy Sepulchre bell fills the width, first thing
-    after the entrance bell is rung. "Jubilate Deo" alone, then her paragraph, over a navy
-    scrim. The English motto line stays on the entrance overlay only. The photo is the
-    retouched version from her printer (client, 2026-09-23): the man's head at the bottom is
-    gone. 1280px wide, so it is stretched a little on the widest screens; a larger file from
-    the printer would fix that. #}
+    after the entrance bell is rung. The photo is the retouched version from her printer
+    (client, 2026-09-23): the man's head at the bottom is gone. 1280px wide, so it is stretched
+    a little on the widest screens; a larger file from the printer would fix that.
+    Round 7 (client emails, 2026-10-12 and 2026-10-16): under "Jubilate Deo" the English motto
+    in the same script with "Psalm 100:1" set right beneath it, then her opening paragraph
+    centred, larger and semi-bold as the mission statement. The rest of Home stays left.
+    The gold notes on the right drift upward, silent; they live in one include so her own
+    graphic can replace them. #}
 <section class="section section--hero hero-bleed">
   <figure class="hero-bleed__media figure figure--bell">
     <div class="hero-bleed__frame">
       <img src="{{ '/uploads/holy-sepulchre-bells.jpg' | url }}" alt="Looking up at the great bell in a stone ringing chamber, smaller bells hanging in the arched openings around it" width="1280" height="715" fetchpriority="high">
       <div class="hero-bleed__scrim" aria-hidden="true"></div>
+      {% include "home-notes.njk" %}
     </div>
   </figure>
   <div class="wrap hero-bleed__text">
-    <h1 class="motto motto--solo"><span class="motto__la">Jubilate Deo</span></h1>
-    <p class="lede hero-bleed__lede">The DingDong Foundation restores the voice and light of the church — bells, towers, pipe organs, rose windows, and stained glass. We fund the artisans who carry these crafts forward, and the organizations that employ sacred sound and light in the service of worship and healing.</p>
+    <div class="hero-bleed__motto">
+      <h1 class="motto motto--solo"><span class="motto__la">Jubilate Deo</span></h1>
+      <p class="motto motto--verse"><span class="motto__en">Make a Joyful Noise to the Lord</span> <cite class="motto__cite">Psalm 100:1</cite></p>
+    </div>
+    <p class="hero-bleed__lede">The DingDong Foundation restores the voice and light of the church — bells, towers, pipe organs, rose windows, and stained glass. We support the artisans who carry these crafts forward and the organizations that use sacred sound and light in the service of worship and healing.</p>
   </div>
 </section>
 
@@ -45,7 +52,7 @@ description: The DingDong Foundation restores the voice and light of the church 
     <header class="section-heading">
       <h2>What we fund</h2>
     </header>
-    <p class="section-p">Bells, organs, glass, and the hands that keep them. Grants support the building, restoration, and preservation of sacred architecture and the elements that give a house of worship its voice and its light. We also fund the training of the artisans this work depends on. Grant amounts are determined case by case.</p>
+    <p class="section-p">Bells, organs, glass, and the hands that keep them. Grants support the building, restoration, and preservation of sacred architecture and the elements that give a house of worship its voice and its light. We also fund the training of the artisans this work depends on. Grant amounts are determined individually and discussed after the first review.</p>
     {#- Three cards (client PDF, 2026-09-10) with the reveal photos Judy called excellent
         (email 5, 2026-09-01). The Artisan training card was removed on 2026-09-27 (Rogan).
         No tag pills: she read them as stray labels. All card text is white. #}
@@ -54,13 +61,13 @@ description: The DingDong Foundation restores the voice and light of the church 
         <div class="card__photo" aria-hidden="true"><img src="{{ '/uploads/fund-bells.jpg' | url }}" alt="" width="1024" height="768" loading="lazy"></div>
         <i class="ph ph-bell-simple icon icon--lg icon--brass" aria-hidden="true"></i>
         <h3 class="card__title">Bells and towers</h3>
-        <p class="m0">Repair, rehanging, and new rings. Electronic carillons for churches with no bells at all.</p>
+        <p class="m0">Repair, rehanging, and new rings. Electronic carillons for churches without bells.</p>
       </div>
       <div class="card card--accent card--interactive fund__card" data-fund-card>
         <div class="card__photo" aria-hidden="true"><img src="{{ '/uploads/fund-organ.jpg' | url }}" alt="" width="1024" height="768" loading="lazy"></div>
         <i class="ph ph-music-notes icon icon--lg icon--brass" aria-hidden="true"></i>
         <h3 class="card__title">Pipe organs</h3>
-        <p class="m0">Restoration, purchase, and the tuning that keeps them honest.</p>
+        <p class="m0">Restoration, purchase, and the regular tuning that keeps them in voice.</p>
       </div>
       <div class="card card--accent card--interactive fund__card" data-fund-card>
         <div class="card__photo" aria-hidden="true"><img src="{{ '/uploads/fund-glass.jpg' | url }}" alt="" width="1600" height="1200" loading="lazy"></div>

@@ -5,10 +5,11 @@ permalink: /inspirations/
 description: Church bells are the Christian call to prayer. Across America many towers have fallen silent. The foundation exists to help them ring again.
 ---
 {#- Inner-page hero (polish, 2026-09-29): the same shape as every section on the site, a plain
-    h1 and one white paragraph in the 1200px column. No eyebrow, no italic word. #}
+    h1 and one white paragraph in the 1200px column. No eyebrow, no italic word. No period
+    after the h1 (round 7, 2026-10-16: page titles lose their periods). #}
 <section class="section section--hero">
   <div class="wrap stack">
-    <h1 class="display">The oldest call to prayer.</h1>
+    <h1 class="display">The oldest call to prayer</h1>
     <p class="section-p">Before clocks and telephones, the church bell kept the hours and called the faithful to worship. Across America many towers have fallen silent. The foundation exists to help them ring again.</p>
   </div>
 </section>
@@ -16,19 +17,52 @@ description: Church bells are the Christian call to prayer. Across America many 
 <section class="section section--page">
   <div class="wrap grid grid--story">
     <div class="stack prose">
-      <p class="section-p">For centuries the church bell has been the Christian call to prayer. A swinging bell gathers the congregation for Sunday worship; the Angelus is tolled at morning, noon, and evening; bells peal for weddings and toll in remembrance. A ringing bell tells a town, every day, that the church is alive and open.</p>
-      {#- The certification and filed-purpose sentences left on 2026-09-29 (client: no
-          legal-sounding wording; copy is being edited separately). #}
+      {#- The "For centuries the church bell..." paragraph left on 2026-10-16 (client: it repeats
+          Home's Why we ring). The certification and filed-purpose sentences left on 2026-09-29
+          (client: no legal-sounding wording; copy is being edited separately). #}
       <p class="section-p">This is a serious undertaking, not a pastime. The foundation supports the work of ringing: bells and their towers, pipe organs, rose windows and stained glass, and the training of the artisans who keep them.</p>
       <p class="section-p">There is more in a bell than announcement. Cast bronze rings at frequencies long associated with healing, a sound that brings calm to a street, a room, and the people in them. The foundation also makes grants to those who work with sound, color, and frequency for healing.</p>
     </div>
     {#- Her own photograph of the tower, the original file behind the retouched Home hero, cropped
-        above the visitors (client, 2026-09-29). The frame fills the height of the story column
-        beside it (Rogan, 2026-10-12: the 4:3 frame read as short); on phones it is 4:3 again. #}
-    <figure class="figure figure--landscape figure--fill">
+        above the visitors (client, 2026-09-29). From 901px up the frame is at least 4:3 and grows
+        to the story column's height when the text is taller (Rogan, 2026-10-12); on phones it is
+        4:3. A thin gold outline to match the round photo on her business card, and the one
+        caption on the site (client, 2026-10-12 and 2026-10-16). #}
+    <figure class="figure figure--landscape figure--fill figure--gold">
       <div class="figure__frame">
         <img src="{{ '/uploads/holy-sepulchre-tower.jpg' | url }}" alt="Inside the bell tower of the Church of the Holy Sepulchre in Jerusalem: the great bell hangs from timber beams under the roof, with smaller bells in the arched stone windows behind it" width="1600" height="1200" loading="lazy">
       </div>
+      <figcaption class="figure__caption">Church of the Holy Sepulchre, bell tower, Jerusalem.</figcaption>
     </figure>
+  </div>
+</section>
+
+{#- The Lord's Prayer (client, meeting of 2026-09-23). On Give from 2026-10-05; back here at the
+    end of Inspirations on 2026-10-16 (client). The words are hers, verbatim, white on the page
+    navy. Without script, or with reduced motion, the whole prayer simply shows. With script it
+    drifts upward through a short window, very slowly; hovering it pauses it. The pause button
+    left on 2026-10-12 (Rogan). #}
+<section class="section section--page prayer">
+  <div class="wrap stack">
+    <header class="section-heading">
+      <h2>Carried with prayer</h2>
+      <p class="section-p">The work of this foundation is carried with prayer.</p>
+    </header>
+    <div class="prayer__text" data-prayer>
+      <div class="prayer__window" data-prayer-window>
+        <p class="prayer__lines">Our Father, who art in heaven,<br>
+hallowed be thy name.<br>
+Thy kingdom come,<br>
+thy will be done,<br>
+on earth as it is in heaven.<br>
+Give us this day our daily bread,<br>
+and forgive us our trespasses,<br>
+as we forgive those who trespass against us.<br>
+And lead us not into temptation,<br>
+but deliver us from evil.<br>
+For thine is the kingdom, and the power, and the glory,<br>
+for ever and ever. Amen.</p>
+      </div>
+    </div>
   </div>
 </section>

@@ -88,7 +88,7 @@
     });
   }
 
-  // --- Prayer (Give) --------------------------------------------------------
+  // --- Prayer (end of Inspirations since 2026-10-16) ------------------------
   // The Lord's Prayer drifts upward through a short window, slowly, in a seamless loop: the
   // lines are followed by a second copy (hidden from screen readers) and the track moves by
   // exactly one copy plus the gap. Never under reduced motion; then the page keeps the plain
