@@ -8,6 +8,9 @@ description: Begin with a short inquiry. Tell us about your organization and you
     first-inquiry form only, her seventeen fields in her order, no proposals or photographs on
     this page. Reached from the top navigation only (her rule, 2026-09-06 and 2026-09-29).
     Same shape as every page: a plain h1 and one paragraph, then the form on the page, no card.
+    Round 7.5 (2026-10-29): the fields are gathered under five legends (Organization, Contact,
+    Project, Budget and timing, Supporting documents) so the form reads as parts on a phone. Her
+    order is unchanged; the groups follow it, which is why the dates sit with the amounts.
     Delivery is stubbed until a form service is chosen. #}
 <section class="section section--hero">
   <div class="wrap stack">
@@ -23,129 +26,149 @@ description: Begin with a short inquiry. Tell us about your organization and you
         {#- Date: auto-filled by the script, never typed by the applicant (her table, row 1). #}
         <input type="hidden" name="date" data-apply-date>
 
-        <div class="field" data-required data-error="We need the legal name of the organization.">
-          <label for="org">Legal name of organization<span class="field__req" aria-hidden="true">*</span></label>
-          <span class="field__hint" id="org-hint">As it appears on the IRS 501(c)(3) letter.</span>
-          <div><input class="field__control" id="org" name="org" type="text" required aria-describedby="org-hint org-error"></div>
-          <span class="field__error" id="org-error" data-org-error hidden></span>
-        </div>
+        <fieldset class="form-group">
+          <legend class="form-group__legend">Organization</legend>
 
-        <div class="field" data-required data-error="We need the EIN.">
-          <label for="ein">EIN<span class="field__req" aria-hidden="true">*</span></label>
-          <span class="field__hint" id="ein-hint">Employer Identification Number.</span>
-          <div><input class="field__control" id="ein" name="ein" type="text" inputmode="numeric" required aria-describedby="ein-hint ein-error"></div>
-          <span class="field__error" id="ein-error" hidden></span>
-        </div>
+          <div class="field" data-required data-error="We need the legal name of the organization.">
+            <label for="org">Legal name of organization<span class="field__req" aria-hidden="true">*</span></label>
+            <span class="field__hint" id="org-hint">As it appears on the IRS 501(c)(3) letter.</span>
+            <div><input class="field__control" id="org" name="org" type="text" required aria-describedby="org-hint org-error"></div>
+            <span class="field__error" id="org-error" data-org-error hidden></span>
+          </div>
 
-        <fieldset class="fieldset field" data-required data-error="Please choose yes or no.">
-          <legend class="fieldset__legend">Is your organization a registered 501(c)(3)?<span class="field__req" aria-hidden="true">*</span></legend>
-          <span class="field__hint" id="c3-hint">Grants go only to 501(c)(3) organizations.</span>
-          <ul class="choices choices--row" aria-describedby="c3-hint c3-error">
-            <li><label class="choice"><input type="radio" name="c3" value="yes" required>Yes</label></li>
-            <li><label class="choice"><input type="radio" name="c3" value="no">No</label></li>
-          </ul>
-          <span class="field__error" id="c3-error" hidden></span>
+          <div class="field" data-required data-error="We need the EIN.">
+            <label for="ein">EIN<span class="field__req" aria-hidden="true">*</span></label>
+            <span class="field__hint" id="ein-hint">Employer Identification Number.</span>
+            <div><input class="field__control" id="ein" name="ein" type="text" inputmode="numeric" required aria-describedby="ein-hint ein-error"></div>
+            <span class="field__error" id="ein-error" hidden></span>
+          </div>
+
+          <fieldset class="fieldset field" data-required data-error="Please choose yes or no.">
+            <legend class="fieldset__legend">Is your organization a registered 501(c)(3)?<span class="field__req" aria-hidden="true">*</span></legend>
+            <span class="field__hint" id="c3-hint">Grants go only to 501(c)(3) organizations.</span>
+            <ul class="choices choices--row" aria-describedby="c3-hint c3-error">
+              <li><label class="choice"><input type="radio" name="c3" value="yes" required>Yes</label></li>
+              <li><label class="choice"><input type="radio" name="c3" value="no">No</label></li>
+            </ul>
+            <span class="field__error" id="c3-error" hidden></span>
+          </fieldset>
+
+          <div class="field" data-required data-error="We need the physical address.">
+            <label for="address">Physical address<span class="field__req" aria-hidden="true">*</span></label>
+            <span class="field__hint" id="address-hint">Street, city, state, ZIP.</span>
+            <div><input class="field__control" id="address" name="address" type="text" required aria-describedby="address-hint address-error"></div>
+            <span class="field__error" id="address-error" hidden></span>
+          </div>
+
+          <div class="field">
+            <label for="mailing">Mailing address</label>
+            <span class="field__hint" id="mailing-hint">If different from physical address.</span>
+            <div><input class="field__control" id="mailing" name="mailing" type="text" aria-describedby="mailing-hint"></div>
+          </div>
+
+          <div class="field">
+            <label for="website">Website</label>
+            <div><input class="field__control" id="website" name="website" type="url" inputmode="url"></div>
+          </div>
         </fieldset>
 
-        <div class="field" data-required data-error="We need the physical address.">
-          <label for="address">Physical address<span class="field__req" aria-hidden="true">*</span></label>
-          <span class="field__hint" id="address-hint">Street, city, state, ZIP.</span>
-          <div><input class="field__control" id="address" name="address" type="text" required aria-describedby="address-hint address-error"></div>
-          <span class="field__error" id="address-error" hidden></span>
-        </div>
+        <fieldset class="form-group">
+          <legend class="form-group__legend">Contact</legend>
 
-        <div class="field">
-          <label for="mailing">Mailing address</label>
-          <span class="field__hint" id="mailing-hint">If different from physical address.</span>
-          <div><input class="field__control" id="mailing" name="mailing" type="text" aria-describedby="mailing-hint"></div>
-        </div>
-
-        <div class="field">
-          <label for="website">Website</label>
-          <div><input class="field__control" id="website" name="website" type="url" inputmode="url"></div>
-        </div>
-
-        <div class="grid grid--form">
-          <div class="field" data-required data-error="We need a contact person.">
-            <label for="contact">Contact person<span class="field__req" aria-hidden="true">*</span></label>
-            <div><input class="field__control" id="contact" name="contact" type="text" required aria-describedby="contact-error"></div>
-            <span class="field__error" id="contact-error" hidden></span>
+          <div class="grid grid--form">
+            <div class="field" data-required data-error="We need a contact person.">
+              <label for="contact">Contact person<span class="field__req" aria-hidden="true">*</span></label>
+              <div><input class="field__control" id="contact" name="contact" type="text" required aria-describedby="contact-error"></div>
+              <span class="field__error" id="contact-error" hidden></span>
+            </div>
+            <div class="field" data-required data-error="We need their title.">
+              <label for="role">Title<span class="field__req" aria-hidden="true">*</span></label>
+              <span class="field__hint" id="role-hint">Pastor, administrator, board chair, etc.</span>
+              <div><input class="field__control" id="role" name="role" type="text" required aria-describedby="role-hint role-error"></div>
+              <span class="field__error" id="role-error" hidden></span>
+            </div>
           </div>
-          <div class="field" data-required data-error="We need their title.">
-            <label for="role">Title<span class="field__req" aria-hidden="true">*</span></label>
-            <span class="field__hint" id="role-hint">Pastor, administrator, board chair, etc.</span>
-            <div><input class="field__control" id="role" name="role" type="text" required aria-describedby="role-hint role-error"></div>
-            <span class="field__error" id="role-error" hidden></span>
-          </div>
-        </div>
 
-        <div class="grid grid--form">
-          <div class="field" data-required data-error="We need an email address to reply to.">
-            <label for="email">Email<span class="field__req" aria-hidden="true">*</span></label>
-            <div><input class="field__control" id="email" name="email" type="email" required aria-describedby="email-error"></div>
-            <span class="field__error" id="email-error" data-email-error hidden></span>
+          <div class="grid grid--form">
+            <div class="field" data-required data-error="We need an email address to reply to.">
+              <label for="email">Email<span class="field__req" aria-hidden="true">*</span></label>
+              <div><input class="field__control" id="email" name="email" type="email" required aria-describedby="email-error"></div>
+              <span class="field__error" id="email-error" data-email-error hidden></span>
+            </div>
+            <div class="field" data-required data-error="We need a phone number.">
+              <label for="phone">Phone<span class="field__req" aria-hidden="true">*</span></label>
+              <div><input class="field__control" id="phone" name="phone" type="tel" inputmode="tel" required aria-describedby="phone-error"></div>
+              <span class="field__error" id="phone-error" hidden></span>
+            </div>
           </div>
-          <div class="field" data-required data-error="We need a phone number.">
-            <label for="phone">Phone<span class="field__req" aria-hidden="true">*</span></label>
-            <div><input class="field__control" id="phone" name="phone" type="tel" inputmode="tel" required aria-describedby="phone-error"></div>
-            <span class="field__error" id="phone-error" hidden></span>
-          </div>
-        </div>
-
-        <fieldset class="fieldset field" data-required data-error="Please tick at least one.">
-          <legend class="fieldset__legend">Project type<span class="field__req" aria-hidden="true">*</span></legend>
-          <ul class="choices" aria-describedby="ptype-error">
-            <li><label class="choice"><input type="checkbox" name="ptype" value="bells">Bells / tower</label></li>
-            <li><label class="choice"><input type="checkbox" name="ptype" value="organ">Pipe organ</label></li>
-            <li><label class="choice"><input type="checkbox" name="ptype" value="glass">Rose window or stained glass</label></li>
-            <li><label class="choice"><input type="checkbox" name="ptype" value="training">Artisan training</label></li>
-            <li><label class="choice"><input type="checkbox" name="ptype" value="other">Other</label></li>
-          </ul>
-          <span class="field__error" id="ptype-error" hidden></span>
         </fieldset>
 
-        <div class="field" data-required data-error="Please tell us about the project.">
-          <label for="description">Project description<span class="field__req" aria-hidden="true">*</span></label>
-          <span class="field__hint" id="description-hint">A few sentences is enough.</span>
-          <div><textarea class="field__control" id="description" name="description" rows="6" required aria-describedby="description-hint description-error"></textarea></div>
-          <span class="field__error" id="description-error" hidden></span>
-        </div>
+        <fieldset class="form-group">
+          <legend class="form-group__legend">Project</legend>
 
-        <div class="field" data-required data-error="We need the total project cost.">
-          <label for="cost">Total project cost<span class="field__req" aria-hidden="true">*</span></label>
-          <span class="field__hint" id="cost-hint">In U.S. dollars.</span>
-          <div><input class="field__control" id="cost" name="cost" type="text" inputmode="decimal" required aria-describedby="cost-hint cost-error"></div>
-          <span class="field__error" id="cost-error" hidden></span>
-        </div>
+          <fieldset class="fieldset field" data-required data-error="Please tick at least one.">
+            <legend class="fieldset__legend">Project type<span class="field__req" aria-hidden="true">*</span></legend>
+            <ul class="choices" aria-describedby="ptype-error">
+              <li><label class="choice"><input type="checkbox" name="ptype" value="bells">Bells / tower</label></li>
+              <li><label class="choice"><input type="checkbox" name="ptype" value="organ">Pipe organ</label></li>
+              <li><label class="choice"><input type="checkbox" name="ptype" value="glass">Rose window or stained glass</label></li>
+              <li><label class="choice"><input type="checkbox" name="ptype" value="training">Artisan training</label></li>
+              <li><label class="choice"><input type="checkbox" name="ptype" value="other">Other</label></li>
+            </ul>
+            <span class="field__error" id="ptype-error" hidden></span>
+          </fieldset>
 
-        <div class="field" data-required data-error="We need the funds already raised.">
-          <label for="raised">Funds already raised<span class="field__req" aria-hidden="true">*</span></label>
-          <div><input class="field__control" id="raised" name="raised" type="text" inputmode="decimal" required aria-describedby="raised-error"></div>
-          <span class="field__error" id="raised-error" hidden></span>
-        </div>
+          <div class="field" data-required data-error="Please tell us about the project.">
+            <label for="description">Project description<span class="field__req" aria-hidden="true">*</span></label>
+            <span class="field__hint" id="description-hint">A few sentences is enough.</span>
+            <div><textarea class="field__control" id="description" name="description" rows="6" required aria-describedby="description-hint description-error"></textarea></div>
+            <span class="field__error" id="description-error" hidden></span>
+          </div>
+        </fieldset>
 
-        {#- Optional (client, 2026-10-16): grant amounts are discussed after the first review. #}
-        <div class="field">
-          <label for="requested">Grant amount requested</label>
-          <div><input class="field__control" id="requested" name="requested" type="text" inputmode="decimal"></div>
-        </div>
+        <fieldset class="form-group">
+          <legend class="form-group__legend">Budget and timing</legend>
 
-        <div class="field">
-          <label for="dates">Desired start / completion</label>
-          <span class="field__hint" id="dates-hint">Approximate dates.</span>
-          <div><input class="field__control" id="dates" name="dates" type="text" aria-describedby="dates-hint"></div>
-        </div>
+          <div class="field" data-required data-error="We need the total project cost.">
+            <label for="cost">Total project cost<span class="field__req" aria-hidden="true">*</span></label>
+            <span class="field__hint" id="cost-hint">In U.S. dollars.</span>
+            <div><input class="field__control" id="cost" name="cost" type="text" inputmode="decimal" required aria-describedby="cost-hint cost-error"></div>
+            <span class="field__error" id="cost-error" hidden></span>
+          </div>
 
-        {#- Documents (Rogan, 2026-10-12): optional, up to ten files. Her "do not attach proposals
-            or photographs yet" line under the form left with this, since it contradicted the
-            upload. Upload delivery is stubbed with the rest. #}
-        <div class="field" data-max-files="10" data-error="Please attach no more than 10 files.">
-          <label for="files">Documents</label>
-          <span class="field__hint" id="files-hint">Your proposal, photographs, or drawings, if you have them. Up to 10 files, PDF or images.</span>
-          <div><input class="field__control field__file" id="files" name="files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx,application/pdf,image/*" aria-describedby="files-hint files-list files-error"></div>
-          <span class="field__hint" id="files-list" data-file-list aria-live="polite"></span>
-          <span class="field__error" id="files-error" hidden></span>
-        </div>
+          <div class="field" data-required data-error="We need the funds already raised.">
+            <label for="raised">Funds already raised<span class="field__req" aria-hidden="true">*</span></label>
+            <div><input class="field__control" id="raised" name="raised" type="text" inputmode="decimal" required aria-describedby="raised-error"></div>
+            <span class="field__error" id="raised-error" hidden></span>
+          </div>
+
+          {#- Optional (client, 2026-10-16): grant amounts are discussed after the first review. #}
+          <div class="field">
+            <label for="requested">Grant amount requested</label>
+            <div><input class="field__control" id="requested" name="requested" type="text" inputmode="decimal"></div>
+          </div>
+
+          <div class="field">
+            <label for="dates">Desired start / completion</label>
+            <span class="field__hint" id="dates-hint">Approximate dates.</span>
+            <div><input class="field__control" id="dates" name="dates" type="text" aria-describedby="dates-hint"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <legend class="form-group__legend">Supporting documents</legend>
+
+          {#- Documents (Rogan, 2026-10-12): optional, up to ten files. Her "do not attach proposals
+              or photographs yet" line under the form left with this, since it contradicted the
+              upload. Upload delivery is stubbed with the rest. #}
+          <div class="field" data-max-files="10" data-error="Please attach no more than 10 files.">
+            <label for="files">Documents</label>
+            <span class="field__hint" id="files-hint">Your proposal, photographs, or drawings, if you have them. Up to 10 files, PDF or images.</span>
+            <div><input class="field__control field__file" id="files" name="files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx,application/pdf,image/*" aria-describedby="files-hint files-list files-error"></div>
+            <span class="field__hint" id="files-list" data-file-list aria-live="polite"></span>
+            <span class="field__error" id="files-error" hidden></span>
+          </div>
+        </fieldset>
 
         {#- No opt-out (client, 2026-09-17): funded projects are shown on the site, stated once. #}
         <p class="apply__shared">Funded projects may be featured on this site, including the church, the work, and the artisans who carried it out.</p>

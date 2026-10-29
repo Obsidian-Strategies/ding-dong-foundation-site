@@ -1,5 +1,8 @@
 /* Spacing — 4px base, widening at the top end so pages can breathe.
-   Sections are separated by --space-9/--space-10, never by decorative dividers. */
+   Sections are separated by space, never by decorative dividers. Each section carries
+   --section-y above and below, so neighbours sit two of it apart: 96px on desktop since round
+   7.5 (2026-10-29: a single section used to carry 96px on each side, which read as unfinished),
+   64px on phones (site.css lowers the token under 600px). */
 :root {
   --space-1: 4px;
   --space-2: 8px;
@@ -16,5 +19,5 @@
   --gutter: var(--space-5);
   --page-max: 1200px;
   --content-max: 760px;
-  --section-y: var(--space-9);
+  --section-y: var(--space-7);
 }
